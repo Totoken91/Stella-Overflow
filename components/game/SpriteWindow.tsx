@@ -51,13 +51,13 @@ function SpriteCharacter({
     }
   }, [expression, animate, scope]);
 
-  // Flip: left sprite faces right, right sprite faces left, solo no flip
-  // Applied via CSS transform directly — NOT via framer-motion animate
-  // to prevent re-animation on every render
-  const flipStyle =
-    spriteCount === 2 && positionIndex === 0
-      ? { transform: "scaleX(-1)" }
-      : {};
+  // Flip: left sprite (index 0 of 2) faces right, others face left
+  const scaleX = spriteCount === 2 && positionIndex === 0 ? -1 : 1;
+  const prevScaleXRef = useRef(scaleX);
+
+  // Only animate scaleX when it actually changes value
+  const scaleXChanged = prevScaleXRef.current !== scaleX;
+  prevScaleXRef.current = scaleX;
 
   return (
     <motion.div
@@ -84,8 +84,15 @@ function SpriteCharacter({
         layout: { type: "spring", stiffness: 200, damping: 25 },
       }}
     >
-      {/* Flip wrapper — pure CSS, no framer-motion */}
-      <div style={flipStyle}>
+      {/* Flip wrapper — animated only when scaleX value changes */}
+      <motion.div
+        animate={{ scaleX }}
+        transition={
+          scaleXChanged
+            ? { type: "spring", stiffness: 400, damping: 25 }
+            : { duration: 0 }
+        }
+      >
         <img
           src={spriteSrc}
           alt={name}
@@ -94,7 +101,7 @@ function SpriteCharacter({
             (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
           }}
         />
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
