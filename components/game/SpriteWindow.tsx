@@ -97,6 +97,7 @@ function SpriteCharacter({
           src={spriteSrc}
           alt={name}
           className="max-h-[70vh] w-auto object-contain"
+          style={{ animation: "spriteIdle 4s ease-in-out infinite" }}
           onError={(e) => {
             (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
           }}

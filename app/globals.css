@@ -82,7 +82,11 @@ body {
   50% { transform: translateY(-8px); }
 }
 
-/* Sprite animations handled by framer-motion */
+/* ─── SPRITE IDLE ─── */
+@keyframes spriteIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
 
 /* ─── BOOT SCREEN ─── */
 @keyframes spin {
