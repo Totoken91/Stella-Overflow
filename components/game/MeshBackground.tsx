@@ -7,12 +7,12 @@ export default function MeshBackground() {
       <div
         className="absolute rounded-full"
         style={{
-          width: "45vmax",
-          height: "45vmax",
-          background: "rgba(255, 214, 224, 0.18)",
-          top: "-10%",
-          left: "-10%",
-          filter: "blur(80px)",
+          width: "50vmax",
+          height: "50vmax",
+          background: "rgba(255, 214, 224, 0.45)",
+          top: "-15%",
+          left: "-15%",
+          filter: "blur(90px)",
           animation: "blobMove1 18s ease-in-out infinite alternate",
           willChange: "transform",
         }}
@@ -21,12 +21,12 @@ export default function MeshBackground() {
       <div
         className="absolute rounded-full"
         style={{
-          width: "40vmax",
-          height: "40vmax",
-          background: "rgba(212, 206, 240, 0.13)",
-          top: "40%",
-          right: "-10%",
-          filter: "blur(80px)",
+          width: "45vmax",
+          height: "45vmax",
+          background: "rgba(212, 206, 240, 0.35)",
+          top: "35%",
+          right: "-15%",
+          filter: "blur(90px)",
           animation: "blobMove2 22s ease-in-out infinite alternate",
           willChange: "transform",
         }}
@@ -35,12 +35,12 @@ export default function MeshBackground() {
       <div
         className="absolute rounded-full"
         style={{
-          width: "38vmax",
-          height: "38vmax",
-          background: "rgba(127, 216, 216, 0.13)",
-          bottom: "-10%",
-          left: "30%",
-          filter: "blur(80px)",
+          width: "42vmax",
+          height: "42vmax",
+          background: "rgba(127, 216, 216, 0.35)",
+          bottom: "-15%",
+          left: "25%",
+          filter: "blur(90px)",
           animation: "blobMove3 20s ease-in-out infinite alternate",
           willChange: "transform",
         }}
