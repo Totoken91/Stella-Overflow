@@ -25,11 +25,17 @@ body {
   overflow: hidden;
 }
 
-/* ─── DISABLE TEXT SELECTION IN GAME ─── */
+/* ─── DISABLE TEXT SELECTION + IMAGE DRAG IN GAME ─── */
 .game-container {
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+.game-container img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
 }
 
 /* ─── NOISE TEXTURE OVERLAY ─── */

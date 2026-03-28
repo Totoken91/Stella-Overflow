@@ -13,7 +13,7 @@ const PARTICLE_COUNT = 8;
 const BOOT_DELAY = 800;
 const LETTER_STAGGER = 0.06;
 const PROGRESS_DURATION = 1.5;
-const FADE_OUT_DURATION = 0.5;
+const FADE_OUT_DURATION = 1.2;
 
 // Count total letters for timing
 const TOTAL_LETTERS = TITLE_PARTS.reduce(

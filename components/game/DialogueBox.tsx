@@ -76,7 +76,10 @@ export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
   return (
     <div
       className="absolute bottom-0 left-0 right-0 z-30 cursor-pointer"
-      onClick={handleClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleClick();
+      }}
     >
       <div className="mx-auto max-w-4xl px-4 pb-6">
         {/* Speaker name card — separate, above dialogue box */}
