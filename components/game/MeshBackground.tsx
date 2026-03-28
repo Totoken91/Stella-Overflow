@@ -2,7 +2,10 @@
 
 export default function MeshBackground() {
   return (
-    <div className="noise-overlay pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <div
+      className="noise-overlay pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #2C1A2E 0%, #1A1520 40%, #152025 100%)" }}
+    >
       {/* Pink blob */}
       <div
         className="absolute rounded-full"
