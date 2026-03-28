@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import MeshBackground from "@/components/game/MeshBackground";
 import Background from "@/components/game/Background";
 import SpriteLayer from "@/components/game/SpriteLayer";
 import DialogueBox from "@/components/game/DialogueBox";
@@ -31,11 +32,10 @@ export default function GamePage() {
       setText(nextText);
       setChoices(engine.getChoices());
     } else {
-      // Story might be at choices or ended
       const currentChoices = engine.getChoices();
       setChoices(currentChoices);
       if (currentChoices.length === 0) {
-        setText(null); // story ended
+        setText(null);
       }
     }
   }, []);
@@ -56,21 +56,34 @@ export default function GamePage() {
   }, [choices, advance]);
 
   if (!initialized) {
-    return <div className="flex h-screen items-center justify-center bg-black" />;
+    return (
+      <div className="game-container relative h-screen w-screen overflow-hidden bg-black">
+        <MeshBackground />
+      </div>
+    );
   }
 
   if (!storyLoaded) {
     return (
-      <div className="flex h-screen items-center justify-center bg-black">
-        <p className="font-mono text-sm text-[var(--pink-soft)] opacity-60">
-          [ histoire non charg&eacute;e ]
+      <div className="game-container relative flex h-screen w-screen items-center justify-center overflow-hidden bg-black">
+        <MeshBackground />
+        <p
+          className="relative z-10 opacity-60"
+          style={{
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "0.85rem",
+            color: "var(--pink-soft)",
+          }}
+        >
+          [ histoire non chargée ]
         </p>
       </div>
     );
   }
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-black">
+    <div className="game-container relative h-screen w-screen overflow-hidden bg-black">
+      <MeshBackground />
       <Background />
       <SpriteLayer />
       {text && <DialogueBox text={text} onNext={handleNext} />}
