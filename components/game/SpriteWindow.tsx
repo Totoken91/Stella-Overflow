@@ -64,7 +64,7 @@ function SpriteCharacter({
       ref={scope}
       layout
       key={name}
-      initial={{ y: 60, opacity: 0, scale: 0.85 }}
+      initial={{ y: 80, opacity: 0, scale: 0.8 }}
       animate={{
         y: 0,
         opacity: isActive || spriteCount === 1 ? 1 : 0.6,
@@ -76,9 +76,9 @@ function SpriteCharacter({
       }}
       exit={{ x: 120, opacity: 0 }}
       transition={{
-        y: { type: "spring", stiffness: 300, damping: 18 },
-        scale: { type: "spring", stiffness: 300, damping: 18 },
-        opacity: { type: "spring", stiffness: 300, damping: 18 },
+        y: { type: "spring", stiffness: 180, damping: 16, delay: 0.05 },
+        scale: { type: "spring", stiffness: 180, damping: 16, delay: 0.05 },
+        opacity: { duration: 0.6, ease: "easeOut", delay: 0.05 },
         x: { duration: 0.3, ease: "easeIn" },
         filter: { duration: 0.3 },
         layout: { type: "spring", stiffness: 200, damping: 25 },
