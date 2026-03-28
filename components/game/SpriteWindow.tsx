@@ -63,19 +63,31 @@ function SpriteCharacter({
   }, [expression, animate, scope]);
 
   const spriteKey = `${name}-${expression}`;
-  const [isPlaceholder, setIsPlaceholder] = useState(true);
+  const [spriteSrc, setSpriteSrc] = useState<string | null>(null);
 
-  // Check if the real sprite image exists
+  // Try exact expression image, then placeholder, then glassmorphism block
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      // Only treat as real if it's not the 1x1 transparent placeholder
-      if (img.naturalWidth > 1 && img.naturalHeight > 1) {
-        setIsPlaceholder(false);
+    setSpriteSrc(null);
+
+    // 1. Try exact: /sprites/etoile-surprise.png
+    const exact = new Image();
+    exact.onload = () => {
+      if (exact.naturalWidth > 1) {
+        setSpriteSrc(`/sprites/${spriteKey}.png`);
       }
     };
-    img.src = `/sprites/${spriteKey}.png`;
-  }, [spriteKey]);
+    exact.onerror = () => {
+      // 2. Try placeholder: /sprites/etoile-placeholder.png
+      const fallback = new Image();
+      fallback.onload = () => {
+        if (fallback.naturalWidth > 1) {
+          setSpriteSrc(`/sprites/${name}-placeholder.png`);
+        }
+      };
+      fallback.src = `/sprites/${name}-placeholder.png`;
+    };
+    exact.src = `/sprites/${spriteKey}.png`;
+  }, [spriteKey, name]);
 
   // Determine flip based on position
   // Left sprite (index 0 of 2) → scaleX(-1) to face right/center
@@ -115,14 +127,14 @@ function SpriteCharacter({
         layout: { type: "spring", stiffness: 200, damping: 25 },
       }}
     >
-      {isPlaceholder ? (
-        <PlaceholderSprite name={spriteKey} />
-      ) : (
+      {spriteSrc ? (
         <img
-          src={`/sprites/${spriteKey}.png`}
+          src={spriteSrc}
           alt={name}
           className="max-h-[70vh] w-auto object-contain"
         />
+      ) : (
+        <PlaceholderSprite name={spriteKey} />
       )}
     </motion.div>
   );
