@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import BootScreen from "@/components/game/BootScreen";
 import MeshBackground from "@/components/game/MeshBackground";
 import Background from "@/components/game/Background";
@@ -83,12 +84,20 @@ export default function GamePage() {
         <>
           <Background />
           <SpriteWindow />
-          {!booting && text && (
-            <DialogueBox text={text} onNext={handleNext} />
-          )}
-          {!booting && (
-            <ChoiceList choices={choices} onChoice={handleChoice} />
-          )}
+          <AnimatePresence>
+            {!booting && text && (
+              <motion.div
+                key="dialogue-ui"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                className="contents"
+              >
+                <DialogueBox text={text} onNext={handleNext} />
+                <ChoiceList choices={choices} onChoice={handleChoice} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
 
