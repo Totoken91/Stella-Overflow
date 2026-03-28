@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pink-soft: #FFD6E0;
+  --pink-accent: #E05C8A;
+  --pink-dark: #6B2D4A;
+  --teal: #7FD8D8;
+  --cream: #FFF5F8;
+  --background: #000000;
+  --foreground: #ededed;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-dm-mono: 'DM Mono', 'Courier New', monospace;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
