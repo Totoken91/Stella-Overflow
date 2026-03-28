@@ -1,8 +1,19 @@
 # BG: toit-lycee
-# SPRITE: etoile-neutre
-# SPEAKER: etoile
+
+Tu montes les escaliers deux par deux. Le métal résonne sous tes pas.
+
+Elle t'a envoyé un message il y a vingt minutes. Juste trois mots : "Viens. Le toit."
+
+Pas de contexte. Pas d'explication. Typique.
+
+Tu pousses la porte. L'air du soir te frappe — frais, teinté de rose.
 
 Le vent souffle doucement sur le toit du lycée. Le ciel est teinté de rose, comme toujours à cette heure.
+
+Et elle est là.
+
+# SPRITE: etoile-neutre
+# SPEAKER: etoile
 
 # SPEAKER: etoile
 
