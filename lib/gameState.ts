@@ -55,7 +55,17 @@ export const useGameStore = create<GameState>()(
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 
-      setVisibleSprites: (sprites) => set({ visibleSprites: sprites }),
+      setVisibleSprites: (sprites) =>
+        set((s) => {
+          // Only update if the list actually changed
+          if (
+            s.visibleSprites.length === sprites.length &&
+            s.visibleSprites.every((v, i) => v === sprites[i])
+          ) {
+            return s;
+          }
+          return { visibleSprites: sprites };
+        }),
 
       setExpression: (character, expression) =>
         set((s) => ({
