@@ -39,11 +39,13 @@ function SpriteCharacter({
   expression,
   isActive,
   spriteCount,
+  positionIndex,
 }: {
   name: string;
   expression: string;
   isActive: boolean;
   spriteCount: number;
+  positionIndex: number;
 }) {
   const [scope, animate] = useAnimate();
   const prevExpressionRef = useRef(expression);
@@ -64,16 +66,24 @@ function SpriteCharacter({
   const isPlaceholder = true; // TODO: check if /sprites/{name}-{expression}.png exists
   const spriteKey = `${name}-${expression}`;
 
+  // Determine flip based on position
+  // Left sprite (index 0 of 2) → scaleX(-1) to face right/center
+  // Right sprite (index 1 of 2) → scaleX(1) faces left/center
+  // Solo → scaleX(1) no flip
+  const scaleXValue = spriteCount === 2 && positionIndex === 0 ? -1 : 1;
+  const activeScale = isActive || spriteCount === 1 ? 1 : 0.92;
+
   return (
     <motion.div
       ref={scope}
       layout
       // Entry animation
-      initial={{ y: 60, opacity: 0, scale: 0.85 }}
+      initial={{ y: 60, opacity: 0, scale: 0.85, scaleX: scaleXValue }}
       animate={{
         y: 0,
         opacity: isActive || spriteCount === 1 ? 1 : 0.6,
-        scale: isActive || spriteCount === 1 ? 1 : 0.92,
+        scale: activeScale,
+        scaleX: scaleXValue,
         filter:
           isActive || spriteCount === 1
             ? "saturate(1)"
@@ -85,6 +95,8 @@ function SpriteCharacter({
         y: { type: "spring", stiffness: 300, damping: 18 },
         scale: { type: "spring", stiffness: 300, damping: 18 },
         opacity: { type: "spring", stiffness: 300, damping: 18 },
+        // Fast flip
+        scaleX: { duration: 0.1 },
         // Smooth for exit
         x: { duration: 0.3, ease: "easeIn" },
         // Speaker switch
@@ -114,13 +126,14 @@ export default function SpriteWindow() {
   return (
     <div className="absolute bottom-44 left-0 right-0 z-20 flex items-end justify-center gap-8">
       <AnimatePresence mode="wait">
-        {visibleSprites.map((name) => (
+        {visibleSprites.map((name, index) => (
           <SpriteCharacter
             key={name}
             name={name}
             expression={currentExpression[name] || "neutre"}
             isActive={currentSpeaker === name}
             spriteCount={visibleSprites.length}
+            positionIndex={index}
           />
         ))}
       </AnimatePresence>
