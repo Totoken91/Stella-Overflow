@@ -62,7 +62,6 @@ function SpriteCharacter({
   return (
     <motion.div
       ref={scope}
-      layout
       key={name}
       initial={{ y: 80, opacity: 0, scale: 0.8 }}
       animate={{
