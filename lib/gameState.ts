@@ -98,6 +98,10 @@ export const useGameStore = create<GameState>()(
     }),
     {
       name: "stella-overflow-state",
+      // Clear persisted state on load so game always starts fresh
+      onRehydrateStorage: () => (state) => {
+        state?.reset();
+      },
     }
   )
 );
