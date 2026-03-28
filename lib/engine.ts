@@ -4,6 +4,23 @@ import { useGameStore } from "./gameState";
 let story: Story | null = null;
 let storyLoaded = false;
 
+/**
+ * Parse "etoile-neutre" → { character: "etoile", expression: "neutre" }
+ */
+function parseSpriteToken(token: string): {
+  character: string;
+  expression: string;
+} {
+  const dashIndex = token.indexOf("-");
+  if (dashIndex === -1) {
+    return { character: token, expression: "neutre" };
+  }
+  return {
+    character: token.slice(0, dashIndex),
+    expression: token.slice(dashIndex + 1),
+  };
+}
+
 function processTags(tags: string[] | null) {
   if (!tags) return;
 
@@ -12,14 +29,41 @@ function processTags(tags: string[] | null) {
   for (const tag of tags) {
     const [key, ...rest] = tag.split(":");
     const value = rest.join(":").trim();
+    const command = key.trim().toUpperCase();
 
-    switch (key.trim().toUpperCase()) {
-      case "SPRITE":
-        store.setSprite(value || null);
+    switch (command) {
+      case "SPRITE": {
+        // "etoile-neutre" or "etoile-neutre lunae-enthousiaste"
+        const tokens = value.split(/\s+/).filter(Boolean);
+        const newSprites: string[] = [];
+        for (const token of tokens) {
+          const { character, expression } = parseSpriteToken(token);
+          newSprites.push(character);
+          store.setExpression(character, expression);
+        }
+        store.setVisibleSprites(newSprites);
         break;
+      }
+
+      case "SPEAKER":
+        store.setSpeaker(value || "");
+        break;
+
+      case "ENTER": {
+        // "lunae-surprise"
+        const { character, expression } = parseSpriteToken(value);
+        store.addSprite(character, expression);
+        break;
+      }
+
+      case "EXIT":
+        store.removeSprite(value.trim());
+        break;
+
       case "BG":
         store.setBg(value || null);
         break;
+
       case "MUSIC":
         store.setMusic(value || null);
         break;
@@ -32,7 +76,6 @@ export async function init(): Promise<boolean> {
     const response = await fetch("/story/scene1.json");
     const jsonText = await response.text();
 
-    // Check if the JSON is empty or just "{}"
     const parsed = JSON.parse(jsonText);
     if (!parsed || !parsed.inkVersion) {
       storyLoaded = false;

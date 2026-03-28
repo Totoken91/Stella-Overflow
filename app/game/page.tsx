@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import MeshBackground from "@/components/game/MeshBackground";
 import Background from "@/components/game/Background";
-import SpriteLayer from "@/components/game/SpriteLayer";
+import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
 import * as engine from "@/lib/engine";
@@ -85,7 +85,7 @@ export default function GamePage() {
     <div className="game-container relative h-screen w-screen overflow-hidden">
       <MeshBackground />
       <Background />
-      <SpriteLayer />
+      <SpriteWindow />
       {text && <DialogueBox text={text} onNext={handleNext} />}
       <ChoiceList choices={choices} onChoice={handleChoice} />
     </div>

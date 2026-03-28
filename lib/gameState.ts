@@ -2,16 +2,32 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface GameState {
+  // Narrative
   score: number;
-  currentSprite: string | null;
-  currentBg: string | null;
-  currentMusic: string | null;
   lunae_trust: number;
   gave_choice: boolean;
 
-  setSprite: (sprite: string | null) => void;
+  // Scene
+  currentBg: string | null;
+  currentMusic: string | null;
+
+  // Sprites
+  currentSpeaker: string;
+  visibleSprites: string[];
+  currentExpression: Record<string, string>;
+
+  // Scene actions
   setBg: (bg: string | null) => void;
   setMusic: (music: string | null) => void;
+
+  // Sprite actions
+  setSpeaker: (name: string) => void;
+  setVisibleSprites: (sprites: string[]) => void;
+  setExpression: (character: string, expression: string) => void;
+  addSprite: (character: string, expression: string) => void;
+  removeSprite: (character: string) => void;
+
+  // Score actions
   addScore: (points: number) => void;
   setLunaeTrust: (value: number) => void;
   setGaveChoice: (value: boolean) => void;
@@ -20,11 +36,13 @@ interface GameState {
 
 const initialState = {
   score: 0,
-  currentSprite: null,
-  currentBg: null,
-  currentMusic: null,
   lunae_trust: 0,
   gave_choice: false,
+  currentBg: null,
+  currentMusic: null,
+  currentSpeaker: "",
+  visibleSprites: [],
+  currentExpression: {},
 };
 
 export const useGameStore = create<GameState>()(
@@ -32,9 +50,37 @@ export const useGameStore = create<GameState>()(
     (set) => ({
       ...initialState,
 
-      setSprite: (sprite) => set({ currentSprite: sprite }),
       setBg: (bg) => set({ currentBg: bg }),
       setMusic: (music) => set({ currentMusic: music }),
+
+      setSpeaker: (name) => set({ currentSpeaker: name }),
+
+      setVisibleSprites: (sprites) => set({ visibleSprites: sprites }),
+
+      setExpression: (character, expression) =>
+        set((s) => ({
+          currentExpression: { ...s.currentExpression, [character]: expression },
+        })),
+
+      addSprite: (character, expression) =>
+        set((s) => ({
+          visibleSprites: s.visibleSprites.includes(character)
+            ? s.visibleSprites
+            : [...s.visibleSprites, character],
+          currentExpression: { ...s.currentExpression, [character]: expression },
+        })),
+
+      removeSprite: (character) =>
+        set((s) => {
+          const { [character]: _, ...restExpressions } = s.currentExpression;
+          return {
+            visibleSprites: s.visibleSprites.filter((c) => c !== character),
+            currentExpression: restExpressions,
+            currentSpeaker:
+              s.currentSpeaker === character ? "" : s.currentSpeaker,
+          };
+        }),
+
       addScore: (points) => set((s) => ({ score: s.score + points })),
       setLunaeTrust: (value) => set({ lunae_trust: value }),
       setGaveChoice: (value) => set({ gave_choice: value }),
