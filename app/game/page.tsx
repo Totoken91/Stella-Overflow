@@ -57,7 +57,7 @@ export default function GamePage() {
 
   if (!initialized) {
     return (
-      <div className="game-container relative h-screen w-screen overflow-hidden bg-black">
+      <div className="game-container relative h-screen w-screen overflow-hidden">
         <MeshBackground />
       </div>
     );
@@ -65,7 +65,7 @@ export default function GamePage() {
 
   if (!storyLoaded) {
     return (
-      <div className="game-container relative flex h-screen w-screen items-center justify-center overflow-hidden bg-black">
+      <div className="game-container relative flex h-screen w-screen items-center justify-center overflow-hidden">
         <MeshBackground />
         <p
           className="relative z-10 opacity-60"
@@ -82,7 +82,7 @@ export default function GamePage() {
   }
 
   return (
-    <div className="game-container relative h-screen w-screen overflow-hidden bg-black">
+    <div className="game-container relative h-screen w-screen overflow-hidden">
       <MeshBackground />
       <Background />
       <SpriteLayer />
