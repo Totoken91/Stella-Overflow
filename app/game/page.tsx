@@ -61,39 +61,51 @@ export default function GamePage() {
     }
   }, [choices, advance]);
 
-  if (booting) {
-    return (
-      <div className="game-container relative h-screen w-screen overflow-hidden">
-        <BootScreen onComplete={handleBootComplete} />
-      </div>
-    );
-  }
-
-  if (!initialized || !storyLoaded) {
-    return (
-      <div className="game-container relative flex h-screen w-screen items-center justify-center overflow-hidden">
-        <MeshBackground />
-        <p
-          className="relative z-10 opacity-60"
-          style={{
-            fontFamily: "var(--font-dm-mono)",
-            fontSize: "0.85rem",
-            color: "var(--pink-dark)",
-          }}
-        >
-          [ histoire non chargée ]
-        </p>
-      </div>
-    );
-  }
+  // Click anywhere on screen to advance dialogue
+  // (DialogueBox handles its own click with stopPropagation for typewriter skip)
+  const handleScreenClick = useCallback(() => {
+    if (booting || !storyLoaded || choices.length > 0 || !text) return;
+    advance();
+  }, [booting, storyLoaded, choices, text, advance]);
 
   return (
-    <div className="game-container relative h-screen w-screen overflow-hidden">
+    <div
+      className="game-container relative h-screen w-screen overflow-hidden"
+      onClick={handleScreenClick}
+    >
+      {/* Game always renders behind boot screen so assets preload */}
       <MeshBackground />
-      <Background />
-      <SpriteWindow />
-      {text && <DialogueBox text={text} onNext={handleNext} />}
-      <ChoiceList choices={choices} onChoice={handleChoice} />
+      {initialized && storyLoaded && (
+        <>
+          <Background />
+          <SpriteWindow />
+          {!booting && text && (
+            <DialogueBox text={text} onNext={handleNext} />
+          )}
+          {!booting && (
+            <ChoiceList choices={choices} onChoice={handleChoice} />
+          )}
+        </>
+      )}
+
+      {/* Fallback if story failed to load */}
+      {initialized && !storyLoaded && !booting && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+          <p
+            className="opacity-60"
+            style={{
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "0.85rem",
+              color: "var(--pink-dark)",
+            }}
+          >
+            [ histoire non chargée ]
+          </p>
+        </div>
+      )}
+
+      {/* Boot screen overlays everything */}
+      {booting && <BootScreen onComplete={handleBootComplete} />}
     </div>
   );
 }
