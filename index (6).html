@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDD — Stella ★ Overflow</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink-soft: #FFD6E0;
+    --pink-mid: #FFB3C6;
+    --pink-deep: #FF8FAB;
+    --pink-accent: #E05C8A;
+    --pink-dark: #6B2D4A;
+    --cream: #FFF5F8;
+    --cream2: #FFF0F5;
+    --grey-text: #3D2535;
+    --grey-light: #8B6070;
+    --star: #FFD700;
+    --teal: #7FD8D8;
+    --teal-dark: #3DAAAA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--grey-text);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── MESH GRADIENT BACKGROUND ─── */
+  .mesh-gradient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .mesh-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    will-change: transform;
+  }
+
+  .mesh-blob--pink {
+    width: 45vmax;
+    height: 45vmax;
+    background: #FFD6E0;
+    top: -10%;
+    left: -10%;
+    animation: blobMove1 18s ease-in-out infinite alternate;
+  }
+
+  .mesh-blob--lavender {
+    width: 40vmax;
+    height: 40vmax;
+    background: #D4CEF0;
+    top: 40%;
+    right: -10%;
+    animation: blobMove2 22s ease-in-out infinite alternate;
+  }
+
+  .mesh-blob--teal {
+    width: 38vmax;
+    height: 38vmax;
+    background: #B0E8E8;
+    bottom: -10%;
+    left: 30%;
+    animation: blobMove3 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes blobMove1 {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(15vw, 20vh) scale(1.1); }
+    66%  { transform: translate(-5vw, 35vh) scale(0.95); }
+    100% { transform: translate(10vw, 10vh) scale(1.05); }
+  }
+
+  @keyframes blobMove2 {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(-20vw, -10vh) scale(1.05); }
+    66%  { transform: translate(-10vw, 15vh) scale(1.1); }
+    100% { transform: translate(-15vw, -5vh) scale(0.95); }
+  }
+
+  @keyframes blobMove3 {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(10vw, -15vh) scale(1.08); }
+    66%  { transform: translate(-15vw, -10vh) scale(0.97); }
+    100% { transform: translate(5vw, -20vh) scale(1.03); }
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.06;
+  }
+
+  /* ─── SCROLL PROGRESS BAR ─── */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, var(--pink-deep), var(--teal));
+    z-index: 9999;
+    transition: width 0.05s linear;
+  }
+
+  /* ─── HERO HEADER ─── */
+  header {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #FFE4EE 0%, #FFD6E0 40%, #FFBDD5 100%);
+    overflow: hidden;
+    padding: 4rem 2rem;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,143,171,0.3) 0%, transparent 70%);
+    top: -100px; right: -150px;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,216,216,0.2) 0%, transparent 70%);
+    bottom: -80px; left: -100px;
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+
+  .stars-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .star-el {
+    position: absolute;
+    font-size: 1rem;
+    animation: twinkle 3s ease-in-out infinite;
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+    50% { opacity: 0.8; transform: scale(1) rotate(180deg); }
+  }
+
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--pink-accent);
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 1.2rem;
+    border-radius: 100px;
+    border: 1px solid rgba(224,92,138,0.2);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+    color: var(--pink-dark);
+    position: relative;
+    z-index: 1;
+  }
+
+  .title .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(15px);
+    animation: letterIn 0.4s ease forwards;
+  }
+
+  @keyframes letterIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes chromeShift {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 250% 50%; }
+  }
+
+  /* Glitch effect on wrapper */
+  .title-glitch-wrap {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+  }
+
+  .title-glitch-wrap.glitch {
+    animation: glitchAnim 0.3s steps(2) forwards;
+  }
+
+  @keyframes glitchAnim {
+    0%   { clip-path: inset(20% 0 40% 0); transform: translate(-2px, 1px); }
+    20%  { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+    40%  { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 2px); }
+    60%  { clip-path: inset(50% 0 20% 0); transform: translate(1px, -2px); }
+    80%  { clip-path: inset(30% 0 50% 0); transform: translate(-2px, 1px); }
+    100% { clip-path: inset(0); transform: translate(0); }
+  }
+
+  .title .star-svg-wrap {
+    display: inline-block;
+    animation: spin 4s linear infinite;
+    vertical-align: middle;
+    filter: drop-shadow(0 0 6px rgba(255,143,171,0.6));
+    -webkit-text-fill-color: initial;
+  }
+
+  .title .star-svg-wrap svg {
+    width: 0.6em;
+    height: 0.6em;
+    display: block;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes starGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(255,143,171,0.4)); }
+    50% { filter: drop-shadow(0 0 12px rgba(255,143,171,0.9)); }
+  }
+
+  .title .star-svg-wrap {
+    animation: spin 4s linear infinite, starGlow 2s ease-in-out infinite;
+  }
+
+  /* ─── CUSTOM CURSOR ─── */
+  .cursor-star {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 99999;
+    color: var(--pink-deep);
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    color: var(--pink-mid);
+    font-size: 10px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    animation: trailFade 0.6s ease forwards;
+  }
+
+  @keyframes trailFade {
+    0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  }
+
+  .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3.5vw, 1.5rem);
+    max-width: 80%;
+    text-align: center;
+    color: var(--pink-accent);
+    margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s 0.2s ease both;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s 0.3s ease both;
+  }
+
+  .meta-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--grey-text);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,143,171,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .meta-pill span { color: var(--pink-accent); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--pink-accent);
+    opacity: 0.6;
+    animation: bounce 2s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ─── LAYOUT ─── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    margin-top: 5rem;
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(8px);
+    animation: revealSection 0.6s ease forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.15s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.25s; }
+  .section:nth-child(5) { animation-delay: 0.3s; }
+  .section:nth-child(6) { animation-delay: 0.35s; }
+  .section:nth-child(7) { animation-delay: 0.4s; }
+  .section:nth-child(8) { animation-delay: 0.45s; }
+
+  @keyframes revealSection {
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--pink-accent);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--pink-mid), transparent);
+  }
+
+  /* Blinking caret kawaii on section-label (via JS-injected span) */
+  .section-label .caret {
+    display: inline-block;
+    width: 2px;
+    height: 0.85em;
+    background: var(--pink-accent);
+    animation: caretBlink 1s step-end infinite;
+    margin-left: 0.3rem;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  @keyframes caretBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, var(--pink-deep), var(--pink-mid));
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  .section-title.in-view::after {
+    width: 100%;
+  }
+
+  p {
+    color: var(--grey-text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,143,171,0.2);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid transparent;
+  }
+
+  /* Shimmer effect */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.2) 55%, transparent 60%);
+    transform: translateX(-100%);
+    transition: none;
+    pointer-events: none;
+  }
+
+  .card:hover::after {
+    animation: shimmer 0.6s ease forwards;
+  }
+
+  @keyframes shimmer {
+    to { transform: translateX(100%); }
+  }
+
+  /* Left border gradient that scales up on viewport entry */
+  .card.in-view {
+    border-image: linear-gradient(to bottom, var(--pink-deep), var(--teal)) 1;
+    border-image-slice: 1;
+    border-left-width: 4px;
+    border-left-style: solid;
+    animation: borderReveal 0.5s ease forwards;
+  }
+
+  @keyframes borderReveal {
+    from { border-left-width: 0px; }
+    to { border-left-width: 4px; }
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(224,92,138,0.12);
+    border-color: rgba(255,143,171,0.4);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .card-mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--pink-accent);
+    background: var(--pink-soft);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+  }
+
+  /* ─── ENDINGS GRID ─── */
+  .endings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    perspective: 800px;
+  }
+
+  .ending-card {
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, filter 0.3s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* Floating particle in each ending card */
+  .ending-particle {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1rem;
+    opacity: 0.4;
+    animation: floatParticle 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @keyframes floatParticle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .ending-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: brightness(1.05);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .ending-card:hover::before { opacity: 1; }
+  .ending-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+
+  .ending-good { background: linear-gradient(135deg, #D4F5E9 0%, #B8EDD9 100%); border: 1px solid #A8E4CA; }
+  .ending-neutral { background: linear-gradient(135deg, #E8E4F8 0%, #D4CEF0 100%); border: 1px solid #C8C0E8; }
+  .ending-bad { background: linear-gradient(135deg, #FFD6E0 0%, #FFBDD5 100%); border: 1px solid #FFB3C6; }
+
+  .ending-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ending-good .ending-label { color: #2D7A5A; }
+  .ending-neutral .ending-label { color: #5A4A8A; }
+  .ending-bad .ending-label { color: #8A3A5A; }
+
+  .ending-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ending-good .ending-name { color: #1A5A3A; }
+  .ending-neutral .ending-name { color: #3A2A6A; }
+  .ending-bad .ending-name { color: #6A2A4A; }
+
+  .ending-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ending-good .ending-desc { color: #2D5A45; }
+  .ending-neutral .ending-desc { color: #4A3A7A; }
+  .ending-bad .ending-desc { color: #7A3A5A; }
+
+  /* ─── MECHANICS TABLE ─── */
+  .mech-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,143,171,0.15);
+    align-items: start;
+  }
+
+  .mech-row:last-child { border-bottom: none; }
+
+  .mech-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--pink-accent);
+    font-weight: 500;
+    padding-top: 0.1rem;
+  }
+
+  .mech-val {
+    font-size: 0.92rem;
+    color: var(--grey-text);
+    line-height: 1.6;
+  }
+
+  /* ─── SCENE ACCORDION ─── */
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .accordion-item {
+    border-radius: 14px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,143,171,0.2);
+    border-left: 4px solid transparent;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .accordion-item.act1 { border-left-color: var(--pink-deep); }
+  .accordion-item.act2 { border-left-color: #C67FD8; }
+  .accordion-item.act3 { border-left-color: var(--teal-dark); }
+
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+  }
+
+  .accordion-header:hover {
+    background: rgba(255,255,255,0.4);
+  }
+
+  .accordion-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .act1 .accordion-dot { background: var(--pink-deep); }
+  .act2 .accordion-dot { background: #C67FD8; }
+  .act3 .accordion-dot { background: var(--teal-dark); }
+
+  .accordion-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .accordion-act {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+  }
+
+  .accordion-scene {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+  }
+
+  .accordion-chevron {
+    font-size: 0.8rem;
+    color: var(--grey-light);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .accordion-item.open .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-item.open {
+    box-shadow: 0 8px 30px rgba(224,92,138,0.1);
+  }
+
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .accordion-body-inner {
+    padding: 0 1.2rem 1.2rem 2.6rem;
+  }
+
+  .accordion-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 600px) {
+    .accordion-blocks { grid-template-columns: 1fr; }
+  }
+
+  .accordion-block {
+    background: rgba(255,245,248,0.6);
+    border: 1px solid rgba(255,143,171,0.15);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+  }
+
+  .accordion-block-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pink-accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .accordion-block p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--grey-text);
+  }
+
+  .choice-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: white;
+    background: var(--pink-accent);
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* ─── TECH STACK ─── */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .tech-item {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,143,171,0.2);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .tech-item:hover {
+    border-color: var(--pink-mid);
+    background: rgba(255,255,255,0.9);
+    transform: translateY(-2px);
+  }
+
+  .tech-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tech-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--pink-dark);
+    margin-bottom: 0.2rem;
+  }
+
+  .tech-desc {
+    font-size: 0.78rem;
+    color: var(--grey-light);
+    line-height: 1.4;
+  }
+
+  /* ─── ROADMAP ─── */
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .roadmap-phase {
+    background: rgba(255,255,255,0.6);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,143,171,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .roadmap-phase::after {
+    content: attr(data-phase);
+    position: absolute;
+    bottom: -0.5rem;
+    right: 0.8rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--pink-soft);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--pink-accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .phase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 0.8rem;
+  }
+
+  .phase-duration {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--teal-dark);
+    background: rgba(127,216,216,0.15);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .phase-list {
+    list-style: none;
+    font-size: 0.85rem;
+    color: var(--grey-text);
+  }
+
+  .phase-list li {
+    padding: 0.2rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .phase-list li::before {
+    content: '✦';
+    color: var(--pink-deep);
+    font-size: 0.6rem;
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── PALETTE ─── */
+  .palette-row {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .palette-swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .swatch-color {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .swatch-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--grey-light);
+    text-align: center;
+  }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(255,179,198,0.2) 0%, rgba(127,216,216,0.1) 100%);
+    border: 1px solid rgba(255,143,171,0.3);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    position: relative;
+  }
+
+  .highlight-box::before {
+    content: '★';
+    position: absolute;
+    top: -0.6rem;
+    left: 1.5rem;
+    background: var(--cream);
+    padding: 0 0.4rem;
+    color: var(--pink-deep);
+    font-size: 0.8rem;
+  }
+
+  /* ─── QUOTE ─── */
+  blockquote {
+    border-left: 3px solid var(--pink-deep);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--pink-dark);
+    line-height: 1.6;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--grey-light);
+    border-top: 1px solid rgba(255,143,171,0.2);
+    position: relative;
+    z-index: 1;
+  }
+
+  footer .heart {
+    color: var(--pink-deep);
+    display: inline-block;
+    animation: heartbeat 1s ease infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); text-shadow: 0 0 0 transparent; }
+    15% { transform: scale(1.3); text-shadow: 0 0 12px rgba(255,143,171,0.7); }
+    30% { transform: scale(1); text-shadow: 0 0 0 transparent; }
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--pink-mid); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--pink-accent); }
+
+  /* ─── SCORE BAR ─── */
+  .score-visual {
+    display: flex;
+    height: 12px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin: 1rem 0;
+    border: 1px solid rgba(255,143,171,0.2);
+  }
+
+  .score-good { background: #A8E4CA; flex: 1; }
+  .score-neutral { background: #C8C0E8; flex: 1; }
+  .score-bad { background: #FFB3C6; flex: 1; }
+
+  .score-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--grey-light);
+    margin-top: 0.3rem;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  nav a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--pink-dark);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 0.8rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,143,171,0.2);
+    transition: all 0.2s;
+    display: block;
+    text-align: right;
+  }
+
+  nav a:hover {
+    background: rgba(255,255,255,0.95);
+    border-color: var(--pink-mid);
+    color: var(--pink-accent);
+  }
+
+  a, button, nav a, .card, .ending-card, .tech-item {
+    cursor: none;
+  }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    .title { font-size: 2.2rem; white-space: nowrap; }
+    .endings-grid { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    /* Restore default cursor on mobile (no hover) */
+    body, a, button, nav a, .card, .ending-card, .tech-item { cursor: auto; }
+    .cursor-star, .cursor-trail { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress"></div>
+
+<!-- Mesh Gradient Background -->
+<div class="mesh-gradient" aria-hidden="true">
+  <div class="mesh-blob mesh-blob--pink"></div>
+  <div class="mesh-blob mesh-blob--lavender"></div>
+  <div class="mesh-blob mesh-blob--teal"></div>
+</div>
+
+<!-- Floating Stars -->
+<div class="stars-bg" aria-hidden="true">
+  <div class="star-el" style="top:15%;left:8%;animation-delay:0s;font-size:1.2rem;">★</div>
+  <div class="star-el" style="top:25%;left:90%;animation-delay:1s;font-size:0.8rem;">✦</div>
+  <div class="star-el" style="top:60%;left:5%;animation-delay:2s;font-size:0.6rem;">★</div>
+  <div class="star-el" style="top:70%;left:88%;animation-delay:0.5s;font-size:1rem;">✦</div>
+  <div class="star-el" style="top:40%;left:92%;animation-delay:1.5s;font-size:0.7rem;">★</div>
+  <div class="star-el" style="top:80%;left:12%;animation-delay:2.5s;font-size:0.9rem;">✦</div>
+  <div class="star-el" style="top:10%;left:50%;animation-delay:3s;font-size:0.6rem;">★</div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="#concept">Concept</a>
+  <a href="#histoire">Histoire</a>
+  <a href="#mecaniques">Mécaniques</a>
+  <a href="#scenes">Scènes</a>
+  <a href="#fins">Fins</a>
+  <a href="#tech">Tech</a>
+  <a href="#roadmap">Roadmap</a>
+</nav>
+
+<!-- Header -->
+<header>
+  <div class="header-tag">✦ Game Design Document · v0.2</div>
+  <div class="title-glitch-wrap">
+    <h1 class="title">Stella <span class="star-svg-wrap"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="#FF8FAB" stroke="#E05C8A" stroke-width="1"/></svg></span> Overflow</h1>
+  </div>
+  <p class="subtitle">Un visual novel ecchi sur le choix, la magie et la chute</p>
+  <div class="header-meta">
+    <div class="meta-pill"><span>Genre</span> Visual Novel / Choix multiples</div>
+    <div class="meta-pill"><span>Public</span> 18+ (ecchi)</div>
+    <div class="meta-pill"><span>Plateforme</span> Web (mobile-friendly)</div>
+    <div class="meta-pill"><span>Durée</span> ~45 min par run</div>
+    <div class="meta-pill"><span>Auteurs</span> totoken · virgind3stroy3r</div>
+  </div>
+  <div class="scroll-hint">↓ scroll ↓</div>
+</header>
+
+<!-- Main Content -->
+<main>
+
+  <!-- CONCEPT -->
+  <section class="section" id="concept">
+    <div class="section-label">01 — Concept</div>
+    <h2 class="section-title">L'idée centrale</h2>
+    
+    <blockquote>"Tu n'es pas le héros. Tu es celui qui décide si elle le devient."</blockquote>
+
+    <p>Stella Overflow est un visual novel ecchi à choix multiples où le joueur incarne le <strong>Manager</strong> d'une jeune femme qui vient de découvrir ses pouvoirs magiques. À chaque moment clé, il doit choisir comment la guider — ou non.</p>
+
+    <div class="highlight-box">
+      <p style="margin:0;font-weight:600;color:var(--pink-dark);">La tension centrale du jeu : l'esthétique est kawaii, sensuelle et magique. Fan-service assumé dès le départ avec une montée progressive — scènes de transformation suggestives, CG ecchi débloquables. Mais vos choix peuvent mener à quelque chose de bien plus sombre. La dissonance <em>est</em> le jeu.</p>
+    </div>
+
+    <p>Inspiré de <em>Needy Girl Overdose</em> dans sa mécanique d'influence, mais avec une structure narrative plus courte et accessible — parfait comme premier projet.</p>
+  </section>
+
+  <!-- PERSONNAGES -->
+  <section class="section" id="personnages">
+    <div class="section-label">02 — Personnages</div>
+    <h2 class="section-title">Le casting</h2>
+
+    <div class="card">
+      <div class="card-title">
+        Étoile <span class="card-mono">Protagoniste</span>
+      </div>
+      <p>Une jeune femme de 19 ans qui découvre ses pouvoirs par accident. Séduisante et un peu maladroite, elle veut bien faire — mais elle est influençable. Son arc narratif va de l'émerveillement naïf à la transformation complète selon vos choix. Visuellement : cheveux pastel, costume de stella révélateur, corps généreux, yeux grands et expressifs. Séquences de transformation magical girl suggestives (silhouette, jeux de lumière). Scènes de bain et vestiaire à partir de l'acte 2. 8-10 CG ecchi débloquables en galerie.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Le Manager <span class="card-mono">Le joueur</span>
+      </div>
+      <p>C'est vous. Jamais vu à l'écran, juste entendu à travers vos choix. Ancien ami d'enfance d'Étoile, vous avez été désigné comme son "manager" après avoir découvert ses pouvoirs. Vos intentions sont bonnes — au début.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Lunae <span class="card-mono">Antagoniste / Mentor</span>
+      </div>
+      <p>Une entité mystérieuse qui prétend être le guide spirituel d'Étoile. Elle apparaît sous la forme d'une petite créature mignonne mais ses conseils sont… ambigus. Elle pousse discrètement vers le bad ending. Son vrai rôle est révélé différemment selon la fin obtenue.</p>
+    </div>
+  </section>
+
+  <!-- HISTOIRE -->
+  <section class="section" id="histoire">
+    <div class="section-label">03 — Histoire</div>
+    <h2 class="section-title">Le récit</h2>
+
+    <p>La ville est menacée par des "Distorsions" — des anomalies émotionnelles qui se manifestent physiquement et font du mal aux gens. Étoile est la seule capable de les neutraliser.</p>
+    <p>Mais utiliser ses pouvoirs a un coût : chaque confrontation l'altère légèrement. Elle devient plus froide, plus calculatrice — ou au contraire plus fragile, plus dépendante de vous.</p>
+    <p>Au fil des 3 actes, vous gérez ses missions, ses relations sociales, et ses crises existentielles. La question n'est pas <em>"peut-elle sauver le monde ?"</em> — c'est <em>"qui sera-t-elle à la fin ?"</em></p>
+
+    <div class="highlight-box">
+      <strong style="color:var(--pink-dark);">Thèmes :</strong>
+      <p style="margin-top:0.5rem;margin-bottom:0;">Identité · Pression de la performance · Burn-out · Bienveillance vs contrôle · Séduction & manipulation · Ce qu'on fait au nom du "bien"</p>
+    </div>
+  </section>
+
+  <!-- MÉCANIQUES -->
+  <section class="section" id="mecaniques">
+    <div class="section-label">04 — Mécaniques</div>
+    <h2 class="section-title">Comment ça marche</h2>
+
+    <div class="card">
+      <div class="mech-row">
+        <div class="mech-key">Score Invisible</div>
+        <div class="mech-val">Le joueur ne voit jamais son score. Chaque choix attribue des points positifs, neutres ou négatifs sans feedback immédiat. La fin est calculée à partir du total cumulé.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Système 2/3</div>
+        <div class="mech-val">Chaque décision présente 2 ou 3 options. L'option "évidente et gentille" n'est pas toujours la meilleure. Certaines bonnes intentions ont de mauvaises conséquences.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Moments Clés</div>
+        <div class="mech-val">5 à 7 choix vraiment importants répartis sur les 3 actes. Les autres sont des choix de "couleur" qui influencent les dialogues sans changer le score.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Score Seuils</div>
+        <div class="mech-val">Score élevé → Good Ending. Score moyen → Neutral. Score bas → Bad Ending. Mais il y a une 4e fin cachée qui nécessite un pattern spécifique de choix.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Rejouabilité</div>
+        <div class="mech-val">Les dialogues changent selon votre historique de partie. Si vous avez déjà vu le bad ending, certains personnages vous "regardent différemment". Petits easter eggs méta.</div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.5rem;"><strong>Score range :</strong></p>
+    <div class="score-visual">
+      <div class="score-bad"></div>
+      <div class="score-neutral"></div>
+      <div class="score-neutral"></div>
+      <div class="score-good"></div>
+      <div class="score-good"></div>
+    </div>
+    <div class="score-labels">
+      <span>Bad Ending (0-30)</span>
+      <span>Neutral (31-65)</span>
+      <span>Good (66-100)</span>
+    </div>
+  </section>
+
+  <!-- SCÈNES -->
+  <section class="section" id="scenes">
+    <div class="section-label">05 — Structure narrative</div>
+    <h2 class="section-title">Les scènes</h2>
+
+    <div class="accordion">
+
+      <!-- Scène 1 -->
+      <div class="accordion-item act1">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 1 — L'Éveil</div>
+            <div class="accordion-scene">Scène 1 : La rencontre <span class="choice-badge">CHOIX</span></div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>Étoile manifeste ses pouvoirs pour la première fois devant vous. Elle est terrifiée. Lunae apparaît et propose de devenir son guide.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>« Je… je sais pas ce qui m'arrive… » — Étoile tremblante. Lunae : « Ne t'inquiète pas, c'est normal. Tu es spéciale. »</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>Rassurer Étoile (+5) · Minimiser ses peurs (+0) · Pousser à explorer ses pouvoirs immédiatement (−3)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : parc de nuit · Sprite Étoile : terrifiée, surprise · Sprite Lunae : apparition · SFX : magie, vent</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 2 -->
+      <div class="accordion-item act1">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 1 — L'Éveil</div>
+            <div class="accordion-scene">Scène 2 : La première mission <span class="choice-badge">CHOIX</span></div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>Une Distorsion apparaît dans le lycée. Elle hésite à intervenir. Comment la préparez-vous ?</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>« Et si je blesse quelqu'un ? » — Étoile. Lunae : « Tu blesseras plus de gens en ne faisant rien. »</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>L'entraîner d'abord (+3) · L'envoyer directement (+0) · Lui dire que c'est son devoir (−2)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : couloir lycée, salle de classe · Sprite Étoile : inquiète, déterminée · VFX : distorsion glitch</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 3 -->
+      <div class="accordion-item act1">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 1 — L'Éveil</div>
+            <div class="accordion-scene">Scène 3 : Le lendemain</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>Elle rentre chez elle épuisée. Vous pouvez l'appeler, la laisser tranquille, ou lui envoyer un message. Choix "couleur" qui structure la relation.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>Selon le choix : message vocal inquiet, SMS rassurant « t'as géré 💪 », ou silence radio.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>Choix de couleur — pas d'impact score. Influence le ton des dialogues futurs et la proximité relationnelle.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : chambre d'Étoile (soir) · Sprite Étoile : fatiguée, tenue de nuit · UI : écran téléphone · CG ecchi : Étoile en nuisette dans sa chambre</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 4 -->
+      <div class="accordion-item act2">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 2 — La Pression</div>
+            <div class="accordion-scene">Scène 4 : La célébrité <span class="choice-badge">CHOIX CLÉ</span></div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>La ville commence à la reconnaître. Des fans apparaissent. Lunae suggère d'exploiter sa notoriété.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>Lunae : « Les gens t'adorent. Utilise ça. » Étoile : « C'est bizarre, ils ne me connaissent même pas vraiment… »</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>Protéger sa vie privée (+8) · Accepter modérément (+2) · Pousser à l'exposition totale (−6)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : rue, réseaux sociaux UI · Sprite Étoile : gênée, flattée · Sprites fans (silhouettes) · Sprite Lunae : manipulatrice · CG ecchi : Étoile en costume révélateur posant pour les fans</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 5 -->
+      <div class="accordion-item act2">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 2 — La Pression</div>
+            <div class="accordion-scene">Scène 5 : La crise <span class="choice-badge">CHOIX CLÉ</span></div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>Étoile crack. Elle ne veut plus utiliser ses pouvoirs. C'est le choix le plus difficile du jeu.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>« J'en peux plus. Je suis pas une héroïne, je suis juste une fille fatiguée. » — Étoile en pleurs.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>La laisser se reposer (+10) · Négocier un compromis (+3) · Lui rappeler ses responsabilités (−8)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : chambre d'Étoile (nuit, sombre) · Sprite Étoile : pleurs, colère, épuisement · Musique : piano triste · CG ecchi : Étoile vulnérable, costume déchiré après combat</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 6 -->
+      <div class="accordion-item act2">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 2 — La Pression</div>
+            <div class="accordion-scene">Scène 6 : La révélation de Lunae <span class="choice-badge">CHOIX CLÉ</span></div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>On découvre quelque chose sur Lunae. Ce qu'on fait avec cette information change tout.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>« Elle ne t'aide pas, Étoile. Elle se nourrit de toi. » — Vous pouvez le dire ou le taire.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>Révéler la vérité à Étoile (+10) · Garder le secret et surveiller (−2) · Confronter Lunae seul (−5)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : lieu mystérieux / dimension de Lunae · Sprite Lunae : vraie forme · VFX : révélation, énergie sombre</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 7 -->
+      <div class="accordion-item act3">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 3 — Le Dénouement</div>
+            <div class="accordion-scene">Scène 7 : La Distorsion finale <span class="choice-badge">CHOIX CLÉ</span></div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>La plus grande Distorsion encore. Étoile doit tout donner. Votre dernière décision la prépare — ou non.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>« Dis-moi que ça va aller. Même si c'est un mensonge. » — Étoile avant le combat final.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>Être honnête et la soutenir (+12) · Mentir pour la rassurer (+0) · La pousser sans ménagement (−10)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>BG : ville en ruines / ciel déchiré · Sprite Étoile : transformation finale · Boss VFX · Musique : épique + variantes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scène 8 -->
+      <div class="accordion-item act3">
+        <div class="accordion-header">
+          <div class="accordion-dot"></div>
+          <div class="accordion-meta">
+            <div class="accordion-act">Acte 3 — Le Dénouement</div>
+            <div class="accordion-scene">Scène 8 : L'épilogue</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="accordion-blocks">
+              <div class="accordion-block">
+                <div class="accordion-block-label">Résumé</div>
+                <p>La fin se déroule selon votre score total. 3 épilogues différents (+1 caché). Générique avec musique douce ou inquiétante selon la route.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Dialogues clés</div>
+                <p>Good : « Merci d'avoir été là. Vraiment. » · Neutral : « On se reverra peut-être. » · Weapon : « Tu es qui, déjà ? » (regard vide, aucune émotion)</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Choix & Score</div>
+                <p>Pas de choix — cinématique de fin basée sur le score total cumulé. Seuils : 0-30 Bad / 31-65 Neutral / 66-100 Good.</p>
+              </div>
+              <div class="accordion-block">
+                <div class="accordion-block-label">Assets nécessaires</div>
+                <p>3 BG finaux · Sprites Étoile : 3 expressions de fin · 3 pistes musicales · Écran de crédits · CG illustration par fin</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FINS -->
+  <section class="section" id="fins">
+    <div class="section-label">06 — Fins</div>
+    <h2 class="section-title">Les 4 dénouements</h2>
+
+    <div class="endings-grid">
+      <div class="ending-card ending-good">
+        <span class="ending-particle">★</span>
+        <div class="ending-label">★ Good Ending</div>
+        <div class="ending-name">Love Ending</div>
+        <div class="ending-desc">Étoile gère sa vie grâce à toi. Elle a appris à utiliser ses pouvoirs sainement. Vous partagez une vraie connexion. Elle sauve la ville — et reste elle-même.</div>
+      </div>
+
+      <div class="ending-card ending-neutral">
+        <span class="ending-particle" style="animation-delay:0.5s">✦</span>
+        <div class="ending-label">◆ Neutral Ending</div>
+        <div class="ending-name">Magical Ending</div>
+        <div class="ending-desc">Elle gère sans toi. Vous êtes en bons termes mais distants. Elle est devenue quelqu'un de fort, mais seul. Un écran géant l'affiche en mode "sauveur officiel de la ville". Elle sourit. Ça sonne creux.</div>
+      </div>
+
+      <div class="ending-card ending-bad">
+        <span class="ending-particle" style="animation-delay:1s">★</span>
+        <div class="ending-label">✖ Bad Ending</div>
+        <div class="ending-name">Weapon Ending</div>
+        <div class="ending-desc">Étoile est devenue une machine. Froide, calculatrice, efficace. Elle ne ressent plus rien — ni colère, ni tristesse, ni plaisir. La ville est sauvée mais elle fonctionne comme un programme. Elle te regarde sans te reconnaître. « Tu es qui, déjà ? » Le monstre parfait : celui qui ne sait même pas qu'il en est un.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;border-color:rgba(255,215,0,0.3);background:rgba(255,250,230,0.7);">
+      <div class="card-title" style="color:#6B5A00;">
+        ✦ Secret Ending <span class="card-mono" style="background:#FFF3B0;color:#8B7A00;">CACHÉ</span>
+      </div>
+      <p style="color:#5A4A00;margin:0;">Obtenu en faisant systématiquement les choix les plus "mauvais" dans l'acte 1, puis en redevenant bienveillant à partir de l'acte 2. Étoile a compris ce que tu faisais. Elle te confronte. Un dialogue unique, une fin ambiguë. La seule fin où elle te regarde vraiment.</p>
+    </div>
+  </section>
+
+  <!-- ESTHÉTIQUE -->
+  <section class="section" id="esthetique">
+    <div class="section-label">07 — Direction Artistique</div>
+    <h2 class="section-title">L'identité visuelle</h2>
+
+    <p>L'esthétique est délibérément <strong>kawaii dark ecchi</strong> — douce et sensuelle en surface, inquiétante dans les détails. Style manga avec fan-service assumé : poses suggestives, costume de base révélateur. Un seul design de costume pour garder un scope réaliste (premier jeu).</p>
+
+    <div class="palette-row">
+      <div class="palette-swatch">
+        <div class="swatch-color" style="background:#FFD6E0;"></div>
+        <div class="swatch-name">Peau douce</div>
+      </div>
+      <div class="palette-swatch">
+        <div class="swatch-color" style="background:#FF8FAB;"></div>
+        <div class="swatch-name">Rose principal</div>
+      </div>
+      <div class="palette-swatch">
+        <div class="swatch-color" style="background:#C67FD8;"></div>
+        <div class="swatch-name">Magie</div>
+      </div>
+      <div class="palette-swatch">
+        <div class="swatch-color" style="background:#7FD8D8;"></div>
+        <div class="swatch-name">Teal accent</div>
+      </div>
+      <div class="palette-swatch">
+        <div class="swatch-color" style="background:#2C1A2E;"></div>
+        <div class="swatch-name">Ombre profonde</div>
+      </div>
+      <div class="palette-swatch">
+        <div class="swatch-color" style="background:#FFF5F8;"></div>
+        <div class="swatch-name">Fond crème</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <div class="mech-row">
+        <div class="mech-key">Sprites</div>
+        <div class="mech-val">Style manga ecchi avec outline. Les expressions d'Étoile changent selon l'état émotionnel. 4-6 expressions par personnage minimum. Un seul costume par personnage pour rester réaliste côté production.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Backgrounds</div>
+        <div class="mech-val">Décors simples, stylisés, légèrement désaturés. La ville devient plus sombre visuellement à mesure que l'histoire avance, indépendamment des choix.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">UI</div>
+        <div class="mech-val">Boîte de dialogue style carnet papier. Police principale : serif élégant pour les dialogues, monospace pour les choix. Pas de couleurs criardes dans l'interface.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Musique</div>
+        <div class="mech-val">LoFi / synthwave doux par défaut. Le bad path introduit progressivement des dissonances. La musique du menu change selon votre dernière fin obtenue.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-title">🔥 Direction Ecchi</div>
+      <div class="mech-row">
+        <div class="mech-key">Transformations</div>
+        <div class="mech-val">Séquences magical girl = moments ecchi clés. Silhouette lumineuse, vêtements qui se forment sur le corps, jeux de caméra suggestifs. Style Senran Kagura × Needy Girl Overdose.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">CG Ecchi</div>
+        <div class="mech-val">8-10 CG plein écran. Débloquées au fil de l'histoire et collectionnables dans une galerie.</div>
+      </div>
+      <div class="mech-row">
+        <div class="mech-key">Progression</div>
+        <div class="mech-val">Acte 1 : transformations suggestives. Acte 2 : scènes de bain, vestiaire. Acte 3 : CG climax, fan-service assumé.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section class="section" id="tech">
+    <div class="section-label">08 — Stack Technique</div>
+    <h2 class="section-title">Ce qu'on utilise</h2>
+
+    <p>Objectif : stack légère, déployable rapidement, maintenable par une personne seule.</p>
+
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-icon">⚡</div>
+        <div class="tech-name">Ink / Inkle</div>
+        <div class="tech-desc">Scripting narratif. Gère les choix, variables, conditions. Export JS direct. Gratuit.</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">⚛️</div>
+        <div class="tech-name">Next.js</div>
+        <div class="tech-desc">Framework front. Tu maîtrises déjà. Déploiement Vercel immédiat.</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎨</div>
+        <div class="tech-name">Procreate</div>
+        <div class="tech-desc">Pour les sprites et backgrounds. Les sketches de l'image 2 sont déjà un bon départ.</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🔊</div>
+        <div class="tech-name">Howler.js</div>
+        <div class="tech-desc">Audio léger pour la musique et les effets sonores. Simple à intégrer.</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">💾</div>
+        <div class="tech-name">LocalStorage</div>
+        <div class="tech-desc">Sauvegarde simple côté client. Pas besoin de backend pour commencer.</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🚀</div>
+        <div class="tech-name">Vercel</div>
+        <div class="tech-desc">Déploiement gratuit, continu. Tu as déjà l'intégration.</div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:1.5rem;">
+      <strong style="color:var(--pink-dark);">Alternative rapide :</strong>
+      <p style="margin-bottom:0;margin-top:0.5rem;">Si tu veux aller encore plus vite : <strong>Ren'Py</strong> (Python, gratuit, spécialement fait pour les VN, export web possible). Mais Next.js te donne plus de contrôle sur l'UI et la monétisation future.</p>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="section" id="roadmap">
+    <div class="section-label">09 — Roadmap</div>
+    <h2 class="section-title">Le plan de lancement</h2>
+
+    <div class="roadmap-grid">
+      <div class="roadmap-phase" data-phase="1">
+        <div class="phase-label">Phase 01</div>
+        <div class="phase-title">Prototype Narratif</div>
+        <div class="phase-duration">2 semaines</div>
+        <ul class="phase-list">
+          <li>Écrire les 8 scènes en Ink</li>
+          <li>Implémenter le moteur de score</li>
+          <li>Placeholder sprites (esquisses)</li>
+          <li>Tester les 3 fins principales</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase" data-phase="2">
+        <div class="phase-label">Phase 02</div>
+        <div class="phase-title">Art & Son</div>
+        <div class="phase-duration">3 semaines</div>
+        <ul class="phase-list">
+          <li>Sprites finaux Étoile (6 expressions)</li>
+          <li>Sprite Lunae (3 expressions)</li>
+          <li>4 backgrounds principaux</li>
+          <li>Intégration musique LoFi libre</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase" data-phase="3">
+        <div class="phase-label">Phase 03</div>
+        <div class="phase-title">UI & Polish</div>
+        <div class="phase-duration">1 semaine</div>
+        <ul class="phase-list">
+          <li>UI dialogue finale</li>
+          <li>Transitions et animations</li>
+          <li>Menu principal</li>
+          <li>Système de sauvegarde</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase" data-phase="4">
+        <div class="phase-label">Phase 04</div>
+        <div class="phase-title">Lancement</div>
+        <div class="phase-duration">1 semaine</div>
+        <ul class="phase-list">
+          <li>Beta test (5-10 joueurs)</li>
+          <li>Corrections de bugs</li>
+          <li>Déploiement Vercel</li>
+          <li>itch.io + Reddit r/vngames</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <div class="card-title">🎯 Objectif total : 7 semaines max</div>
+      <p style="margin-bottom:0;">En solo, en parallèle d'autres projets. Le scope est volontairement petit pour finir. Une fois lancé, on peut envisager : traduction EN, Steamworks (gratuit ou €2.99), Patreon pour du contenu bonus, chapitres additionnels.</p>
+    </div>
+  </section>
+
+  <!-- DIFFÉRENCIATEURS -->
+  <section class="section">
+    <div class="section-label">10 — Positionnement</div>
+    <h2 class="section-title">Pourquoi ça va marcher</h2>
+
+    <div class="card">
+      <div class="card-title">🎌 Niche claire</div>
+      <p style="margin-bottom:0;">Les fans de NGO, Doki Doki Literature Club, et du ecchi dark cherchent constamment du contenu similaire. C'est une niche passionnée et active sur itch.io, Twitter/X et Reddit. Le côté ecchi + dark VN est un combo sous-exploité.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚡ Scope réaliste</div>
+      <p style="margin-bottom:0;">8 scènes, 3 fins, 1 mécanique centrale. Tu peux finir ça. Un jeu terminé lancé vaut infiniment plus qu'un jeu parfait jamais sorti.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🖌️ Art déjà en route</div>
+      <p style="margin-bottom:0;">Les sketches de l'image 2 montrent que le style est défini. Le personnage existe. C'est souvent le blocage le plus dur dans un premier jeu — vous l'avez dépassé.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔁 Rejouabilité organique</div>
+      <p style="margin-bottom:0;">Les 4 fins différentes + les changements de dialogues selon l'historique créent une vraie raison de rejouer. Parfait pour le bouche-à-oreille.</p>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>Stella ★ Overflow · Game Design Document v0.2</p>
+  <p style="margin-top:0.5rem;">fait avec <span class="heart">♥</span> par totoken & virgind3stroy3r · document vivant · sujet à évolution</p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// 1. LETTER STAGGER ANIMATION ON TITLE
+// ═══════════════════════════════════════════
+(function initLetterStagger() {
+  const title = document.querySelector('.title');
+  if (!title) return;
+  const html = title.innerHTML;
+  // Split into segments: the star-svg-wrap, <br>, and text chars
+  const parts = [];
+  let i = 0;
+  while (i < html.length) {
+    // Keep HTML tags intact
+    if (html[i] === '<') {
+      const close = html.indexOf('>', i);
+      const tag = html.substring(i, close + 1);
+      // If it's the star-svg-wrap span, grab the full element
+      if (tag.includes('star-svg-wrap')) {
+        // find the closing </span>
+        const endTag = '</span>';
+        // Need to find the correct closing span (nested spans)
+        let depth = 1;
+        let j = close + 1;
+        while (j < html.length && depth > 0) {
+          if (html.substring(j, j + 6) === '<span ') depth++;
+          if (html.substring(j, j + 7) === '</span>') { depth--; if (depth === 0) break; }
+          j++;
+        }
+        parts.push(html.substring(i, j + 7));
+        i = j + 7;
+      } else {
+        parts.push(tag);
+        i = close + 1;
+      }
+    } else if (html[i] === ' ') {
+      parts.push(' ');
+      i++;
+    } else {
+      parts.push(html[i]);
+      i++;
+    }
+  }
+
+  let delay = 0;
+  const newHtml = parts.map(p => {
+    // Skip wrapping tags and whitespace-ish
+    if (p.startsWith('<br') || p.startsWith('<BR')) return p;
+    if (p.startsWith('<') && !p.includes('star-svg-wrap')) return p;
+    if (p === ' ') { delay += 0.02; return ' '; }
+    if (p.includes('star-svg-wrap')) {
+      delay += 0.05;
+      return '<span class="letter" style="animation-delay:' + delay.toFixed(2) + 's">' + p + '</span>';
+    }
+    delay += 0.05;
+    return '<span class="letter" style="animation-delay:' + delay.toFixed(2) + 's">' + p + '</span>';
+  }).join('');
+  title.innerHTML = newHtml;
+})();
+
+// ═══════════════════════════════════════════
+// 2. GLITCH EFFECT AT RANDOM INTERVALS
+// ═══════════════════════════════════════════
+(function initGlitch() {
+  const wrap = document.querySelector('.title-glitch-wrap');
+  if (!wrap) return;
+  function triggerGlitch() {
+    wrap.classList.add('glitch');
+    setTimeout(() => wrap.classList.remove('glitch'), 300);
+    const next = 10000 + Math.random() * 10000; // 10-20s
+    setTimeout(triggerGlitch, next);
+  }
+  setTimeout(triggerGlitch, 8000 + Math.random() * 5000);
+})();
+
+// ═══════════════════════════════════════════
+// 3. CUSTOM CURSOR + STAR TRAIL
+// ═══════════════════════════════════════════
+(function initCursor() {
+  // Don't init on touch devices
+  if ('ontouchstart' in window) return;
+
+  const cursor = document.createElement('div');
+  cursor.className = 'cursor-star';
+  cursor.textContent = '✦';
+  document.body.appendChild(cursor);
+
+  let mouseX = -100, mouseY = -100;
+  let curX = -100, curY = -100;
+  let trailTimer = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function animate() {
+    curX = lerp(curX, mouseX, 0.15);
+    curY = lerp(curY, mouseY, 0.15);
+    cursor.style.left = curX + 'px';
+    cursor.style.top = curY + 'px';
+
+    trailTimer++;
+    if (trailTimer % 4 === 0) {
+      spawnTrail(curX, curY);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  const trailPool = [];
+  function spawnTrail(x, y) {
+    const t = document.createElement('div');
+    t.className = 'cursor-trail';
+    t.textContent = ['✦', '★', '✧'][Math.floor(Math.random() * 3)];
+    t.style.left = x + 'px';
+    t.style.top = y + 'px';
+    document.body.appendChild(t);
+    trailPool.push(t);
+    if (trailPool.length > 5) {
+      const old = trailPool.shift();
+      if (old.parentNode) old.parentNode.removeChild(old);
+    }
+    setTimeout(() => { if (t.parentNode) t.parentNode.removeChild(t); }, 600);
+  }
+
+  requestAnimationFrame(animate);
+})();
+
+// ═══════════════════════════════════════════
+// ORIGINAL: Stars animation positions aléatoires
+// ═══════════════════════════════════════════
+const starEls = document.querySelectorAll('.star-el');
+starEls.forEach(star => {
+  const delay = Math.random() * 4;
+  const duration = 2 + Math.random() * 3;
+  star.style.animationDuration = duration + 's';
+  star.style.animationDelay = delay + 's';
+});
+
+// ═══════════════════════════════════════════
+// 4. SCROLL PROGRESS BAR
+// ═══════════════════════════════════════════
+(function initScrollProgress() {
+  const bar = document.querySelector('.scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+})();
+
+// ═══════════════════════════════════════════
+// 5. SECTION REVEAL (blur + translateY) via IO
+// ═══════════════════════════════════════════
+(function initSectionReveal() {
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, { threshold: 0.1 });
+  sections.forEach(s => {
+    s.style.animationPlayState = 'paused';
+    observer.observe(s);
+  });
+})();
+
+// ═══════════════════════════════════════════
+// 6. CARD LEFT BORDER REVEAL ON VIEWPORT ENTRY
+// ═══════════════════════════════════════════
+(function initCardBorder() {
+  const cards = document.querySelectorAll('.card');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  cards.forEach(c => obs.observe(c));
+})();
+
+// ═══════════════════════════════════════════
+// 7. SECTION-TITLE UNDERLINE REVEAL ON SCROLL
+// ═══════════════════════════════════════════
+(function initTitleUnderline() {
+  const titles = document.querySelectorAll('.section-title');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  titles.forEach(t => obs.observe(t));
+})();
+
+// ═══════════════════════════════════════════
+// 7b. SECTION-LABEL: INJECT BLINKING CARET
+// ═══════════════════════════════════════════
+(function initCarets() {
+  document.querySelectorAll('.section-label').forEach(label => {
+    // Insert caret span right after the text node, before ::after
+    const caret = document.createElement('span');
+    caret.className = 'caret';
+    // Insert before the first child that is not a text node, or at end
+    label.insertBefore(caret, label.querySelector('*:last-child') || null);
+  });
+})();
+
+// ═══════════════════════════════════════════
+// 8. SCENE ACCORDION
+// ═══════════════════════════════════════════
+(function initAccordion() {
+  const items = document.querySelectorAll('.accordion-item');
+  items.forEach(item => {
+    const header = item.querySelector('.accordion-header');
+    const body = item.querySelector('.accordion-body');
+    header.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      // Close all
+      items.forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.accordion-body').style.maxHeight = null;
+      });
+      // Open clicked if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+
+// ═══════════════════════════════════════════
+// 9. ENDING CARDS: 3D TILT ON HOVER
+// ═══════════════════════════════════════════
+(function initEndingTilt() {
+  const cards = document.querySelectorAll('.ending-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const midX = rect.width / 2;
+      const midY = rect.height / 2;
+      const rotY = ((x - midX) / midX) * 8;  // max 8deg
+      const rotX = ((midY - y) / midY) * 8;
+      card.style.transform = 'rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateX(0) rotateY(0)';
+      card.style.transition = 'transform 0.4s ease, box-shadow 0.3s ease';
+      setTimeout(() => { card.style.transition = 'box-shadow 0.3s ease, filter 0.3s ease'; }, 400);
+    });
+
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'box-shadow 0.3s ease, filter 0.3s ease';
+    });
+  });
+})();
+</script>
+</body>
+</html>
