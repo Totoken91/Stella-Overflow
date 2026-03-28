@@ -19,59 +19,7 @@ function parseDialogue(text: string): {
 }
 
 const CHAR_DELAY = 20;
-const BOX_HEIGHT = 140;
-
-// ─── Corner ornament ───
-function Corner({
-  position,
-}: {
-  position: "tl" | "tr" | "bl" | "br";
-}) {
-  const borders: Record<string, string> = {
-    tl: "borderTop: 1.5px solid rgba(255,143,171,0.5); borderLeft: 1.5px solid rgba(255,143,171,0.5)",
-    tr: "borderTop: 1.5px solid rgba(255,143,171,0.5); borderRight: 1.5px solid rgba(255,143,171,0.5)",
-    bl: "borderBottom: 1.5px solid rgba(255,143,171,0.5); borderLeft: 1.5px solid rgba(255,143,171,0.5)",
-    br: "borderBottom: 1.5px solid rgba(255,143,171,0.5); borderRight: 1.5px solid rgba(255,143,171,0.5)",
-  };
-
-  const pos: Record<string, React.CSSProperties> = {
-    tl: { top: 6, left: 6 },
-    tr: { top: 6, right: 6 },
-    bl: { bottom: 6, left: 6 },
-    br: { bottom: 6, right: 6 },
-  };
-
-  const borderStyle: React.CSSProperties = {
-    ...(position === "tl" && {
-      borderTop: "1.5px solid rgba(255,143,171,0.5)",
-      borderLeft: "1.5px solid rgba(255,143,171,0.5)",
-    }),
-    ...(position === "tr" && {
-      borderTop: "1.5px solid rgba(255,143,171,0.5)",
-      borderRight: "1.5px solid rgba(255,143,171,0.5)",
-    }),
-    ...(position === "bl" && {
-      borderBottom: "1.5px solid rgba(255,143,171,0.5)",
-      borderLeft: "1.5px solid rgba(255,143,171,0.5)",
-    }),
-    ...(position === "br" && {
-      borderBottom: "1.5px solid rgba(255,143,171,0.5)",
-      borderRight: "1.5px solid rgba(255,143,171,0.5)",
-    }),
-  };
-
-  return (
-    <span
-      className="pointer-events-none absolute"
-      style={{
-        width: 8,
-        height: 8,
-        ...pos[position],
-        ...borderStyle,
-      }}
-    />
-  );
-}
+const BOX_HEIGHT = 140; // fixed height in px
 
 export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -131,84 +79,57 @@ export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
       onClick={handleClick}
     >
       <div className="mx-auto max-w-4xl px-4 pb-6">
-        {/* Speaker badge */}
+        {/* Speaker name card — separate, above dialogue box */}
         {speaker && (
           <div
-            className="mb-2 inline-block rounded-full px-4 py-1.5"
+            className="mb-2 inline-block rounded-xl px-4 py-2"
             style={{
               fontFamily: "var(--font-dm-mono)",
-              fontSize: "0.7rem",
+              fontSize: "0.75rem",
               letterSpacing: "0.15em",
               textTransform: "uppercase",
-              color: "#FFB3C6",
-              textShadow: "0 0 12px rgba(224,92,138,0.8)",
-              background: "rgba(224, 92, 138, 0.15)",
-              border: "1px solid rgba(224, 92, 138, 0.4)",
+              color: "var(--pink-accent)",
+              background: "rgba(255, 255, 255, 0.6)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 143, 171, 0.3)",
             }}
           >
             {speaker}
           </div>
         )}
 
-        {/* Dialogue panel */}
+        {/* Dialogue box — fixed height */}
         <div
-          className="relative overflow-hidden rounded-2xl"
+          className="overflow-hidden rounded-2xl"
           style={{
             height: `${BOX_HEIGHT}px`,
-            background: "rgba(20, 8, 28, 0.75)",
-            backdropFilter: "blur(24px) saturate(1.4)",
-            WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-            border: "1px solid transparent",
-            backgroundClip: "padding-box",
+            background: "rgba(255, 255, 255, 0.7)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 143, 171, 0.2)",
+            borderLeft: "4px solid",
+            borderImage:
+              "linear-gradient(to bottom, var(--pink-deep), var(--teal)) 1",
             padding: "1.25rem 1.5rem",
-            boxShadow:
-              "0 0 30px rgba(224,92,138,0.2), 0 0 80px rgba(224,92,138,0.08), inset 0 1px 0 rgba(255,255,255,0.06)",
           }}
         >
-          {/* Gradient border pseudo-element */}
-          <div
-            className="pointer-events-none absolute rounded-2xl"
-            style={{
-              inset: -1,
-              zIndex: -1,
-              background:
-                "linear-gradient(135deg, rgba(255,143,171,0.6), rgba(127,216,216,0.4), rgba(200,160,248,0.5))",
-              borderRadius: "calc(1rem + 1px)",
-            }}
-          />
-
-          {/* Corner ornaments */}
-          <Corner position="tl" />
-          <Corner position="tr" />
-          <Corner position="bl" />
-          <Corner position="br" />
-
-          {/* Text */}
           <p
             className="m-0 leading-relaxed"
             style={{
               fontFamily: "var(--font-playfair)",
               fontSize: "1.05rem",
-              color: speaker
-                ? "rgba(255, 240, 248, 0.92)"
-                : "rgba(255, 240, 248, 0.92)",
+              color: speaker ? "var(--foreground)" : "var(--pink-dark)",
               fontStyle: speaker ? "normal" : "italic",
-              textShadow: "0 1px 12px rgba(255,179,198,0.15)",
             }}
           >
             {displayedText}
             {!isComplete && (
               <span
-                style={{
-                  color: "#FF8FAB",
-                  filter:
-                    "drop-shadow(0 0 6px rgba(255,143,171,0.8))",
-                  display: "inline-block",
-                  animation:
-                    "advanceIndicator 1.4s ease-in-out infinite",
-                }}
+                className="animate-pulse"
+                style={{ color: "var(--pink-accent)" }}
               >
-                ✦
+                |
               </span>
             )}
           </p>
