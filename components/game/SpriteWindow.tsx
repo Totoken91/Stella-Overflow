@@ -4,35 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import { useGameStore } from "@/lib/gameState";
 
-// ─── Placeholder block (until real PNGs arrive) ───
-function PlaceholderSprite({ name }: { name: string }) {
-  return (
-    <div
-      className="flex items-center justify-center rounded-2xl"
-      style={{
-        width: "180px",
-        height: "340px",
-        background: "rgba(255, 255, 255, 0.5)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
-        border: "1px solid rgba(255, 143, 171, 0.25)",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "var(--font-dm-mono)",
-          fontSize: "0.7rem",
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: "rgba(255, 143, 171, 0.4)",
-        }}
-      >
-        {name}
-      </span>
-    </div>
-  );
-}
-
 // ─── Individual character sprite ───
 function SpriteCharacter({
   name,
@@ -49,24 +20,10 @@ function SpriteCharacter({
 }) {
   const [scope, animate] = useAnimate();
   const prevExpressionRef = useRef(expression);
-
-  // Bounce on expression change
-  useEffect(() => {
-    if (prevExpressionRef.current !== expression) {
-      prevExpressionRef.current = expression;
-      animate(
-        scope.current,
-        { scale: [1, 0.93, 1.06, 1] },
-        { duration: 0.35, ease: "easeInOut" }
-      );
-    }
-  }, [expression, animate, scope]);
-
   const spriteKey = `${name}-${expression}`;
-  // Start with placeholder PNG immediately — no flash
   const [spriteSrc, setSpriteSrc] = useState(`/sprites/${name}-placeholder.png`);
 
-  // Try to upgrade to exact expression image if it exists
+  // Try to upgrade to exact expression image
   useEffect(() => {
     const exact = new Image();
     exact.onload = () => {
@@ -82,24 +39,36 @@ function SpriteCharacter({
     exact.src = `/sprites/${spriteKey}.png`;
   }, [spriteKey, name]);
 
-  // Determine flip based on position
-  // Left sprite (index 0 of 2) → scaleX(-1) to face right/center
-  // Right sprite (index 1 of 2) → scaleX(1) faces left/center
-  // Solo → scaleX(1) no flip
-  const scaleXValue = spriteCount === 2 && positionIndex === 0 ? -1 : 1;
-  const activeScale = isActive || spriteCount === 1 ? 1 : 0.92;
+  // Bounce on expression change
+  useEffect(() => {
+    if (prevExpressionRef.current !== expression) {
+      prevExpressionRef.current = expression;
+      animate(
+        scope.current,
+        { scale: [1, 0.93, 1.06, 1] },
+        { duration: 0.35, ease: "easeInOut" }
+      );
+    }
+  }, [expression, animate, scope]);
+
+  // Flip: left sprite faces right, right sprite faces left, solo no flip
+  // Applied via CSS transform directly — NOT via framer-motion animate
+  // to prevent re-animation on every render
+  const flipStyle =
+    spriteCount === 2 && positionIndex === 0
+      ? { transform: "scaleX(-1)" }
+      : {};
 
   return (
     <motion.div
       ref={scope}
       layout
-      // Entry animation
-      initial={{ y: 60, opacity: 0, scale: 0.85, scaleX: scaleXValue }}
+      key={name}
+      initial={{ y: 60, opacity: 0, scale: 0.85 }}
       animate={{
         y: 0,
         opacity: isActive || spriteCount === 1 ? 1 : 0.6,
-        scale: activeScale,
-        scaleX: scaleXValue,
+        scale: isActive || spriteCount === 1 ? 1 : 0.92,
         filter:
           isActive || spriteCount === 1
             ? "saturate(1)"
@@ -107,27 +76,25 @@ function SpriteCharacter({
       }}
       exit={{ x: 120, opacity: 0 }}
       transition={{
-        // Spring for entry
         y: { type: "spring", stiffness: 300, damping: 18 },
         scale: { type: "spring", stiffness: 300, damping: 18 },
         opacity: { type: "spring", stiffness: 300, damping: 18 },
-        // Fast flip
-        scaleX: { duration: 0.1 },
-        // Smooth for exit
         x: { duration: 0.3, ease: "easeIn" },
-        // Speaker switch
         filter: { duration: 0.3 },
         layout: { type: "spring", stiffness: 200, damping: 25 },
       }}
     >
-      <img
-        src={spriteSrc}
-        alt={name}
-        className="max-h-[70vh] w-auto object-contain"
-        onError={(e) => {
-          (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
-        }}
-      />
+      {/* Flip wrapper — pure CSS, no framer-motion */}
+      <div style={flipStyle}>
+        <img
+          src={spriteSrc}
+          alt={name}
+          className="max-h-[70vh] w-auto object-contain"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
+          }}
+        />
+      </div>
     </motion.div>
   );
 }
