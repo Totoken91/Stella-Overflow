@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import { useGameStore } from "@/lib/gameState";
 
@@ -62,9 +62,20 @@ function SpriteCharacter({
     }
   }, [expression, animate, scope]);
 
-  // Determine if this is a placeholder or real image
-  const isPlaceholder = true; // TODO: check if /sprites/{name}-{expression}.png exists
   const spriteKey = `${name}-${expression}`;
+  const [isPlaceholder, setIsPlaceholder] = useState(true);
+
+  // Check if the real sprite image exists
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      // Only treat as real if it's not the 1x1 transparent placeholder
+      if (img.naturalWidth > 1 && img.naturalHeight > 1) {
+        setIsPlaceholder(false);
+      }
+    };
+    img.src = `/sprites/${spriteKey}.png`;
+  }, [spriteKey]);
 
   // Determine flip based on position
   // Left sprite (index 0 of 2) → scaleX(-1) to face right/center
