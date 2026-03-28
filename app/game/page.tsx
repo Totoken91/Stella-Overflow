@@ -72,7 +72,7 @@ export default function GamePage() {
           style={{
             fontFamily: "var(--font-dm-mono)",
             fontSize: "0.85rem",
-            color: "var(--pink-soft)",
+            color: "var(--pink-dark)",
           }}
         >
           [ histoire non chargée ]

@@ -12,10 +12,10 @@ function PlaceholderSprite({ name }: { name: string }) {
       style={{
         width: "180px",
         height: "340px",
-        background: "rgba(255, 255, 255, 0.06)",
+        background: "rgba(255, 255, 255, 0.5)",
         backdropFilter: "blur(6px)",
         WebkitBackdropFilter: "blur(6px)",
-        border: "1px solid rgba(255, 143, 171, 0.15)",
+        border: "1px solid rgba(255, 143, 171, 0.25)",
       }}
     >
       <span

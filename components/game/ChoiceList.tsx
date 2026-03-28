@@ -59,8 +59,8 @@ function ChoiceButton({
       style={{
         fontFamily: "var(--font-dm-mono)",
         fontSize: "0.85rem",
-        color: "var(--cream)",
-        background: "rgba(255, 255, 255, 0.07)",
+        color: "var(--pink-dark)",
+        background: "rgba(255, 255, 255, 0.7)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid rgba(255, 143, 171, 0.25)",

@@ -89,10 +89,10 @@ export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
               letterSpacing: "0.15em",
               textTransform: "uppercase",
               color: "var(--pink-accent)",
-              background: "rgba(255, 255, 255, 0.07)",
+              background: "rgba(255, 255, 255, 0.6)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 143, 171, 0.25)",
+              border: "1px solid rgba(255, 143, 171, 0.3)",
             }}
           >
             {speaker}
@@ -104,7 +104,7 @@ export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
           className="overflow-hidden rounded-2xl"
           style={{
             height: `${BOX_HEIGHT}px`,
-            background: "rgba(255, 255, 255, 0.07)",
+            background: "rgba(255, 255, 255, 0.7)",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
             border: "1px solid rgba(255, 143, 171, 0.2)",
@@ -119,7 +119,7 @@ export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
             style={{
               fontFamily: "var(--font-playfair)",
               fontSize: "1.05rem",
-              color: speaker ? "var(--cream)" : "var(--pink-soft)",
+              color: speaker ? "var(--foreground)" : "var(--pink-dark)",
               fontStyle: speaker ? "normal" : "italic",
             }}
           >
