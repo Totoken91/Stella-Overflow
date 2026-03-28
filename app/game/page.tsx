@@ -8,6 +8,7 @@ import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
 import * as engine from "@/lib/engine";
+import { useGameStore } from "@/lib/gameState";
 
 export default function GamePage() {
   const [booting, setBooting] = useState(true);
@@ -19,6 +20,9 @@ export default function GamePage() {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
+    // Reset visual state so sprites don't appear from previous session
+    useGameStore.getState().reset();
+
     engine.init().then((loaded) => {
       setStoryLoaded(loaded);
       setInitialized(true);
