@@ -140,7 +140,7 @@ export default function SpriteWindow() {
 
   return (
     <div className="absolute bottom-44 left-0 right-0 z-20 flex items-end justify-center gap-8">
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {visibleSprites.map((name, index) => (
           <SpriteCharacter
             key={name}
