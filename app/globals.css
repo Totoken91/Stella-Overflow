@@ -77,3 +77,9 @@ body {
 }
 
 /* Sprite animations handled by framer-motion */
+
+/* ─── DIALOGUE ADVANCE INDICATOR ─── */
+@keyframes advanceIndicator {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
