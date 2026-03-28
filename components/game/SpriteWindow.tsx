@@ -63,28 +63,21 @@ function SpriteCharacter({
   }, [expression, animate, scope]);
 
   const spriteKey = `${name}-${expression}`;
-  const [spriteSrc, setSpriteSrc] = useState<string | null>(null);
+  // Start with placeholder PNG immediately — no flash
+  const [spriteSrc, setSpriteSrc] = useState(`/sprites/${name}-placeholder.png`);
 
-  // Try exact expression image, then placeholder, then glassmorphism block
+  // Try to upgrade to exact expression image if it exists
   useEffect(() => {
-    setSpriteSrc(null);
-
-    // 1. Try exact: /sprites/etoile-surprise.png
     const exact = new Image();
     exact.onload = () => {
       if (exact.naturalWidth > 1) {
         setSpriteSrc(`/sprites/${spriteKey}.png`);
+      } else {
+        setSpriteSrc(`/sprites/${name}-placeholder.png`);
       }
     };
     exact.onerror = () => {
-      // 2. Try placeholder: /sprites/etoile-placeholder.png
-      const fallback = new Image();
-      fallback.onload = () => {
-        if (fallback.naturalWidth > 1) {
-          setSpriteSrc(`/sprites/${name}-placeholder.png`);
-        }
-      };
-      fallback.src = `/sprites/${name}-placeholder.png`;
+      setSpriteSrc(`/sprites/${name}-placeholder.png`);
     };
     exact.src = `/sprites/${spriteKey}.png`;
   }, [spriteKey, name]);
@@ -127,15 +120,14 @@ function SpriteCharacter({
         layout: { type: "spring", stiffness: 200, damping: 25 },
       }}
     >
-      {spriteSrc ? (
-        <img
-          src={spriteSrc}
-          alt={name}
-          className="max-h-[70vh] w-auto object-contain"
-        />
-      ) : (
-        <PlaceholderSprite name={spriteKey} />
-      )}
+      <img
+        src={spriteSrc}
+        alt={name}
+        className="max-h-[70vh] w-auto object-contain"
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
+        }}
+      />
     </motion.div>
   );
 }
