@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import BootScreen from "@/components/game/BootScreen";
 import MeshBackground from "@/components/game/MeshBackground";
 import Background from "@/components/game/Background";
 import SpriteWindow from "@/components/game/SpriteWindow";
@@ -9,6 +10,7 @@ import ChoiceList from "@/components/game/ChoiceList";
 import * as engine from "@/lib/engine";
 
 export default function GamePage() {
+  const [booting, setBooting] = useState(true);
   const [text, setText] = useState<string | null>(null);
   const [choices, setChoices] = useState<
     Array<{ text: string; index: number }>
@@ -20,9 +22,6 @@ export default function GamePage() {
     engine.init().then((loaded) => {
       setStoryLoaded(loaded);
       setInitialized(true);
-      if (loaded) {
-        advance();
-      }
     });
   }, []);
 
@@ -40,6 +39,13 @@ export default function GamePage() {
     }
   }, []);
 
+  const handleBootComplete = useCallback(() => {
+    setBooting(false);
+    if (storyLoaded) {
+      advance();
+    }
+  }, [storyLoaded, advance]);
+
   const handleChoice = useCallback(
     (index: number) => {
       engine.choose(index);
@@ -55,15 +61,15 @@ export default function GamePage() {
     }
   }, [choices, advance]);
 
-  if (!initialized) {
+  if (booting) {
     return (
       <div className="game-container relative h-screen w-screen overflow-hidden">
-        <MeshBackground />
+        <BootScreen onComplete={handleBootComplete} />
       </div>
     );
   }
 
-  if (!storyLoaded) {
+  if (!initialized || !storyLoaded) {
     return (
       <div className="game-container relative flex h-screen w-screen items-center justify-center overflow-hidden">
         <MeshBackground />
