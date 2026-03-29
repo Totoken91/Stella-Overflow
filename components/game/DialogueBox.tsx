@@ -6,6 +6,7 @@ interface DialogueBoxProps {
   text: string;
   onNext: () => void;
   charDelay?: number;
+  skipRef?: React.MutableRefObject<(() => void) | null>;
 }
 
 function parseDialogue(text: string): {
@@ -22,7 +23,7 @@ function parseDialogue(text: string): {
 const CHAR_DELAY = 20;
 const BOX_HEIGHT = 140; // fixed height in px
 
-export default function DialogueBox({ text, onNext, charDelay = 20 }: DialogueBoxProps) {
+export default function DialogueBox({ text, onNext, charDelay = 20, skipRef }: DialogueBoxProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
 
@@ -59,8 +60,8 @@ export default function DialogueBox({ text, onNext, charDelay = 20 }: DialogueBo
     return () => clearInterval(interval);
   }, [content]);
 
-  // Click with debounce
-  const handleClick = useCallback(() => {
+  // Expose skip/advance function via ref for parent to call
+  const handleClickInner = useCallback(() => {
     const now = Date.now();
     if (now - lastClickRef.current < 80) return;
     lastClickRef.current = now;
@@ -74,12 +75,18 @@ export default function DialogueBox({ text, onNext, charDelay = 20 }: DialogueBo
     }
   }, [isComplete, content, onNext]);
 
+  // Keep skipRef updated so parent can call the same logic
+  useEffect(() => {
+    if (skipRef) skipRef.current = handleClickInner;
+    return () => { if (skipRef) skipRef.current = null; };
+  }, [skipRef, handleClickInner]);
+
   return (
     <div
       className="absolute bottom-0 left-0 right-0 z-30 cursor-pointer"
       onClick={(e) => {
         e.stopPropagation();
-        handleClick();
+        handleClickInner();
       }}
     >
       <div className="mx-auto max-w-4xl px-4 pb-6">

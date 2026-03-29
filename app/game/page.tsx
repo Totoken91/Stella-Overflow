@@ -40,6 +40,7 @@ export default function GamePage() {
   ffRef.current = fastForward;
 
   const prevSceneRef = useRef("");
+  const dialogueSkipRef = useRef<(() => void) | null>(null);
 
   const currentCG = useGameStore((s) => s.currentCG);
   const currentScene = useGameStore((s) => s.currentScene);
@@ -118,10 +119,15 @@ export default function GamePage() {
   }, [advance]);
 
   // Click anywhere to advance
+  // Click anywhere: delegates to DialogueBox skip/advance logic
   const handleScreenClick = useCallback(() => {
     if (booting || !storyLoaded || choices.length > 0 || !text) return;
     if (menuOpen || saveMenuOpen || confirmReturnOpen) return;
-    advance();
+    if (dialogueSkipRef.current) {
+      dialogueSkipRef.current();
+    } else {
+      advance();
+    }
   }, [booting, storyLoaded, choices, text, menuOpen, saveMenuOpen, confirmReturnOpen, advance]);
 
   // Toggle dialogue visibility
@@ -319,6 +325,7 @@ export default function GamePage() {
                   text={text}
                   onNext={handleNext}
                   charDelay={fastForward ? 2 : 20}
+                  skipRef={dialogueSkipRef}
                 />
                 <ChoiceList choices={choices} onChoice={handleChoice} />
               </motion.div>
