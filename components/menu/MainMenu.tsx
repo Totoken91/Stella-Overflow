@@ -233,28 +233,20 @@ export default function MainMenu() {
           }}
         >
           STELLA{" "}
-          <span
+          <svg
+            viewBox="0 0 24 24"
+            fill="var(--teal)"
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "1em",
-              height: "1em",
+              display: "inline-block",
+              width: "0.6em",
+              height: "0.6em",
               verticalAlign: "middle",
               animation: "spin 4s linear infinite",
+              filter: "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
             }}
           >
-            <span
-              style={{
-                color: "var(--teal)",
-                filter: "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
-                fontSize: "0.7em",
-                lineHeight: 1,
-              }}
-            >
-              ✦
-            </span>
-          </span>{" "}
+            <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
+          </svg>{" "}
           OVERFLOW
         </h1>
         <p
