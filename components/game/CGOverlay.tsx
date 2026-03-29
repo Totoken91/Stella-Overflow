@@ -16,10 +16,23 @@ const CG_GRADIENTS: Record<string, string> = {
 const DEFAULT_GRADIENT =
   "linear-gradient(135deg, #FFD6E0, #FF8FAB, #7FD8D8, #D4CEF0)";
 
-export default function CGOverlay() {
+export default function CGOverlay({
+  onReady,
+}: {
+  onReady: () => void;
+}) {
   const currentCG = useGameStore((s) => s.currentCG);
-  const setCG = useGameStore((s) => s.setCG);
   const [realImage, setRealImage] = useState<string | null>(null);
+  const [waiting, setWaiting] = useState(false);
+
+  // When a new CG appears, enter "waiting" state (contemplation)
+  useEffect(() => {
+    if (currentCG) {
+      setWaiting(true);
+    } else {
+      setWaiting(false);
+    }
+  }, [currentCG]);
 
   // Check if a real CG PNG exists
   useEffect(() => {
@@ -37,8 +50,12 @@ export default function CGOverlay() {
     img.src = `/cg/${currentCG}.png`;
   }, [currentCG]);
 
+  // Click during contemplation → start dialogue
   const handleClick = () => {
-    setCG(null);
+    if (waiting) {
+      setWaiting(false);
+      onReady();
+    }
   };
 
   const gradient = currentCG
@@ -50,8 +67,7 @@ export default function CGOverlay() {
       {currentCG && (
         <motion.div
           key="cg-overlay"
-          className="fixed inset-0 z-[45] flex cursor-pointer flex-col items-center justify-center"
-          onClick={handleClick}
+          className="fixed inset-0 z-[45]"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
@@ -68,6 +84,7 @@ export default function CGOverlay() {
                   animation: "cgGradientShift 6s ease-in-out infinite",
                 }
           }
+          onClick={waiting ? handleClick : undefined}
         >
           {/* Real image if it exists */}
           {realImage && (
@@ -79,32 +96,33 @@ export default function CGOverlay() {
             />
           )}
 
-          {/* CG name pill (placeholder mode) */}
-          {!realImage && (
-            <>
-              <div
-                className="rounded-full px-5 py-2"
-                style={{
-                  background: "rgba(255, 255, 255, 0.15)",
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.25)",
-                }}
-              >
-                <span
+          {/* Waiting state: CG name + click hint */}
+          {waiting && (
+            <div className="flex h-full w-full cursor-pointer flex-col items-center justify-center">
+              {!realImage && (
+                <div
+                  className="rounded-full px-5 py-2"
                   style={{
-                    fontFamily: "var(--font-dm-mono)",
-                    fontSize: "0.8rem",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "rgba(255, 255, 255, 0.8)",
+                    background: "rgba(255, 255, 255, 0.15)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
                   }}
                 >
-                  {currentCG}
-                </span>
-              </div>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-dm-mono)",
+                      fontSize: "0.8rem",
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    {currentCG}
+                  </span>
+                </div>
+              )}
 
-              {/* Click hint */}
               <span
                 className="absolute bottom-8 animate-pulse"
                 style={{
@@ -116,7 +134,7 @@ export default function CGOverlay() {
               >
                 cliquer pour continuer
               </span>
-            </>
+            </div>
           )}
         </motion.div>
       )}
