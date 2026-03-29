@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 interface DialogueBoxProps {
   text: string;
   onNext: () => void;
+  charDelay?: number;
 }
 
 function parseDialogue(text: string): {
@@ -21,7 +22,7 @@ function parseDialogue(text: string): {
 const CHAR_DELAY = 20;
 const BOX_HEIGHT = 140; // fixed height in px
 
-export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
+export default function DialogueBox({ text, onNext, charDelay = 20 }: DialogueBoxProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
 
@@ -53,7 +54,7 @@ export default function DialogueBox({ text, onNext }: DialogueBoxProps) {
         clearInterval(interval);
         setIsComplete(true);
       }
-    }, CHAR_DELAY);
+    }, charDelay);
 
     return () => clearInterval(interval);
   }, [content]);
