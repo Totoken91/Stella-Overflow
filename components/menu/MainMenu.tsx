@@ -238,9 +238,9 @@ export default function MainMenu() {
             fill="var(--teal)"
             style={{
               display: "inline-block",
-              width: "0.6em",
-              height: "0.6em",
-              verticalAlign: "middle",
+              width: "0.9em",
+              height: "0.9em",
+              verticalAlign: "-0.1em",
               animation: "spin 4s linear infinite",
               filter: "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
             }}

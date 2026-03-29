@@ -202,8 +202,8 @@ export default function BootScreen({
                           viewBox="0 0 24 24"
                           fill="var(--teal)"
                           style={{
-                            width: "0.6em",
-                            height: "0.6em",
+                            width: "0.9em",
+                            height: "0.9em",
                             animation: "spin 4s linear infinite",
                             filter:
                               "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
