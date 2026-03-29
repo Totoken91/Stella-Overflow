@@ -1,3 +1,15 @@
+// === TAG FORMAT ===
+// # BG: nom-du-background
+// # SPRITE: nom-personnage-expression [nom2-expression2]
+// # SPEAKER: nom-personnage
+// # ENTER: nom-personnage-expression
+// # EXIT: nom-personnage
+// # SFX: nom-effet
+// # MUSIC: nom-piste
+// ==================
+
+VAR score = 0
+
 # BG: toit-lycee
 
 Tu montes les escaliers deux par deux. Le métal résonne sous tes pas.
@@ -15,8 +27,6 @@ Et elle est là.
 # SPRITE: etoile-neutre
 # SPEAKER: etoile
 
-# SPEAKER: etoile
-
 ÉTOILE : ...Tu es vraiment venu.
 
 ÉTOILE : Je pensais que tu allais encore te défiler, comme d'habitude.
@@ -31,7 +41,18 @@ Elle tend sa main devant elle. Une lueur rosée apparaît entre ses doigts, puls
 
 ÉTOILE : Ça a commencé hier soir. Je ne sais pas ce que c'est... mais ça ne s'arrête pas.
 
+Pendant un instant — si bref que tu doutes de l'avoir vu — son regard se vide complètement. Comme si quelqu'un avait éteint la lumière derrière ses yeux.
+
+# SPRITE: etoile-vide
+
+...
+
+# SPRITE: etoile-surprise
+
+Puis elle cligne des yeux et c'est fini. Elle ne semble pas s'en être rendu compte.
+
 * [Rester calme et l'écouter]
+  ~ score = score + 5
   Tu gardes ton sang-froid. C'est ce dont elle a besoin maintenant.
   # SPRITE: etoile-soulagee
   # SPEAKER: etoile
@@ -40,6 +61,7 @@ Elle tend sa main devant elle. Une lueur rosée apparaît entre ses doigts, puls
   -> suite
 
 * [Lui prendre la main pour examiner]
+  ~ score = score + 3
   Tu t'approches et prends délicatement sa main. La lumière est chaude au toucher.
   # SPRITE: etoile-genee
   # SPEAKER: etoile
@@ -57,8 +79,8 @@ Un silence s'installe entre vous deux. La lueur continue de pulser.
 Soudain, une petite forme lumineuse descend du ciel et se pose sur la rambarde.
 
 # ENTER: lunae-neutre
-
 # SPEAKER: lunae
+
 LUNAE : ★ Bonsoir, bonsoir~ ! C'est donc toi, la nouvelle étoile ?
 
 # SPEAKER: etoile
@@ -78,14 +100,20 @@ LUNAE : Exactement ! Et toi, tu es spéciale. Très, très spéciale~
 
 LUNAE : Mais on reparlera de tout ça. Pour l'instant...
 
-# SPEAKER: lunae
 # SPRITE: etoile-neutre lunae-neutre
 
-LUNAE : ...tu as besoin d'un manager. Et je crois que ton ami ici fera parfaitement l'affaire.
+Lunae se tourne vers toi. Son regard te traverse — pas comme celui d'une petite créature mignonne. Comme celui de quelqu'un qui te reconnaît.
 
+# SPEAKER: lunae
+LUNAE : Oh~ C'est donc *toi*. Oui, oui... tu feras très bien l'affaire~
+
+Étoile ne relève pas. Mais toi, tu as senti quelque chose. Cette chose te connaît.
+
+# SPEAKER: etoile
 ÉTOILE : Est-ce que... est-ce que tu crois que je suis normale ?
 
 * [Tu es extraordinaire.]
+  ~ score = score + 3
   # SPEAKER: etoile
   # SPRITE: etoile-soulagee lunae-enthousiaste
   ÉTOILE : ...Extraordinaire, hein ?
@@ -93,9 +121,10 @@ LUNAE : ...tu as besoin d'un manager. Et je crois que ton ami ici fera parfaitem
   # SPEAKER: lunae
   LUNAE : Oh, je l'aime bien celui-là~
   ÉTOILE : J'espère que tu le penseras encore quand tu sauras tout.
-  -> fin
+  -> murmure
 
 * [Personne n'est normal.]
+  ~ score = score + 5
   # SPEAKER: etoile
   # SPRITE: etoile-neutre lunae-neutre
   ÉTOILE : Pfff... Typique de toi, ça.
@@ -104,7 +133,21 @@ LUNAE : ...tu as besoin d'un manager. Et je crois que ton ami ici fera parfaitem
   # SPEAKER: lunae
   # SPRITE: etoile-neutre lunae-enthousiaste
   LUNAE : Hmm~ Intéressant comme réponse...
-  -> fin
+  -> murmure
+
+=== murmure ===
+
+Lunae s'élève doucement dans l'air, s'éloignant vers le ciel rosé.
+
+# SPRITE: etoile-neutre lunae-neutre
+
+Tu crois entendre un murmure — à peine audible, comme porté par le vent.
+
+"Parfait... celle-ci tiendra plus longtemps~"
+
+Mais c'est peut-être ton imagination.
+
+-> fin
 
 === fin ===
 
@@ -114,6 +157,14 @@ Le soleil disparaît derrière les buildings. La lueur dans sa main s'estompe le
 
 # SPEAKER: etoile
 # SPRITE: etoile-neutre
+
+Le vent du soir se lève. Tu la vois frissonner légèrement — un frisson qui parcourt ses épaules nues.
+
+Sans réfléchir, elle se rapproche de toi. Pas beaucoup. Juste assez pour que ton bras frôle le sien.
+
+ÉTOILE : ...Désolée. J'ai un peu froid.
+
+Elle ne s'écarte pas.
 
 ÉTOILE : On devrait y aller. Mais... on se revoit demain ?
 
