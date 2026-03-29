@@ -27,6 +27,7 @@ export default function GamePage() {
   const [storyLoaded, setStoryLoaded] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [dialogueHidden, setDialogueHidden] = useState(false);
+  const [storyEnded, setStoryEnded] = useState(false);
   // History: each entry is { text, inkState (before this line was consumed) }
   // We browse history without touching the ink engine
   const historyRef = useRef<Array<{ text: string }>>([]);
@@ -114,6 +115,7 @@ export default function GamePage() {
       setChoices(currentChoices);
       if (currentChoices.length === 0) {
         setText(null);
+        setStoryEnded(true);
       }
     }
   }, [text, browsingHistory]);
@@ -431,6 +433,47 @@ export default function GamePage() {
 
         </>
       )}
+
+      {/* End of story */}
+      <AnimatePresence>
+        {storyEnded && !booting && (
+          <motion.div
+            className="absolute inset-0 z-[50] flex flex-col items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+            style={{
+              background: "rgba(26, 10, 30, 0.85)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
+            onClick={() => router.push("/")}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--font-playfair)",
+                fontSize: "1.8rem",
+                fontStyle: "italic",
+                color: "var(--pink-soft)",
+                textShadow: "0 0 20px rgba(255,143,171,0.4)",
+                marginBottom: "1rem",
+              }}
+            >
+              À suivre...
+            </h2>
+            <p
+              style={{
+                fontFamily: "var(--font-dm-mono)",
+                fontSize: "0.7rem",
+                letterSpacing: "0.15em",
+                color: "rgba(255, 179, 198, 0.4)",
+              }}
+            >
+              cliquer pour revenir au menu
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Fallback */}
       {initialized && !storyLoaded && !booting && (

@@ -402,6 +402,7 @@ Elle retire lentement sa main, regarde un instant le résultat sur ses doigts, p
 
 
 === scene2_end ===
+# CG:
 # SPRITE: etoile-neutre
 # BG: toit-lycee
 
