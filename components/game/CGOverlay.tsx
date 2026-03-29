@@ -51,8 +51,9 @@ export default function CGOverlay({
   }, [currentCG]);
 
   // Click during contemplation → start dialogue
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     if (waiting) {
+      e.stopPropagation();
       setWaiting(false);
       onReady();
     }
@@ -75,15 +76,16 @@ export default function CGOverlay({
             opacity: { duration: 0.6, ease: "easeOut" },
             scale: { duration: 0.6, ease: "easeOut" },
           }}
-          style={
-            realImage
+          style={{
+            pointerEvents: waiting ? "auto" : "none",
+            ...(realImage
               ? {}
               : {
                   background: gradient,
                   backgroundSize: "200% 200%",
                   animation: "cgGradientShift 6s ease-in-out infinite",
-                }
-          }
+                }),
+          }}
           onClick={waiting ? handleClick : undefined}
         >
           {/* Real image if it exists */}
