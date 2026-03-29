@@ -234,17 +234,25 @@ export default function MainMenu() {
           STELLA{" "}
           <span
             style={{
-              color: "var(--teal)",
-              filter: "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
-              display: "inline-block",
-              animation: "spin 4s linear infinite",
-              transformOrigin: "center center",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "1em",
+              height: "1em",
               verticalAlign: "middle",
-              fontSize: "0.8em",
-              lineHeight: 1,
+              animation: "spin 4s linear infinite",
             }}
           >
-            ✦
+            <span
+              style={{
+                color: "var(--teal)",
+                filter: "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
+                fontSize: "0.7em",
+                lineHeight: 1,
+              }}
+            >
+              ✦
+            </span>
           </span>{" "}
           OVERFLOW
         </h1>
