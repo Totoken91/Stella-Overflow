@@ -135,6 +135,7 @@ export default function MainMenu() {
   }, [hasAutosave]);
 
   const navigateToGame = useCallback(() => {
+    sessionStorage.setItem("stella-from-menu", "1");
     setExiting(true);
     setTimeout(() => router.push("/game"), 400);
   }, [router]);

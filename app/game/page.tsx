@@ -54,8 +54,17 @@ export default function GamePage() {
   const [sceneTransition, setSceneTransition] = useState(false);
   const prevBgRef = useRef<string | null>(null);
 
-  // Init
+  // Init — redirect to menu if not coming from MainMenu
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const fromMenu = sessionStorage.getItem("stella-from-menu");
+      sessionStorage.removeItem("stella-from-menu");
+      if (!fromMenu) {
+        router.replace("/");
+        return;
+      }
+    }
+
     const pendingLoad = useSaveStore.getState().pendingLoad;
     if (pendingLoad === null) {
       useGameStore.getState().reset();
@@ -145,12 +154,16 @@ export default function GamePage() {
 
   const canGoBack = browsingHistory ? historyIndex > 0 : historyRef.current.length > 0;
 
-  const handleBootComplete = useCallback(() => {
-    setBooting(false);
-    if (storyLoaded) {
+  // Pre-advance during boot to process BG tags behind the boot screen
+  useEffect(() => {
+    if (storyLoaded && booting && !text) {
       advance();
     }
-  }, [storyLoaded, advance]);
+  }, [storyLoaded, booting, text, advance]);
+
+  const handleBootComplete = useCallback(() => {
+    setBooting(false);
+  }, []);
 
   const handleChoice = useCallback(
     (index: number) => {
