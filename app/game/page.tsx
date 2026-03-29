@@ -8,6 +8,7 @@ import Background from "@/components/game/Background";
 import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
+import CGOverlay from "@/components/game/CGOverlay";
 import * as engine from "@/lib/engine";
 import { useGameStore } from "@/lib/gameState";
 
@@ -68,10 +69,13 @@ export default function GamePage() {
 
   // Click anywhere on screen to advance dialogue
   // (DialogueBox handles its own click with stopPropagation for typewriter skip)
+  const currentCG = useGameStore((s) => s.currentCG);
+
   const handleScreenClick = useCallback(() => {
     if (booting || !storyLoaded || choices.length > 0 || !text) return;
+    if (currentCG) return; // CG overlay handles its own click
     advance();
-  }, [booting, storyLoaded, choices, text, advance]);
+  }, [booting, storyLoaded, choices, text, currentCG, advance]);
 
   return (
     <div
@@ -84,6 +88,7 @@ export default function GamePage() {
         <>
           <Background />
           <SpriteWindow />
+          <CGOverlay />
           <AnimatePresence>
             {!booting && text && (
               <motion.div

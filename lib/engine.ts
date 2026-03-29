@@ -67,6 +67,10 @@ function processTags(tags: string[] | null) {
       case "MUSIC":
         store.setMusic(value || null);
         break;
+
+      case "CG":
+        store.setCG(value || null);
+        break;
     }
   }
 }

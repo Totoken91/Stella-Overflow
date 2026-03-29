@@ -10,6 +10,7 @@ interface GameState {
   // Scene
   currentBg: string | null;
   currentMusic: string | null;
+  currentCG: string | null;
 
   // Sprites
   currentSpeaker: string;
@@ -19,6 +20,7 @@ interface GameState {
   // Scene actions
   setBg: (bg: string | null) => void;
   setMusic: (music: string | null) => void;
+  setCG: (cg: string | null) => void;
 
   // Sprite actions
   setSpeaker: (name: string) => void;
@@ -40,6 +42,7 @@ const initialState = {
   gave_choice: false,
   currentBg: null,
   currentMusic: null,
+  currentCG: null,
   currentSpeaker: "",
   visibleSprites: [],
   currentExpression: {},
@@ -52,6 +55,7 @@ export const useGameStore = create<GameState>()(
 
       setBg: (bg) => set({ currentBg: bg }),
       setMusic: (music) => set({ currentMusic: music }),
+      setCG: (cg) => set({ currentCG: cg }),
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 
