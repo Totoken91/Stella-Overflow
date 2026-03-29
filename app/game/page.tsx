@@ -132,7 +132,7 @@ export default function GamePage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="contents"
+                className={currentCG ? "relative z-[46]" : "contents"}
               >
                 <DialogueBox text={text} onNext={handleNext} />
                 <ChoiceList choices={choices} onChoice={handleChoice} />
