@@ -43,7 +43,10 @@ export default function GamePage() {
   const dialogueSkipRef = useRef<(() => void) | null>(null);
 
   const currentCG = useGameStore((s) => s.currentCG);
+  const currentBg = useGameStore((s) => s.currentBg);
   const currentScene = useGameStore((s) => s.currentScene);
+  const [sceneTransition, setSceneTransition] = useState(false);
+  const prevBgRef = useRef<string | null>(null);
 
   // Init
   useEffect(() => {
@@ -136,6 +139,18 @@ export default function GamePage() {
     setDialogueHidden((h) => !h);
   }, []);
 
+  // Fade-to-black on scene transition (BG goes null then new)
+  useEffect(() => {
+    if (prevBgRef.current !== null && currentBg === null) {
+      // BG cleared = entering transition
+      setSceneTransition(true);
+    } else if (prevBgRef.current === null && currentBg !== null && sceneTransition) {
+      // New BG arrived = fade out the black
+      setTimeout(() => setSceneTransition(false), 800);
+    }
+    prevBgRef.current = currentBg;
+  }, [currentBg, sceneTransition]);
+
   useEffect(() => {
     if (!currentCG) setDialogueHidden(false);
   }, [currentCG]);
@@ -218,6 +233,17 @@ export default function GamePage() {
       onClick={handleScreenClick}
     >
       <MeshBackground />
+
+      {/* Scene transition fade overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[15]"
+        style={{
+          background: "#0A0410",
+          opacity: sceneTransition ? 1 : 0,
+          transition: "opacity 1.2s ease-in-out",
+        }}
+      />
+
       {initialized && storyLoaded && (
         <>
           <Background />
