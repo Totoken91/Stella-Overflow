@@ -20,11 +20,12 @@ export default function GamePage() {
   >([]);
   const [storyLoaded, setStoryLoaded] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [dialogueHidden, setDialogueHidden] = useState(false);
+
+  const currentCG = useGameStore((s) => s.currentCG);
 
   useEffect(() => {
-    // Reset visual state so sprites don't appear from previous session
     useGameStore.getState().reset();
-
     engine.init().then((loaded) => {
       setStoryLoaded(loaded);
       setInitialized(true);
@@ -67,35 +68,71 @@ export default function GamePage() {
     }
   }, [choices, advance]);
 
-  // Click anywhere on screen to advance dialogue
-  // (DialogueBox handles its own click with stopPropagation for typewriter skip)
-  const currentCG = useGameStore((s) => s.currentCG);
+  // CG contemplation done → advance to get the dialogue lines
+  const handleCGReady = useCallback(() => {
+    advance();
+  }, [advance]);
 
+  // Click anywhere on screen to advance dialogue
   const handleScreenClick = useCallback(() => {
     if (booting || !storyLoaded || choices.length > 0 || !text) return;
-    if (currentCG) return; // CG overlay handles its own click
+    if (currentCG) return; // CG overlay handles its own clicks
     advance();
   }, [booting, storyLoaded, choices, text, currentCG, advance]);
+
+  // Toggle dialogue visibility (eye button)
+  const toggleDialogue = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setDialogueHidden((h) => !h);
+  }, []);
+
+  // Show dialogue again when CG is dismissed
+  useEffect(() => {
+    if (!currentCG) {
+      setDialogueHidden(false);
+    }
+  }, [currentCG]);
 
   return (
     <div
       className="game-container relative h-screen w-screen overflow-hidden"
       onClick={handleScreenClick}
     >
-      {/* Game always renders behind boot screen so assets preload */}
       <MeshBackground />
       {initialized && storyLoaded && (
         <>
           <Background />
           <SpriteWindow />
-          <CGOverlay />
+          <CGOverlay onReady={handleCGReady} />
+
+          {/* Eye toggle button — only visible during CG with dialogue */}
+          {currentCG && text && !booting && (
+            <button
+              onClick={toggleDialogue}
+              className="fixed right-4 top-4 z-[50] flex h-10 w-10 items-center justify-center rounded-full transition-opacity hover:opacity-100"
+              style={{
+                background: "rgba(255, 255, 255, 0.15)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
+                color: "rgba(255, 255, 255, 0.7)",
+                fontSize: "1.1rem",
+                opacity: dialogueHidden ? 0.5 : 0.8,
+              }}
+              title={dialogueHidden ? "Afficher le dialogue" : "Masquer le dialogue"}
+            >
+              {dialogueHidden ? "◡" : "👁"}
+            </button>
+          )}
+
           <AnimatePresence>
-            {!booting && text && (
+            {!booting && text && !dialogueHidden && (
               <motion.div
                 key="dialogue-ui"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className="contents"
               >
                 <DialogueBox text={text} onNext={handleNext} />
@@ -106,7 +143,6 @@ export default function GamePage() {
         </>
       )}
 
-      {/* Fallback if story failed to load */}
       {initialized && !storyLoaded && !booting && (
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           <p
@@ -122,7 +158,6 @@ export default function GamePage() {
         </div>
       )}
 
-      {/* Boot screen overlays everything */}
       {booting && <BootScreen onComplete={handleBootComplete} />}
     </div>
   );

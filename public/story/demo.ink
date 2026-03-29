@@ -259,10 +259,13 @@ Elle s'agenouille près de l'élève. Ses mains brillent — et cette fois, tout
 
 # CG: transformation-scene2
 
+...
+
 La lumière l'enveloppe. Pendant une seconde, son uniforme semble se dissoudre dans l'éclat rosé avant de se reformer en quelque chose d'autre — un costume que personne ne lui a appris à porter.
 
 C'est la première fois. Et c'est magnifique.
 
+# CG:
 # SPRITE: etoile-neutre
 
 La lueur se concentre dans ses paumes. Elle les pose sur la jambe blessée. L'élève grimace — puis son visage se détend. L'os se replace. La douleur s'efface.
@@ -313,6 +316,8 @@ Tu en prends un. La forme est approximative. Le goût est — eh bien, elle a co
 
 # CG: dating-scene2-healthy
 
+...
+
 Tu fais une grimace involontaire. Elle éclate de rire.
 
 ÉTOILE : C'est horrible, hein ? Je le savais ! Mon Dieu, ta tête !
@@ -324,6 +329,8 @@ Vous riez tous les deux, assis sur le béton tiède du toit, le soleil couchant 
 Elle range le tupperware avec un sourire penaud.
 
 ÉTOILE : La prochaine fois je commande des pizzas.
+
+# CG:
 
 -> scene2_end
 
@@ -343,6 +350,8 @@ Elle est surexcitée. Ses yeux brillent un peu trop. Ses mains sur tes épaules 
 
 # CG: dating-scene2-unhealthy
 
+...
+
 ÉTOILE : J'étais incroyable, non ? Dis-moi que j'étais incroyable.
 
 Elle ne te laisse pas le temps de répondre. Elle se colle contre toi, son visage enfoui dans ton cou.
@@ -354,6 +363,8 @@ Elle tremble. Ce n'est pas de la joie — c'est de l'adrénaline qui refuse de r
 ÉTOILE : ...Reste avec moi ce soir ? Je veux pas être seule.
 
 Son ton a changé. Ce n'est plus de l'excitation. C'est de la peur déguisée.
+
+# CG:
 
 -> scene2_end
 
