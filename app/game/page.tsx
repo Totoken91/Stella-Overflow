@@ -270,53 +270,6 @@ export default function GamePage() {
             </button>
           )}
 
-          {/* Top-right controls: FF + Menu */}
-          {!booting && (
-            <div
-              className="fixed right-4 top-4 z-[60] flex gap-2"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Fast-forward toggle */}
-              <button
-                onClick={() => setFastForward((f) => !f)}
-                className="flex h-9 w-9 items-center justify-center rounded-full transition-all"
-                style={{
-                  fontFamily: "var(--font-dm-mono)",
-                  fontSize: "0.7rem",
-                  color: fastForward ? "var(--teal-dark)" : "var(--pink-dark)",
-                  background: "rgba(255, 255, 255, 0.6)",
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                  border: fastForward
-                    ? "1.5px solid var(--teal)"
-                    : "1px solid rgba(255, 143, 171, 0.3)",
-                  boxShadow: fastForward
-                    ? "0 0 12px rgba(127,216,216,0.4)"
-                    : "none",
-                }}
-              >
-                {">>"}
-              </button>
-
-              {/* Menu button */}
-              <button
-                onClick={() => setMenuOpen(true)}
-                className="flex h-9 items-center justify-center rounded-full px-3 transition-all"
-                style={{
-                  fontFamily: "var(--font-dm-mono)",
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.1em",
-                  color: "var(--pink-dark)",
-                  background: "rgba(255, 255, 255, 0.6)",
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 143, 171, 0.3)",
-                }}
-              >
-                MENU
-              </button>
-            </div>
-          )}
 
           {/* Fast-forward shimmer bar */}
           <AnimatePresence>
@@ -352,6 +305,46 @@ export default function GamePage() {
                   onNext={handleNext}
                   charDelay={fastForward ? 2 : 20}
                   skipRef={dialogueSkipRef}
+                  controls={
+                    <>
+                      <button
+                        onClick={() => setFastForward((f) => !f)}
+                        className="flex h-8 w-8 items-center justify-center rounded-lg transition-all"
+                        style={{
+                          fontFamily: "var(--font-dm-mono)",
+                          fontSize: "0.65rem",
+                          color: fastForward ? "var(--teal-dark)" : "var(--pink-dark)",
+                          background: "rgba(255, 255, 255, 0.6)",
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                          border: fastForward
+                            ? "1.5px solid var(--teal)"
+                            : "1px solid rgba(255, 143, 171, 0.3)",
+                          boxShadow: fastForward
+                            ? "0 0 8px rgba(127,216,216,0.4)"
+                            : "none",
+                        }}
+                      >
+                        {">>"}
+                      </button>
+                      <button
+                        onClick={() => setMenuOpen(true)}
+                        className="flex h-8 items-center justify-center rounded-lg px-3 transition-all"
+                        style={{
+                          fontFamily: "var(--font-dm-mono)",
+                          fontSize: "0.65rem",
+                          letterSpacing: "0.1em",
+                          color: "var(--pink-dark)",
+                          background: "rgba(255, 255, 255, 0.6)",
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 143, 171, 0.3)",
+                        }}
+                      >
+                        MENU
+                      </button>
+                    </>
+                  }
                 />
                 <ChoiceList choices={choices} onChoice={handleChoice} />
               </motion.div>
