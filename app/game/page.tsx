@@ -82,14 +82,13 @@ export default function GamePage() {
   }, []);
 
   const advance = useCallback(() => {
-    // Save current state to history before advancing
-    const currentState = engine.saveState();
-    if (currentState && text) {
-      setHistory((h) => [...h, { text, inkState: currentState }]);
-    }
-
+    // Save state BEFORE advancing so goBack can restore exactly here
+    const stateBefore = engine.saveState();
     const nextText = engine.getText();
     if (nextText !== null) {
+      if (stateBefore && text) {
+        setHistory((h) => [...h, { text, inkState: stateBefore }]);
+      }
       setText(nextText);
       setChoices(engine.getChoices());
     } else {
@@ -106,11 +105,11 @@ export default function GamePage() {
     const prev = history[history.length - 1];
     const success = engine.loadState(prev.inkState);
     if (success) {
-      setText(prev.text);
-      setChoices([]);
+      // Re-read the same line to re-process tags (sprites, BG, etc.)
+      const restoredText = engine.getText();
+      setText(restoredText ?? prev.text);
+      setChoices(engine.getChoices());
       setHistory((h) => h.slice(0, -1));
-      // Process tags for the current state by peeking
-      // The visual state is already correct since we saved it at that point
     }
   }, [history]);
 

@@ -112,7 +112,7 @@ export default function ChoiceList({ choices, onChoice }: ChoiceListProps) {
 
   return (
     <div
-      className="absolute bottom-44 left-0 right-0 z-40 flex justify-center"
+      className="absolute bottom-56 left-0 right-0 z-40 flex justify-center"
       style={{ perspective: "800px" }}
     >
       <div className="flex w-full max-w-2xl flex-col gap-3 px-4">
