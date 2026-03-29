@@ -27,6 +27,7 @@ export default function GamePage() {
   const [storyLoaded, setStoryLoaded] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [dialogueHidden, setDialogueHidden] = useState(false);
+  const [history, setHistory] = useState<Array<{ text: string; inkState: string }>>([]);
 
   // Menu states
   const [menuOpen, setMenuOpen] = useState(false);
@@ -81,6 +82,12 @@ export default function GamePage() {
   }, []);
 
   const advance = useCallback(() => {
+    // Save current state to history before advancing
+    const currentState = engine.saveState();
+    if (currentState && text) {
+      setHistory((h) => [...h, { text, inkState: currentState }]);
+    }
+
     const nextText = engine.getText();
     if (nextText !== null) {
       setText(nextText);
@@ -92,7 +99,20 @@ export default function GamePage() {
         setText(null);
       }
     }
-  }, []);
+  }, [text]);
+
+  const goBack = useCallback(() => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    const success = engine.loadState(prev.inkState);
+    if (success) {
+      setText(prev.text);
+      setChoices([]);
+      setHistory((h) => h.slice(0, -1));
+      // Process tags for the current state by peeking
+      // The visual state is already correct since we saved it at that point
+    }
+  }, [history]);
 
   const handleBootComplete = useCallback(() => {
     setBooting(false);
@@ -314,6 +334,23 @@ export default function GamePage() {
                   skipRef={dialogueSkipRef}
                   controls={
                     <>
+                      <button
+                        onClick={goBack}
+                        className="flex h-8 w-8 items-center justify-center rounded-lg transition-all"
+                        style={{
+                          fontFamily: "var(--font-dm-mono)",
+                          fontSize: "0.75rem",
+                          color: history.length > 0 ? "var(--pink-dark)" : "rgba(107,45,74,0.3)",
+                          background: "rgba(255, 255, 255, 0.6)",
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 143, 171, 0.3)",
+                          cursor: history.length > 0 ? "pointer" : "default",
+                        }}
+                        disabled={history.length === 0}
+                      >
+                        {"<"}
+                      </button>
                       <button
                         onClick={() => setFastForward((f) => !f)}
                         className="flex h-8 w-8 items-center justify-center rounded-lg transition-all"

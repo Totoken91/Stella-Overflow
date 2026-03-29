@@ -7,7 +7,6 @@ import { useSaveStore } from "@/lib/saveStore";
 import SaveLoadMenu from "./SaveLoadMenu";
 
 const MENU_BUTTONS = [
-  { key: "new", label: "NOUVELLE PARTIE" },
   { key: "continue", label: "CONTINUER" },
   { key: "load", label: "CHARGER" },
   { key: "quit", label: "QUITTER" },
@@ -37,15 +36,13 @@ export default function MainMenu() {
 
   const handleClick = (key: string) => {
     switch (key) {
-      case "new":
-        setPendingLoad(null);
-        navigateToGame();
-        break;
       case "continue":
         if (autosaveExists) {
-          setPendingLoad(0); // autosave slot
-          navigateToGame();
+          setPendingLoad(0); // load autosave
+        } else {
+          setPendingLoad(null); // new game
         }
+        navigateToGame();
         break;
       case "load":
         setLoadMenuOpen(true);
@@ -152,38 +149,25 @@ export default function MainMenu() {
         style={{ width: 240 }}
       >
         {MENU_BUTTONS.map((btn, i) => {
-          const isDisabled = btn.key === "continue" && !autosaveExists;
           return (
             <motion.button
               key={btn.key}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + i * 0.1, duration: 0.4 }}
-              whileTap={isDisabled ? {} : { scale: 0.97 }}
-              onClick={() => !isDisabled && handleClick(btn.key)}
-              disabled={isDisabled}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => handleClick(btn.key)}
               className="w-full rounded-xl py-3.5 text-center transition-all"
               style={{
                 fontFamily: "var(--font-dm-mono)",
                 fontSize: "0.85rem",
                 letterSpacing: "0.15em",
-                color: isDisabled
-                  ? "rgba(255, 179, 198, 0.25)"
-                  : "var(--pink-soft)",
+                color: "var(--pink-soft)",
                 background: "rgba(255, 255, 255, 0.08)",
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
-                border: `1px solid ${
-                  isDisabled
-                    ? "rgba(255, 143, 171, 0.08)"
-                    : "rgba(255, 143, 171, 0.2)"
-                }`,
-                cursor: isDisabled ? "default" : "pointer",
-                opacity: isDisabled ? 0.5 : 1,
+                border: "1px solid rgba(255, 143, 171, 0.2)",
               }}
-              title={
-                isDisabled ? "aucune partie en cours" : undefined
-              }
             >
               {btn.label}
             </motion.button>

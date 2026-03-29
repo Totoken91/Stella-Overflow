@@ -91,11 +91,11 @@ export default function DialogueBox({ text, onNext, charDelay = 20, skipRef, con
       }}
     >
       <div className="mx-auto max-w-4xl px-4 pb-6">
-        {/* Top row: speaker name left, controls right */}
-        <div className="mb-2 flex items-center justify-between">
+        {/* Top row: speaker name left, controls right — fixed height */}
+        <div className="mb-2 flex h-9 items-center justify-between">
           {speaker ? (
             <div
-              className="inline-block rounded-xl px-4 py-2"
+              className="inline-block rounded-xl px-4 py-1.5"
               style={{
                 fontFamily: "var(--font-dm-mono)",
                 fontSize: "0.75rem",
