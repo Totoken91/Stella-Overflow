@@ -105,10 +105,6 @@ export default function GamePage() {
       engine.choose(index);
       setChoices([]);
       advance();
-      // Autosave after each choice
-      useSaveStore.getState().autoSave();
-      setAutosaveVisible(true);
-      setTimeout(() => setAutosaveVisible(false), 2000);
     },
     [advance]
   );
@@ -141,13 +137,9 @@ export default function GamePage() {
     if (!currentCG) setDialogueHidden(false);
   }, [currentCG]);
 
-  // Autosave on scene change
+  // Track scene changes (for save labels)
   useEffect(() => {
-    if (!currentScene || currentScene === prevSceneRef.current) return;
-    prevSceneRef.current = currentScene;
-    useSaveStore.getState().autoSave();
-    setAutosaveVisible(true);
-    setTimeout(() => setAutosaveVisible(false), 2000);
+    if (currentScene) prevSceneRef.current = currentScene;
   }, [currentScene]);
 
   // Fast-forward loop
@@ -249,7 +241,7 @@ export default function GamePage() {
           )}
 
           {/* Top-right controls: FF + Menu */}
-          {!booting && !currentCG && (
+          {!booting && (
             <div
               className="fixed right-4 top-4 z-[60] flex gap-2"
               onClick={(e) => e.stopPropagation()}

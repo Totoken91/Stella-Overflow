@@ -311,6 +311,8 @@ Elle rit nerveusement, les yeux brillants.
 
 Mais tu remarques ses mains — elles tremblent encore. Et il y a une fine pellicule de sueur sur son front. Ce n'était pas gratuit.
 
+-> scene2_dating
+
 === scene2_dating ===
 Après les cours. Le lycée est presque vide.
 # BG: toit-lycee
