@@ -105,6 +105,58 @@ const MENU_BUTTONS = [
   { key: "quit", label: "Quitter", primary: false },
 ] as const;
 
+// ─── Custom cursor ───
+function CustomCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if ("ontouchstart" in window) return;
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    let mx = -100, my = -100, cx = -100, cy = -100;
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; };
+    document.addEventListener("mousemove", onMove);
+
+    // Hover detection for buttons
+    const btns = document.querySelectorAll(".menu-btn");
+    const enter = () => cursor.classList.add("hovering");
+    const leave = () => cursor.classList.remove("hovering");
+    btns.forEach((b) => {
+      b.addEventListener("mouseenter", enter);
+      b.addEventListener("mouseleave", leave);
+    });
+
+    let raf: number;
+    const animate = () => {
+      cx = lerp(cx, mx, 0.12);
+      cy = lerp(cy, my, 0.12);
+      cursor.style.left = cx + "px";
+      cursor.style.top = cy + "px";
+      raf = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+      btns.forEach((b) => {
+        b.removeEventListener("mouseenter", enter);
+        b.removeEventListener("mouseleave", leave);
+      });
+    };
+  }, []);
+
+  return (
+    <div ref={cursorRef} className="custom-cursor">
+      <div className="cursor-dot" />
+      <div className="cursor-ring" />
+    </div>
+  );
+}
+
 export default function MainMenu() {
   const router = useRouter();
   const loadSlots = useSaveStore((s) => s.loadSlots);
@@ -286,7 +338,7 @@ export default function MainMenu() {
               whileHover={{ y: -1 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleClick(btn.key)}
-              className="group relative w-full overflow-hidden py-3.5 text-center"
+              className={`group relative w-full overflow-hidden py-3.5 text-center menu-btn ${btn.primary ? "menu-btn--primary" : ""}`}
               style={{
                 fontFamily: "var(--font-dm-mono)",
                 fontSize: "0.72rem",
@@ -368,6 +420,8 @@ export default function MainMenu() {
         onClose={() => setLoadMenuOpen(false)}
         onLoadSlot={handleLoadSlot}
       />
+
+      <CustomCursor />
     </motion.div>
   );
 }

@@ -95,7 +95,56 @@ body {
   50% { transform: translateY(-4px); }
 }
 
-/* ─── MENU ─── */
+/* ─── MENU BUTTON HOVER ─── */
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 143, 171, 0.3) !important;
+  color: var(--pink-soft) !important;
+  box-shadow: 0 8px 32px rgba(224, 92, 138, 0.1), inset 0 0 20px rgba(255, 143, 171, 0.03);
+}
+.menu-btn--primary:hover {
+  background: rgba(224, 92, 138, 0.15) !important;
+  border-color: rgba(255, 143, 171, 0.4) !important;
+  box-shadow: 0 8px 40px rgba(224, 92, 138, 0.15), inset 0 0 30px rgba(255, 143, 171, 0.05);
+}
+
+/* ─── CUSTOM CURSOR ─── */
+.custom-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 20px; height: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+.cursor-dot {
+  width: 4px; height: 4px;
+  background: var(--pink-deep);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 143, 171, 0.6);
+  transition: transform 0.15s ease;
+}
+.cursor-ring {
+  width: 20px; height: 20px;
+  border: 1px solid rgba(255, 143, 171, 0.3);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+}
+.custom-cursor.hovering .cursor-ring {
+  width: 40px; height: 40px;
+  border-color: rgba(255, 143, 171, 0.5);
+}
+.custom-cursor.hovering .cursor-dot {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* ─── MENU ORBS ─── */
 @keyframes orbFloat1 {
   0% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(-8vw, 15vh) scale(1.1); }
