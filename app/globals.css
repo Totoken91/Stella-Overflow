@@ -95,6 +95,27 @@ body {
   50% { transform: translateY(-4px); }
 }
 
+/* ─── MENU ─── */
+@keyframes orbFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-8vw, 15vh) scale(1.1); }
+  100% { transform: translate(5vw, 5vh) scale(0.95); }
+}
+@keyframes orbFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12vw, -10vh) scale(1.08); }
+  100% { transform: translate(-5vw, -15vh) scale(1.03); }
+}
+@keyframes orbFloat3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10vw, 8vh) scale(1.05); }
+  100% { transform: translate(8vw, -5vh) scale(0.97); }
+}
+@keyframes starPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(127,216,216,0.4)); transform: scale(1) rotate(0deg); }
+  50% { filter: drop-shadow(0 0 20px rgba(127,216,216,0.8)); transform: scale(1.1) rotate(180deg); }
+}
+
 /* ─── BOOT SCREEN ─── */
 @keyframes spin {
   from { transform: rotate(0deg); }
