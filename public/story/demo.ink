@@ -11,7 +11,7 @@
 VAR score = 0
 
 # BG: toit-lycee
-
+# SCENE: scene1
 Tu montes les escaliers deux par deux. Le métal résonne sous tes pas.
 
 Elle t'a envoyé un message il y a vingt minutes. Juste trois mots : "Viens. Le toit."
@@ -192,6 +192,7 @@ Le ciel est devenu violet. Les lumières de la ville s'allument une à une en co
 
 # BG:
 
+# SCENE: scene2
 ...
 
 La nuit a été longue. Tu n'as presque pas dormi.

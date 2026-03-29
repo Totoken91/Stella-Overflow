@@ -11,6 +11,8 @@ interface GameState {
   currentBg: string | null;
   currentMusic: string | null;
   currentCG: string | null;
+  currentScene: string;
+  currentSceneLabel: string;
 
   // Sprites
   currentSpeaker: string;
@@ -21,6 +23,7 @@ interface GameState {
   setBg: (bg: string | null) => void;
   setMusic: (music: string | null) => void;
   setCG: (cg: string | null) => void;
+  setCurrentScene: (scene: string, label: string) => void;
 
   // Sprite actions
   setSpeaker: (name: string) => void;
@@ -43,6 +46,8 @@ const initialState = {
   currentBg: null,
   currentMusic: null,
   currentCG: null,
+  currentScene: "",
+  currentSceneLabel: "",
   currentSpeaker: "",
   visibleSprites: [],
   currentExpression: {},
@@ -56,6 +61,8 @@ export const useGameStore = create<GameState>()(
       setBg: (bg) => set({ currentBg: bg }),
       setMusic: (music) => set({ currentMusic: music }),
       setCG: (cg) => set({ currentCG: cg }),
+      setCurrentScene: (scene, label) =>
+        set({ currentScene: scene, currentSceneLabel: label }),
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 

@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import MainMenu from "@/components/menu/MainMenu";
 
 export default function Home() {
-  redirect("/game");
+  return <MainMenu />;
 }

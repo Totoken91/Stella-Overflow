@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import BootScreen from "@/components/game/BootScreen";
 import MeshBackground from "@/components/game/MeshBackground";
 import Background from "@/components/game/Background";
@@ -9,10 +10,16 @@ import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
 import CGOverlay from "@/components/game/CGOverlay";
+import AutosaveIndicator from "@/components/game/AutosaveIndicator";
+import InGameMenu from "@/components/menu/InGameMenu";
+import SaveLoadMenu from "@/components/menu/SaveLoadMenu";
+import ConfirmDialog from "@/components/menu/ConfirmDialog";
 import * as engine from "@/lib/engine";
 import { useGameStore } from "@/lib/gameState";
+import { useSaveStore } from "@/lib/saveStore";
 
 export default function GamePage() {
+  const router = useRouter();
   const [booting, setBooting] = useState(true);
   const [text, setText] = useState<string | null>(null);
   const [choices, setChoices] = useState<
@@ -22,14 +29,54 @@ export default function GamePage() {
   const [initialized, setInitialized] = useState(false);
   const [dialogueHidden, setDialogueHidden] = useState(false);
 
-  const currentCG = useGameStore((s) => s.currentCG);
+  // Menu states
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [saveMenuOpen, setSaveMenuOpen] = useState(false);
+  const [saveMenuMode, setSaveMenuMode] = useState<"save" | "load">("save");
+  const [confirmReturnOpen, setConfirmReturnOpen] = useState(false);
 
+  // Fast-forward
+  const [fastForward, setFastForward] = useState(false);
+  const ffRef = useRef(false);
+  ffRef.current = fastForward;
+
+  // Autosave indicator
+  const [autosaveVisible, setAutosaveVisible] = useState(false);
+  const prevSceneRef = useRef("");
+
+  const currentCG = useGameStore((s) => s.currentCG);
+  const currentScene = useGameStore((s) => s.currentScene);
+
+  // Init
   useEffect(() => {
-    useGameStore.getState().reset();
+    const pendingLoad = useSaveStore.getState().pendingLoad;
+    if (!pendingLoad && pendingLoad !== 0) {
+      useGameStore.getState().reset();
+    }
+
     engine.init().then((loaded) => {
       setStoryLoaded(loaded);
       setInitialized(true);
+
+      // Handle pending load from main menu
+      if (loaded && (pendingLoad || pendingLoad === 0)) {
+        useSaveStore.getState().loadSlots();
+        const success = useSaveStore.getState().load(pendingLoad);
+        useSaveStore.getState().setPendingLoad(null);
+        if (success) {
+          setBooting(false);
+          // Advance once to get text + process tags from loaded position
+          const nextText = engine.getText();
+          if (nextText) {
+            setText(nextText);
+            setChoices(engine.getChoices());
+          }
+          return;
+        }
+      }
     });
+
+    useSaveStore.getState().loadSlots();
   }, []);
 
   const advance = useCallback(() => {
@@ -58,6 +105,10 @@ export default function GamePage() {
       engine.choose(index);
       setChoices([]);
       advance();
+      // Autosave after each choice
+      useSaveStore.getState().autoSave();
+      setAutosaveVisible(true);
+      setTimeout(() => setAutosaveVisible(false), 2000);
     },
     [advance]
   );
@@ -68,29 +119,102 @@ export default function GamePage() {
     }
   }, [choices, advance]);
 
-  // CG contemplation done → advance to get the dialogue lines
+  // CG contemplation done
   const handleCGReady = useCallback(() => {
     advance();
   }, [advance]);
 
-  // Click anywhere on screen to advance dialogue
+  // Click anywhere to advance
   const handleScreenClick = useCallback(() => {
     if (booting || !storyLoaded || choices.length > 0 || !text) return;
+    if (menuOpen || saveMenuOpen || confirmReturnOpen) return;
     advance();
-  }, [booting, storyLoaded, choices, text, advance]);
+  }, [booting, storyLoaded, choices, text, menuOpen, saveMenuOpen, confirmReturnOpen, advance]);
 
-  // Toggle dialogue visibility (eye button)
+  // Toggle dialogue visibility
   const toggleDialogue = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setDialogueHidden((h) => !h);
   }, []);
 
-  // Show dialogue again when CG is dismissed
   useEffect(() => {
-    if (!currentCG) {
-      setDialogueHidden(false);
-    }
+    if (!currentCG) setDialogueHidden(false);
   }, [currentCG]);
+
+  // Autosave on scene change
+  useEffect(() => {
+    if (!currentScene || currentScene === prevSceneRef.current) return;
+    prevSceneRef.current = currentScene;
+    useSaveStore.getState().autoSave();
+    setAutosaveVisible(true);
+    setTimeout(() => setAutosaveVisible(false), 2000);
+  }, [currentScene]);
+
+  // Fast-forward loop
+  useEffect(() => {
+    if (!fastForward || !text) return;
+
+    const timer = setTimeout(() => {
+      if (!ffRef.current) return;
+      // Stop on choices
+      const currentChoices = engine.getChoices();
+      if (currentChoices.length > 0) {
+        setFastForward(false);
+        return;
+      }
+      // Stop on STOP_FF tag
+      if (engine.hasStopFF()) {
+        setFastForward(false);
+        return;
+      }
+      // Stop on end
+      if (!engine.canContinue()) {
+        setFastForward(false);
+        return;
+      }
+      advance();
+    }, 80);
+
+    return () => clearTimeout(timer);
+  }, [fastForward, text, advance]);
+
+  // Menu handlers
+  const handleSave = () => {
+    setMenuOpen(false);
+    setSaveMenuMode("save");
+    setSaveMenuOpen(true);
+  };
+
+  const handleLoad = () => {
+    setMenuOpen(false);
+    setSaveMenuMode("load");
+    setSaveMenuOpen(true);
+  };
+
+  const handleLoadSlot = (slotId: number) => {
+    const success = useSaveStore.getState().load(slotId);
+    if (success) {
+      setSaveMenuOpen(false);
+      useGameStore.getState().reset();
+      const nextText = engine.getText();
+      if (nextText) {
+        setText(nextText);
+        setChoices(engine.getChoices());
+      }
+    }
+  };
+
+  const handleReturnToMenu = () => {
+    setMenuOpen(false);
+    setConfirmReturnOpen(true);
+  };
+
+  const confirmReturn = () => {
+    setConfirmReturnOpen(false);
+    router.push("/");
+  };
+
+  const anyOverlayOpen = menuOpen || saveMenuOpen || confirmReturnOpen;
 
   return (
     <div
@@ -104,7 +228,7 @@ export default function GamePage() {
           <SpriteWindow />
           <CGOverlay onReady={handleCGReady} />
 
-          {/* Eye toggle button — only visible during CG with dialogue */}
+          {/* Eye toggle — during CG with dialogue */}
           {currentCG && text && !booting && (
             <button
               onClick={toggleDialogue}
@@ -124,6 +248,73 @@ export default function GamePage() {
             </button>
           )}
 
+          {/* Top-right controls: FF + Menu */}
+          {!booting && !currentCG && (
+            <div
+              className="fixed right-4 top-4 z-[60] flex gap-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Fast-forward toggle */}
+              <button
+                onClick={() => setFastForward((f) => !f)}
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-all"
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  fontSize: "0.7rem",
+                  color: fastForward ? "var(--teal)" : "rgba(255, 255, 255, 0.5)",
+                  background: "rgba(255, 255, 255, 0.08)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: fastForward
+                    ? "1.5px solid var(--teal)"
+                    : "1px solid rgba(255, 143, 171, 0.15)",
+                  boxShadow: fastForward
+                    ? "0 0 12px rgba(127,216,216,0.4)"
+                    : "none",
+                }}
+              >
+                {">>"}
+              </button>
+
+              {/* Menu button */}
+              <button
+                onClick={() => setMenuOpen(true)}
+                className="flex h-9 items-center justify-center rounded-full px-3 transition-all"
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.1em",
+                  color: "rgba(255, 255, 255, 0.5)",
+                  background: "rgba(255, 255, 255, 0.08)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 143, 171, 0.15)",
+                }}
+              >
+                MENU
+              </button>
+            </div>
+          )}
+
+          {/* Fast-forward shimmer bar */}
+          <AnimatePresence>
+            {fastForward && (
+              <motion.div
+                className="fixed bottom-0 left-0 right-0 z-[31] h-[2px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{
+                  background:
+                    "linear-gradient(90deg, transparent, var(--teal), transparent)",
+                  backgroundSize: "200% 100%",
+                  animation: "ffShimmer 1s linear infinite",
+                }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Dialogue + choices */}
           <AnimatePresence>
             {!booting && text && !dialogueHidden && (
               <motion.div
@@ -134,14 +325,22 @@ export default function GamePage() {
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 className={currentCG ? "fixed inset-0 z-[46]" : "contents"}
               >
-                <DialogueBox text={text} onNext={handleNext} />
+                <DialogueBox
+                  text={text}
+                  onNext={handleNext}
+                  charDelay={fastForward ? 2 : 20}
+                />
                 <ChoiceList choices={choices} onChoice={handleChoice} />
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Autosave indicator */}
+          <AutosaveIndicator visible={autosaveVisible && !anyOverlayOpen} />
         </>
       )}
 
+      {/* Fallback */}
       {initialized && !storyLoaded && !booting && (
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           <p
@@ -157,7 +356,36 @@ export default function GamePage() {
         </div>
       )}
 
+      {/* Boot screen */}
       {booting && <BootScreen onComplete={handleBootComplete} />}
+
+      {/* In-game menu */}
+      <InGameMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onSave={handleSave}
+        onLoad={handleLoad}
+        onReturnToMenu={handleReturnToMenu}
+      />
+
+      {/* Save/Load menu */}
+      <SaveLoadMenu
+        mode={saveMenuMode}
+        open={saveMenuOpen}
+        onClose={() => setSaveMenuOpen(false)}
+        onLoadSlot={handleLoadSlot}
+      />
+
+      {/* Confirm return to menu */}
+      <ConfirmDialog
+        open={confirmReturnOpen}
+        title="Quitter la partie ?"
+        message="Toute progression non sauvegardée sera perdue."
+        confirmLabel="Quitter"
+        cancelLabel="Rester"
+        onConfirm={confirmReturn}
+        onCancel={() => setConfirmReturnOpen(false)}
+      />
     </div>
   );
 }

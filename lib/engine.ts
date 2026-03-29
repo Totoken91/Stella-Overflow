@@ -71,6 +71,26 @@ function processTags(tags: string[] | null) {
       case "CG":
         store.setCG(value || null);
         break;
+
+      case "SCENE": {
+        const sceneName = value.trim();
+        const labels: Record<string, string> = {
+          scene1: "Scène 1 — La Rencontre",
+          scene2: "Scène 2 — Premier Sauvetage",
+          scene3: "Scène 3 — Deuxième Intervention",
+          scene4: "Scène 4 — La Célébrité",
+          scene5: "Scène 5 — La Crise",
+          scene6: "Scène 6 — Révélation de Lunae",
+          scene7: "Scène 7 — L'Incident",
+          scene8: "Scène 8 — L'Épilogue",
+        };
+        store.setCurrentScene(sceneName, labels[sceneName] || sceneName);
+        break;
+      }
+
+      case "STOP_FF":
+        // Checked externally via hasStopFF()
+        break;
     }
   }
 }
@@ -124,4 +144,33 @@ export function choose(index: number): void {
 export function getVariable(name: string): unknown {
   if (!story || !storyLoaded) return undefined;
   return story.variablesState.$(name);
+}
+
+export function saveState(): string | null {
+  if (!story || !storyLoaded) return null;
+  // toJson() returns a string in inkjs 2.4
+  return story.state.toJson();
+}
+
+export function loadState(stateJson: string): boolean {
+  if (!story || !storyLoaded) return false;
+  try {
+    // LoadJson expects a parsed object in inkjs 2.4
+    story.state.LoadJson(JSON.parse(stateJson));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function hasStopFF(): boolean {
+  if (!story) return false;
+  const tags = story.currentTags;
+  if (!tags) return false;
+  return tags.some((t) => t.trim().toUpperCase() === "STOP_FF");
+}
+
+export function canContinue(): boolean {
+  if (!story || !storyLoaded) return false;
+  return story.canContinue;
 }
