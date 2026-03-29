@@ -172,6 +172,202 @@ Elle te regarde avec une intensité que tu ne lui connaissais pas.
 
 ÉTOILE : Promets-le moi.
 
-[ Fin de la démo - À suivre... ]
+ÉTOILE : ...Bonne nuit.
+
+-> scene2
+
+// ═══════════════════════════════════════════
+// SCÈNE 2 — PREMIER SAUVETAGE
+// ═══════════════════════════════════════════
+
+=== scene2 ===
+
+# BG: couloir-lycee
+# SPRITE: etoile-neutre
+# SPEAKER: etoile
+
+Le lendemain. Le lycée bruisse de son bourdonnement habituel.
+
+Tu marches dans le couloir principal quand Étoile te rejoint, un peu essoufflée.
+
+ÉTOILE : Hey ! Tu as bien dormi ? Moi j'ai pas fermé l'œil. Je pouvais pas arrêter de... tu sais.
+
+Elle jette un coup d'œil à ses mains. La lueur n'est pas visible — mais elle sait qu'elle est là, juste sous la surface.
+
+ÉTOILE : J'ai essayé de faire léviter ma télécommande cette nuit. J'ai cassé une lampe.
+
+Un bruit sourd résonne depuis l'étage du dessus. Puis un cri.
+
+# SPRITE: etoile-surprise
+
+Vous courez vers les escaliers. Un élève est étalé en bas des marches, le visage tordu de douleur. Sa jambe forme un angle anormal. Autour, les gens paniquent — certains filment avec leurs téléphones.
+
+ÉTOILE : Oh non... Sa jambe... C'est...
+
+Elle recule d'un pas. Ses mains tremblent. La lueur rosée commence à filtrer entre ses doigts.
+
+ÉTOILE : Je... je pourrais peut-être...
+
+# ENTER: lunae-enthousiaste
+# SPEAKER: lunae
+
+LUNAE : Tu pourrais, oui~ Tu pourrais complètement~
+
+# SPEAKER: etoile
+# SPRITE: etoile-surprise lunae-enthousiaste
+
+ÉTOILE : Lunae ?! Pas ici, les gens vont te voir !
+
+# SPEAKER: lunae
+
+LUNAE : Personne ne me voit sauf toi et ton Manager, chérie~ Allez, montre-leur ce que tu sais faire !
+
+Étoile te regarde, cherchant une réponse dans tes yeux.
+
+# SPEAKER: etoile
+
+ÉTOILE : Qu'est-ce que je fais ?
+
+-> scene2_choice
+
+=== scene2_choice ===
+
+* [L'encourager avec mesure — "Vas-y doucement"]
+  ~ score = score + 5
+  # SPRITE: etoile-neutre lunae-neutre
+  # SPEAKER: etoile
+  Tu poses ta main sur son épaule. « Respire. Concentre-toi juste sur lui. Pas sur la foule. »
+  Elle hoche la tête, inspire profondément.
+  ÉTOILE : ...D'accord. Juste lui.
+  -> scene2_intervention
+
+* [La pousser — "Fonce, montre-leur qui tu es"]
+  ~ score = score - 3
+  # SPRITE: etoile-surprise lunae-enthousiaste
+  # SPEAKER: lunae
+  LUNAE : Exactement ! C'est le moment, Étoile !
+  # SPEAKER: etoile
+  Étoile serre les poings. La lueur s'intensifie.
+  ÉTOILE : OK. OK, j'y vais.
+  -> scene2_intervention
+
+=== scene2_intervention ===
+
+# EXIT: lunae
+
+Elle s'agenouille près de l'élève. Ses mains brillent — et cette fois, tout le monde peut voir.
+
+# CG: transformation-scene2
+
+La lumière l'enveloppe. Pendant une seconde, son uniforme semble se dissoudre dans l'éclat rosé avant de se reformer en quelque chose d'autre — un costume que personne ne lui a appris à porter.
+
+C'est la première fois. Et c'est magnifique.
+
+# SPRITE: etoile-neutre
+
+La lueur se concentre dans ses paumes. Elle les pose sur la jambe blessée. L'élève grimace — puis son visage se détend. L'os se replace. La douleur s'efface.
+
+Silence dans le couloir. Puis quelqu'un applaudit. Puis un autre. Étoile se relève, les jambes tremblantes, le costume déjà en train de se dissiper.
+
+# SPRITE: etoile-soulagee
+# SPEAKER: etoile
+
+ÉTOILE : ...J'ai réussi ?
+
+Elle rit nerveusement, les yeux brillants.
+
+ÉTOILE : J'ai vraiment réussi !
+
+Mais tu remarques ses mains — elles tremblent encore. Et il y a une fine pellicule de sueur sur son front. Ce n'était pas gratuit.
+
+-> scene2_dating
+
+=== scene2_dating ===
+
+Après les cours. Le lycée est presque vide.
+
+# BG: toit-lycee
+# SPRITE: etoile-neutre
+
+Étoile t'a envoyé un message : « Rejoins-moi au toit. J'ai un truc pour toi 💫 »
+
+{ score >= 8:
+  -> dating_scene2_healthy
+- else:
+  -> dating_scene2_unhealthy
+}
+
+=== dating_scene2_healthy ===
+
+# SPEAKER: etoile
+
+Quand tu arrives, elle est assise par terre avec un tupperware et un sourire gêné.
+
+ÉTOILE : J'ai... j'ai cuisiné. Pour fêter ça. Ma première mission réussie !
+
+Elle ouvre le tupperware. L'odeur est... discutable.
+
+ÉTOILE : C'est des onigiri. Enfin, c'est censé être des onigiri.
+
+Tu en prends un. La forme est approximative. Le goût est — eh bien, elle a confondu le sucre et le sel.
+
+# CG: dating-scene2-healthy
+
+Tu fais une grimace involontaire. Elle éclate de rire.
+
+ÉTOILE : C'est horrible, hein ? Je le savais ! Mon Dieu, ta tête !
+
+Vous riez tous les deux, assis sur le béton tiède du toit, le soleil couchant teintant le ciel de rose.
+
+ÉTOILE : ...Merci d'avoir été là aujourd'hui. Sérieusement.
+
+Elle range le tupperware avec un sourire penaud.
+
+ÉTOILE : La prochaine fois je commande des pizzas.
+
+-> scene2_end
+
+=== dating_scene2_unhealthy ===
+
+# SPEAKER: etoile
+
+Quand tu arrives, elle court vers toi. Littéralement.
+
+Avant que tu puisses réagir, elle se jette dans tes bras. Fort.
+
+# SPRITE: etoile-genee
+
+ÉTOILE : Tu as vu ?! Tu as vu ce que j'ai fait ?!
+
+Elle est surexcitée. Ses yeux brillent un peu trop. Ses mains sur tes épaules serrent un peu trop fort.
+
+# CG: dating-scene2-unhealthy
+
+ÉTOILE : J'étais incroyable, non ? Dis-moi que j'étais incroyable.
+
+Elle ne te laisse pas le temps de répondre. Elle se colle contre toi, son visage enfoui dans ton cou.
+
+ÉTOILE : Je pourrais le refaire. Je pourrais le refaire maintenant. Lunae dit que je devrais m'entraîner plus...
+
+Elle tremble. Ce n'est pas de la joie — c'est de l'adrénaline qui refuse de redescendre.
+
+ÉTOILE : ...Reste avec moi ce soir ? Je veux pas être seule.
+
+Son ton a changé. Ce n'est plus de l'excitation. C'est de la peur déguisée.
+
+-> scene2_end
+
+=== scene2_end ===
+
+# SPRITE: etoile-neutre
+# BG: toit-lycee
+
+Le soleil disparaît derrière les immeubles. La routine reprend ses droits.
+
+Mais quelque chose a changé. Étoile a goûté à ses pouvoirs — et au regard des autres. Et toi, tu as vu ce que ça lui fait.
+
+La question, maintenant, c'est : combien de fois encore ?
+
+[ Fin de la Scène 2 — À suivre... ]
 
 -> END
