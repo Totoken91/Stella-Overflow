@@ -63,6 +63,7 @@ function SpriteCharacter({
     <motion.div
       ref={scope}
       key={name}
+      layout="position"
       initial={{ y: 80, opacity: 0, scale: 0.8 }}
       animate={{
         y: 0,
@@ -80,7 +81,7 @@ function SpriteCharacter({
         opacity: { duration: 0.6, ease: "easeOut", delay: 0.05 },
         x: { duration: 0.3, ease: "easeIn" },
         filter: { duration: 0.3 },
-        layout: { type: "spring", stiffness: 200, damping: 25 },
+        layout: { type: "spring", stiffness: 120, damping: 20 },
       }}
     >
       {/* Flip wrapper — animated only when scaleX value changes */}
