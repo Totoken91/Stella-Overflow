@@ -76,9 +76,8 @@ export default function GamePage() {
   // Click anywhere on screen to advance dialogue
   const handleScreenClick = useCallback(() => {
     if (booting || !storyLoaded || choices.length > 0 || !text) return;
-    if (currentCG) return; // CG overlay handles its own clicks
     advance();
-  }, [booting, storyLoaded, choices, text, currentCG, advance]);
+  }, [booting, storyLoaded, choices, text, advance]);
 
   // Toggle dialogue visibility (eye button)
   const toggleDialogue = useCallback((e: React.MouseEvent) => {
