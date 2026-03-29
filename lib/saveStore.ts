@@ -86,7 +86,16 @@ export const useSaveStore = create<SaveStore>()((set, get) => ({
   load: (slotId: number) => {
     const slot = get().slots[slotId];
     if (!slot) return false;
-    return engine.loadState(slot.inkState);
+    const success = engine.loadState(slot.inkState);
+    if (success) {
+      // Restore game state from the save
+      const gs = useGameStore.getState();
+      gs.setCurrentScene(
+        slot.scene,
+        slot.sceneLabel
+      );
+    }
+    return success;
   },
 
   deleteSave: (slotId: number) => {

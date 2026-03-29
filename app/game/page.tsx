@@ -10,7 +10,6 @@ import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
 import CGOverlay from "@/components/game/CGOverlay";
-import AutosaveIndicator from "@/components/game/AutosaveIndicator";
 import InGameMenu from "@/components/menu/InGameMenu";
 import SaveLoadMenu from "@/components/menu/SaveLoadMenu";
 import ConfirmDialog from "@/components/menu/ConfirmDialog";
@@ -40,8 +39,6 @@ export default function GamePage() {
   const ffRef = useRef(false);
   ffRef.current = fastForward;
 
-  // Autosave indicator
-  const [autosaveVisible, setAutosaveVisible] = useState(false);
   const prevSceneRef = useRef("");
 
   const currentCG = useGameStore((s) => s.currentCG);
@@ -50,7 +47,7 @@ export default function GamePage() {
   // Init
   useEffect(() => {
     const pendingLoad = useSaveStore.getState().pendingLoad;
-    if (!pendingLoad && pendingLoad !== 0) {
+    if (pendingLoad === null) {
       useGameStore.getState().reset();
     }
 
@@ -59,7 +56,7 @@ export default function GamePage() {
       setInitialized(true);
 
       // Handle pending load from main menu
-      if (loaded && (pendingLoad || pendingLoad === 0)) {
+      if (loaded && pendingLoad !== null) {
         useSaveStore.getState().loadSlots();
         const success = useSaveStore.getState().load(pendingLoad);
         useSaveStore.getState().setPendingLoad(null);
@@ -187,7 +184,8 @@ export default function GamePage() {
     const success = useSaveStore.getState().load(slotId);
     if (success) {
       setSaveMenuOpen(false);
-      useGameStore.getState().reset();
+      setFastForward(false);
+      // Advance once to get text + process tags from loaded position
       const nextText = engine.getText();
       if (nextText) {
         setText(nextText);
@@ -224,7 +222,7 @@ export default function GamePage() {
           {currentCG && text && !booting && (
             <button
               onClick={toggleDialogue}
-              className="fixed right-4 top-4 z-[50] flex h-10 w-10 items-center justify-center rounded-full transition-opacity hover:opacity-100"
+              className="fixed left-4 top-4 z-[50] flex h-10 w-10 items-center justify-center rounded-full transition-opacity hover:opacity-100"
               style={{
                 background: "rgba(255, 255, 255, 0.15)",
                 backdropFilter: "blur(10px)",
@@ -253,13 +251,13 @@ export default function GamePage() {
                 style={{
                   fontFamily: "var(--font-dm-mono)",
                   fontSize: "0.7rem",
-                  color: fastForward ? "var(--teal)" : "rgba(255, 255, 255, 0.5)",
-                  background: "rgba(255, 255, 255, 0.08)",
+                  color: fastForward ? "var(--teal-dark)" : "var(--pink-dark)",
+                  background: "rgba(255, 255, 255, 0.6)",
                   backdropFilter: "blur(10px)",
                   WebkitBackdropFilter: "blur(10px)",
                   border: fastForward
                     ? "1.5px solid var(--teal)"
-                    : "1px solid rgba(255, 143, 171, 0.15)",
+                    : "1px solid rgba(255, 143, 171, 0.3)",
                   boxShadow: fastForward
                     ? "0 0 12px rgba(127,216,216,0.4)"
                     : "none",
@@ -276,11 +274,11 @@ export default function GamePage() {
                   fontFamily: "var(--font-dm-mono)",
                   fontSize: "0.7rem",
                   letterSpacing: "0.1em",
-                  color: "rgba(255, 255, 255, 0.5)",
-                  background: "rgba(255, 255, 255, 0.08)",
+                  color: "var(--pink-dark)",
+                  background: "rgba(255, 255, 255, 0.6)",
                   backdropFilter: "blur(10px)",
                   WebkitBackdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 143, 171, 0.15)",
+                  border: "1px solid rgba(255, 143, 171, 0.3)",
                 }}
               >
                 MENU
@@ -327,8 +325,6 @@ export default function GamePage() {
             )}
           </AnimatePresence>
 
-          {/* Autosave indicator */}
-          <AutosaveIndicator visible={autosaveVisible && !anyOverlayOpen} />
         </>
       )}
 
