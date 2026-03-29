@@ -174,6 +174,14 @@ Elle te regarde avec une intensité que tu ne lui connaissais pas.
 
 ÉTOILE : ...Bonne nuit.
 
+# EXIT: etoile
+
+Tu la regardes descendre les escaliers. La porte se referme. Tu es seul sur le toit.
+
+Le ciel est devenu violet. Les lumières de la ville s'allument une à une en contrebas.
+
+...Qu'est-ce qui vient de se passer ?
+
 -> scene2
 
 // ═══════════════════════════════════════════
@@ -182,15 +190,34 @@ Elle te regarde avec une intensité que tu ne lui connaissais pas.
 
 === scene2 ===
 
+# BG:
+
+...
+
+La nuit a été longue. Tu n'as presque pas dormi.
+
+À chaque fois que tu fermais les yeux, tu revoyais cette lueur rosée entre ses doigts. Et ce regard vide — juste un instant — comme si quelqu'un d'autre regardait à travers elle.
+
+Et cette chose. Lunae. « C'est donc *toi*. »
+
+Qu'est-ce qu'elle voulait dire par là ?
+
 # BG: couloir-lycee
-# SPRITE: etoile-neutre
-# SPEAKER: etoile
 
 Le lendemain. Le lycée bruisse de son bourdonnement habituel.
 
-Tu marches dans le couloir principal quand Étoile te rejoint, un peu essoufflée.
+Tu marches dans le couloir principal, les mains dans les poches. La fatigue te colle aux paupières.
 
-ÉTOILE : Hey ! Tu as bien dormi ? Moi j'ai pas fermé l'œil. Je pouvais pas arrêter de... tu sais.
+Et puis tu entends sa voix.
+
+# SPRITE: etoile-neutre
+# SPEAKER: etoile
+
+ÉTOILE : Hey ! Tu as bien dormi ?
+
+Elle te rejoint en trottinant, un peu essoufflée.
+
+ÉTOILE : Moi j'ai pas fermé l'œil. Je pouvais pas arrêter de... tu sais.
 
 Elle jette un coup d'œil à ses mains. La lueur n'est pas visible — mais elle sait qu'elle est là, juste sous la surface.
 
