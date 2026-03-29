@@ -175,7 +175,7 @@ Elle te regarde avec une intensité que tu ne lui connaissais pas.
 ÉTOILE : ...Bonne nuit.
 
 # EXIT: etoile
-
+# BG: soir
 Tu la regardes descendre les escaliers. La porte se referme. Tu es seul sur le toit.
 
 Le ciel est devenu violet. Les lumières de la ville s'allument une à une en contrebas.

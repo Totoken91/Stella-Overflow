@@ -204,15 +204,24 @@ export default function GamePage() {
   }, []);
 
   // Fade-to-black on scene transition (BG goes null then new)
+  const transitionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
-    if (prevBgRef.current !== null && currentBg === null) {
-      // BG cleared = entering transition
-      setSceneTransition(true);
-    } else if (prevBgRef.current === null && currentBg !== null && sceneTransition) {
-      // New BG arrived = fade out the black
-      setTimeout(() => setSceneTransition(false), 800);
-    }
+    const prevBg = prevBgRef.current;
     prevBgRef.current = currentBg;
+
+    if (prevBg !== null && currentBg === null) {
+      // BG cleared → fade in overlay
+      if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+      setSceneTransition(true);
+    } else if (currentBg !== null && sceneTransition) {
+      // New BG arrived while in transition → schedule fade out
+      if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = setTimeout(() => {
+        setSceneTransition(false);
+        transitionTimerRef.current = null;
+      }, 300);
+    }
   }, [currentBg, sceneTransition]);
 
   useEffect(() => {
