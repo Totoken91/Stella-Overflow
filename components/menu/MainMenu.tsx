@@ -7,10 +7,115 @@ import { useSaveStore } from "@/lib/saveStore";
 import SaveLoadMenu from "./SaveLoadMenu";
 
 const MENU_BUTTONS = [
-  { key: "continue", label: "CONTINUER" },
-  { key: "load", label: "CHARGER" },
-  { key: "quit", label: "QUITTER" },
+  {
+    key: "new",
+    label: "NOUVELLE PARTIE",
+    gradient: "linear-gradient(135deg, #D4F5E9 0%, #B8EDD9 100%)",
+    border: "rgba(168, 228, 202, 0.6)",
+  },
+  {
+    key: "continue",
+    label: "CONTINUER",
+    gradient: "linear-gradient(135deg, #E8E4F8 0%, #D4CEF0 100%)",
+    border: "rgba(200, 192, 232, 0.6)",
+  },
+  {
+    key: "load",
+    label: "CHARGER",
+    gradient: "linear-gradient(135deg, #FFD6E0 0%, #FFBDD5 100%)",
+    border: "rgba(255, 143, 171, 0.5)",
+  },
+  {
+    key: "quit",
+    label: "QUITTER",
+    gradient: "linear-gradient(135deg, #F0E8E0 0%, #E8DDD5 100%)",
+    border: "rgba(200, 180, 160, 0.5)",
+  },
 ] as const;
+
+function MenuButton({
+  btn,
+  index,
+  onClick,
+}: {
+  btn: (typeof MENU_BUTTONS)[number];
+  index: number;
+  onClick: () => void;
+}) {
+  const [tilt, setTilt] = useState({ rotX: 0, rotY: 0 });
+  const [hovering, setHovering] = useState(false);
+  const [shimmer, setShimmer] = useState(false);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const midX = rect.width / 2;
+      const midY = rect.height / 2;
+      setTilt({
+        rotY: ((x - midX) / midX) * 8,
+        rotX: ((midY - y) / midY) * 8,
+      });
+    },
+    []
+  );
+
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
+      whileTap={{ scale: 0.97 }}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => {
+        setHovering(true);
+        setShimmer(true);
+      }}
+      onMouseLeave={() => {
+        setHovering(false);
+        setTilt({ rotX: 0, rotY: 0 });
+        setTimeout(() => setShimmer(false), 600);
+      }}
+      className="relative w-full overflow-hidden text-center"
+      style={{
+        fontFamily: "var(--font-dm-mono)",
+        fontSize: "0.85rem",
+        letterSpacing: "0.15em",
+        color: "var(--pink-dark)",
+        background: btn.gradient,
+        border: `1px solid ${hovering ? btn.border : "rgba(255,255,255,0.3)"}`,
+        borderRadius: "16px",
+        padding: "1rem 1.5rem",
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+        transform: hovering
+          ? `rotateX(${tilt.rotX}deg) rotateY(${tilt.rotY}deg)`
+          : "rotateX(0) rotateY(0)",
+        transition: hovering
+          ? "box-shadow 0.3s ease, border-color 0.3s ease"
+          : "transform 0.4s ease, box-shadow 0.3s ease, border-color 0.3s ease",
+        boxShadow: hovering
+          ? "0 16px 48px rgba(0,0,0,0.12)"
+          : "0 2px 8px rgba(0,0,0,0.06)",
+      }}
+    >
+      {/* Shimmer */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          borderRadius: "16px",
+          background:
+            "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.4) 55%, transparent 60%)",
+          transform: shimmer ? undefined : "translateX(-100%)",
+          animation: shimmer ? "shimmer 0.6s ease forwards" : "none",
+        }}
+      />
+      <span className="relative z-10">{btn.label}</span>
+    </motion.button>
+  );
+}
 
 export default function MainMenu() {
   const router = useRouter();
@@ -36,11 +141,15 @@ export default function MainMenu() {
 
   const handleClick = (key: string) => {
     switch (key) {
+      case "new":
+        setPendingLoad(null);
+        navigateToGame();
+        break;
       case "continue":
         if (autosaveExists) {
-          setPendingLoad(0); // load autosave
+          setPendingLoad(0);
         } else {
-          setPendingLoad(null); // new game
+          setPendingLoad(null);
         }
         navigateToGame();
         break;
@@ -62,8 +171,12 @@ export default function MainMenu() {
   return (
     <motion.div
       className="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden"
-      style={{ background: "#1A0A1E" }}
-      animate={exiting ? { opacity: 0, scale: 0.98 } : { opacity: 1, scale: 1 }}
+      style={{ background: "#1A0A1E", perspective: "800px" }}
+      animate={
+        exiting
+          ? { opacity: 0, scale: 0.98 }
+          : { opacity: 1, scale: 1 }
+      }
       transition={{ duration: 0.4 }}
     >
       {/* Mesh blobs */}
@@ -118,17 +231,22 @@ export default function MainMenu() {
             animation: "breathe 4s ease-in-out infinite",
           }}
         >
+          STELLA{" "}
           <span
             style={{
               color: "var(--teal)",
               filter: "drop-shadow(0 0 10px rgba(127,216,216,0.8))",
-              animation: "spin 4s linear infinite",
               display: "inline-block",
+              animation: "spin 4s linear infinite",
+              transformOrigin: "center center",
+              verticalAlign: "middle",
+              fontSize: "0.8em",
+              lineHeight: 1,
             }}
           >
             ✦
           </span>{" "}
-          STELLA OVERFLOW
+          OVERFLOW
         </h1>
         <p
           style={{
@@ -146,33 +264,16 @@ export default function MainMenu() {
       {/* Buttons */}
       <div
         className="relative z-10 mt-8 flex flex-col gap-3"
-        style={{ width: 240 }}
+        style={{ width: 280 }}
       >
-        {MENU_BUTTONS.map((btn, i) => {
-          return (
-            <motion.button
-              key={btn.key}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 + i * 0.1, duration: 0.4 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => handleClick(btn.key)}
-              className="w-full rounded-xl py-3.5 text-center transition-all"
-              style={{
-                fontFamily: "var(--font-dm-mono)",
-                fontSize: "0.85rem",
-                letterSpacing: "0.15em",
-                color: "var(--pink-soft)",
-                background: "rgba(255, 255, 255, 0.08)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 143, 171, 0.2)",
-              }}
-            >
-              {btn.label}
-            </motion.button>
-          );
-        })}
+        {MENU_BUTTONS.map((btn, i) => (
+          <MenuButton
+            key={btn.key}
+            btn={btn}
+            index={i}
+            onClick={() => handleClick(btn.key)}
+          />
+        ))}
       </div>
 
       {/* Load menu overlay */}
