@@ -295,13 +295,13 @@ export default function GamePage() {
     >
       <MeshBackground />
 
-      {/* Scene transition fade overlay */}
+      {/* Scene transition fade overlay — semi-transparent, not pure black */}
       <div
         className="pointer-events-none absolute inset-0 z-[15]"
         style={{
-          background: "#0A0410",
+          background: "rgba(20, 10, 30, 0.7)",
           opacity: sceneTransition ? 1 : 0,
-          transition: "opacity 1.2s ease-in-out",
+          transition: "opacity 1.5s ease-in-out",
         }}
       />
 

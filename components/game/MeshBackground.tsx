@@ -28,12 +28,12 @@ const BG_THEMES: Record<
 
 const DEFAULT_THEME = BG_THEMES["toit-lycee"];
 
-// No-BG theme (transition between scenes — dark)
+// No-BG theme (night / transition between scenes — deep violet)
 const DARK_THEME = {
-  base: "linear-gradient(160deg, #1A0A1E 0%, #140C18 40%, #0E0A14 100%)",
-  blob1: "rgba(180, 120, 200, 0.2)",
-  blob2: "rgba(100, 80, 160, 0.15)",
-  blob3: "rgba(80, 120, 160, 0.15)",
+  base: "linear-gradient(160deg, #2A1540 0%, #1E1035 40%, #18122E 100%)",
+  blob1: "rgba(180, 120, 220, 0.3)",
+  blob2: "rgba(120, 80, 180, 0.25)",
+  blob3: "rgba(80, 130, 180, 0.2)",
 };
 
 export default function MeshBackground() {
