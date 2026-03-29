@@ -160,9 +160,16 @@ export default function GamePage() {
     if (currentScene) prevSceneRef.current = currentScene;
   }, [currentScene]);
 
+  // Stop fast-forward on scene transition
+  useEffect(() => {
+    if (sceneTransition && fastForward) {
+      setFastForward(false);
+    }
+  }, [sceneTransition, fastForward]);
+
   // Fast-forward loop
   useEffect(() => {
-    if (!fastForward || !text) return;
+    if (!fastForward || !text || sceneTransition) return;
 
     const timer = setTimeout(() => {
       if (!ffRef.current) return;

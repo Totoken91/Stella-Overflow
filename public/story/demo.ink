@@ -51,15 +51,6 @@ Pendant un instant — si bref que tu doutes de l'avoir vu — son regard se vid
 
 Puis elle cligne des yeux et c'est fini. Elle ne semble pas s'en être rendu compte.
 
-* [Rester calme et l'écouter]
-  ~ score = score + 5
-  Tu gardes ton sang-froid. C'est ce dont elle a besoin maintenant.
-  # SPRITE: etoile-soulagee
-  # SPEAKER: etoile
-  ÉTOILE : ...Merci de ne pas paniquer. Ça me rassure un peu.
-  ÉTOILE : Tu sais, t'es la seule personne à qui j'oserais montrer ça.
-  -> suite
-
 * [Lui prendre la main pour examiner]
   ~ score = score + 3
   Tu t'approches et prends délicatement sa main. La lumière est chaude au toucher.
@@ -68,6 +59,15 @@ Puis elle cligne des yeux et c'est fini. Elle ne semble pas s'en être rendu com
   ÉTOILE : H-hey ! Qu'est-ce que tu fais ?!
   Elle rougit mais ne retire pas sa main.
   ÉTOILE : ...C'est bizarre. Quand tu la touches, elle brille plus fort.
+  -> suite
+
+* [Rester calme et l'écouter]
+  ~ score = score + 5
+  Tu gardes ton sang-froid. C'est ce dont elle a besoin maintenant.
+  # SPRITE: etoile-soulagee
+  # SPEAKER: etoile
+  ÉTOILE : ...Merci de ne pas paniquer. Ça me rassure un peu.
+  ÉTOILE : Tu sais, t'es la seule personne à qui j'oserais montrer ça.
   -> suite
 
 === suite ===
@@ -260,15 +260,6 @@ LUNAE : Personne ne me voit sauf toi et ton Manager, chérie~ Allez, montre-leur
 
 === scene2_choice ===
 
-* [L'encourager avec mesure — "Vas-y doucement"]
-  ~ score = score + 5
-  # SPRITE: etoile-neutre lunae-neutre
-  # SPEAKER: etoile
-  Tu poses ta main sur son épaule. « Respire. Concentre-toi juste sur lui. Pas sur la foule. »
-  Elle hoche la tête, inspire profondément.
-  ÉTOILE : ...D'accord. Juste lui.
-  -> scene2_intervention
-
 * [La pousser — "Fonce, montre-leur qui tu es"]
   ~ score = score - 3
   # SPRITE: etoile-surprise lunae-enthousiaste
@@ -277,6 +268,15 @@ LUNAE : Personne ne me voit sauf toi et ton Manager, chérie~ Allez, montre-leur
   # SPEAKER: etoile
   Étoile serre les poings. La lueur s'intensifie.
   ÉTOILE : OK. OK, j'y vais.
+  -> scene2_intervention
+
+* [L'encourager avec mesure — "Vas-y doucement"]
+  ~ score = score + 5
+  # SPRITE: etoile-neutre lunae-neutre
+  # SPEAKER: etoile
+  Tu poses ta main sur son épaule. « Respire. Concentre-toi juste sur lui. Pas sur la foule. »
+  Elle hoche la tête, inspire profondément.
+  ÉTOILE : ...D'accord. Juste lui.
   -> scene2_intervention
 
 === scene2_intervention ===
