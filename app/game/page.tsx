@@ -27,7 +27,11 @@ export default function GamePage() {
   const [storyLoaded, setStoryLoaded] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [dialogueHidden, setDialogueHidden] = useState(false);
-  const [history, setHistory] = useState<Array<{ text: string; inkState: string }>>([]);
+  // History: each entry is { text, inkState (before this line was consumed) }
+  // We browse history without touching the ink engine
+  const historyRef = useRef<Array<{ text: string }>>([]);
+  const [browsingHistory, setBrowsingHistory] = useState(false);
+  const [historyIndex, setHistoryIndex] = useState(-1);;
 
   // Menu states
   const [menuOpen, setMenuOpen] = useState(false);
@@ -82,15 +86,29 @@ export default function GamePage() {
   }, []);
 
   const advance = useCallback(() => {
-    // Save state BEFORE advancing so goBack can restore exactly here
-    const stateBefore = engine.saveState();
+    // If browsing history, clicking forward returns to current
+    if (browsingHistory) {
+      setBrowsingHistory(false);
+      setHistoryIndex(-1);
+      // Restore the current (latest) text from history
+      const latest = historyRef.current[historyRef.current.length - 1];
+      if (latest) setText(latest.text);
+      return;
+    }
+
     const nextText = engine.getText();
     if (nextText !== null) {
-      if (stateBefore && text) {
-        setHistory((h) => [...h, { text, inkState: stateBefore }]);
+      // Save current displayed text to history before showing new one
+      if (text) {
+        historyRef.current.push({ text });
       }
       setText(nextText);
       setChoices(engine.getChoices());
+
+      // Clear history on choices (can't go back past a choice)
+      if (engine.getChoices().length > 0) {
+        historyRef.current = [];
+      }
     } else {
       const currentChoices = engine.getChoices();
       setChoices(currentChoices);
@@ -98,20 +116,32 @@ export default function GamePage() {
         setText(null);
       }
     }
-  }, [text]);
+  }, [text, browsingHistory]);
 
   const goBack = useCallback(() => {
-    if (history.length === 0) return;
-    const prev = history[history.length - 1];
-    const success = engine.loadState(prev.inkState);
-    if (success) {
-      // Re-read the same line to re-process tags (sprites, BG, etc.)
-      const restoredText = engine.getText();
-      setText(restoredText ?? prev.text);
-      setChoices(engine.getChoices());
-      setHistory((h) => h.slice(0, -1));
+    const hist = historyRef.current;
+    if (hist.length === 0) return;
+
+    if (!browsingHistory) {
+      // First back press: save current text as the "latest" entry
+      if (text) hist.push({ text });
+      // Show the previous entry
+      const idx = hist.length - 2;
+      if (idx < 0) return;
+      setBrowsingHistory(true);
+      setHistoryIndex(idx);
+      setText(hist[idx].text);
+      setChoices([]);
+    } else {
+      // Already browsing: go further back
+      const idx = historyIndex - 1;
+      if (idx < 0) return;
+      setHistoryIndex(idx);
+      setText(hist[idx].text);
     }
-  }, [history]);
+  }, [text, browsingHistory, historyIndex]);
+
+  const canGoBack = browsingHistory ? historyIndex > 0 : historyRef.current.length > 0;
 
   const handleBootComplete = useCallback(() => {
     setBooting(false);
@@ -174,9 +204,14 @@ export default function GamePage() {
     if (!currentCG) setDialogueHidden(false);
   }, [currentCG]);
 
-  // Track scene changes (for save labels)
+  // Track scene changes + clear history (can't go back past scene boundary)
   useEffect(() => {
-    if (currentScene) prevSceneRef.current = currentScene;
+    if (currentScene && currentScene !== prevSceneRef.current) {
+      prevSceneRef.current = currentScene;
+      historyRef.current = [];
+      setBrowsingHistory(false);
+      setHistoryIndex(-1);
+    }
   }, [currentScene]);
 
   // Stop fast-forward on scene transition
@@ -339,14 +374,14 @@ export default function GamePage() {
                         style={{
                           fontFamily: "var(--font-dm-mono)",
                           fontSize: "0.75rem",
-                          color: history.length > 0 ? "var(--pink-dark)" : "rgba(107,45,74,0.3)",
+                          color: canGoBack ? "var(--pink-dark)" : "rgba(107,45,74,0.3)",
                           background: "rgba(255, 255, 255, 0.6)",
                           backdropFilter: "blur(10px)",
                           WebkitBackdropFilter: "blur(10px)",
                           border: "1px solid rgba(255, 143, 171, 0.3)",
-                          cursor: history.length > 0 ? "pointer" : "default",
+                          cursor: canGoBack ? "pointer" : "default",
                         }}
-                        disabled={history.length === 0}
+                        disabled={!canGoBack}
                       >
                         {"<"}
                       </button>
