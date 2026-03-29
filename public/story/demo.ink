@@ -310,16 +310,12 @@ Elle rit nerveusement, les yeux brillants.
 
 Mais tu remarques ses mains — elles tremblent encore. Et il y a une fine pellicule de sueur sur son front. Ce n'était pas gratuit.
 
--> scene2_dating
-
 === scene2_dating ===
-
 Après les cours. Le lycée est presque vide.
-
 # BG: toit-lycee
 # SPRITE: etoile-neutre
 
-Étoile t'a envoyé un message : « Rejoins-moi au toit. J'ai un truc pour toi 💫 »
+Étoile t'a envoyé un message : « Rejoins-moi au toit. J’ai un truc pour toi 💫 »
 
 { score >= 8:
   -> dating_scene2_healthy
@@ -328,83 +324,88 @@ Après les cours. Le lycée est presque vide.
 }
 
 === dating_scene2_healthy ===
-
 # SPEAKER: etoile
+# SPRITE: etoile-genre
 
-Quand tu arrives, elle est assise par terre avec un tupperware et un sourire gêné.
+Quand tu arrives, Étoile est assise par terre avec un tupperware sur les genoux et un sourire timide.
+ÉTOILE : J’ai… j’ai cuisiné. Pour fêter ma première mission réussie !
 
-ÉTOILE : J'ai... j'ai cuisiné. Pour fêter ça. Ma première mission réussie !
+Elle ouvre le tupperware. L’odeur est… particulière.
+ÉTOILE : C’est censé être des onigiri. Enfin… je crois.
 
-Elle ouvre le tupperware. L'odeur est... discutable.
-
-ÉTOILE : C'est des onigiri. Enfin, c'est censé être des onigiri.
-
-Tu en prends un. La forme est approximative. Le goût est — eh bien, elle a confondu le sucre et le sel.
+Tu en prends un. La forme est bancale et le goût est un mélange sucré-salé raté.
+Tu fais une grimace malgré toi. Étoile éclate de rire, les joues rouges.
 
 # CG: dating-scene2-healthy
 
-...
+ÉTOILE : C’est horrible, hein ?! Mon Dieu, ta tête ! Je le savais !
 
-Tu fais une grimace involontaire. Elle éclate de rire.
+Vous riez tous les deux, assis sur le béton tiède du toit pendant que le soleil couchant colore le ciel en rose orangé.
+Elle finit par se rapprocher de toi, encore secouée de rire.
 
-ÉTOILE : C'est horrible, hein ? Je le savais ! Mon Dieu, ta tête !
+ÉTOILE : …Merci d’avoir été là aujourd’hui. Vraiment.
 
-Vous riez tous les deux, assis sur le béton tiède du toit, le soleil couchant teintant le ciel de rose.
+Elle monte doucement à califourchon sur tes jambes. Le baiser commence timidement puis devient plus profond. Ses hanches bougent lentement contre toi, ses seins pressés contre ton torse dans une tension sensuelle et joueuse.
 
-ÉTOILE : ...Merci d'avoir été là aujourd'hui. Sérieusement.
+# CG: dating-scene2-healthy
 
-Elle range le tupperware avec un sourire penaud.
+ÉTOILE : La prochaine fois… je commanderai des pizzas, promis.
 
-ÉTOILE : La prochaine fois je commande des pizzas.
-
-# CG:
+Elle rit doucement contre tes lèvres, le souffle un peu court.
 
 -> scene2_end
 
+
 === dating_scene2_unhealthy ===
-
 # SPEAKER: etoile
+# SPRITE: etoile-excitee
 
-Quand tu arrives, elle court vers toi. Littéralement.
+Quand tu arrives sur le toit, Étoile court vers toi et se jette littéralement dans tes bras, le corps tremblant d’adrénaline.
 
-Avant que tu puisses réagir, elle se jette dans tes bras. Fort.
+ÉTOILE : Tu as vu ?! Tu as vu ce que j’ai fait ?!
 
-# SPRITE: etoile-genee
-
-ÉTOILE : Tu as vu ?! Tu as vu ce que j'ai fait ?!
-
-Elle est surexcitée. Ses yeux brillent un peu trop. Ses mains sur tes épaules serrent un peu trop fort.
+Ses yeux brillent d’une excitation presque fiévreuse. Elle se colle violemment contre toi, poitrine écrasée contre ton torse.
 
 # CG: dating-scene2-unhealthy
 
-...
+ÉTOILE : J’étais incroyable, non ? Dis-moi que j’étais incroyable… !
 
-ÉTOILE : J'étais incroyable, non ? Dis-moi que j'étais incroyable.
+Sans te laisser le temps de répondre, elle enfouit son visage dans ton cou et t’embrasse la peau avec urgence, la respiration saccadée.
+Sa main descend rapidement entre vos corps. Elle caresse d’abord ton sexe par-dessus le pantalon, puis glisse directement à l’intérieur, ses doigts chauds se refermant autour de ta verge déjà dure.
 
-Elle ne te laisse pas le temps de répondre. Elle se colle contre toi, son visage enfoui dans ton cou.
+ÉTOILE : (murmure rauque contre ton cou) Je me sens tellement puissante… mais j’ai besoin de ça… j’ai besoin de toi…
 
-ÉTOILE : Je pourrais le refaire. Je pourrais le refaire maintenant. Lunae dit que je devrais m'entraîner plus...
+Elle commence à te masturber avec des mouvements rapides et impatients. Sa main monte et descend le long de ta queue avec ferveur, le pouce passant régulièrement sur ton gland humide. Elle tremble contre toi, son souffle chaud et irrégulier.
 
-Elle tremble. Ce n'est pas de la joie — c'est de l'adrénaline qui refuse de redescendre.
+ÉTOILE : Plus fort… dis-moi que j’étais bien… dis-le…
 
-ÉTOILE : ...Reste avec moi ce soir ? Je veux pas être seule.
+Ses mouvements s’accélèrent. Elle te branle de plus en plus vite, serrant juste comme il faut, le corps collé au tien comme si elle avait peur que tu disparaisses. Ses seins se pressent contre ta poitrine à chaque va-et-vient de sa main.
 
-Son ton a changé. Ce n'est plus de l'excitation. C'est de la peur déguisée.
+ÉTOILE : Je veux te sentir jouir… s’il te plaît… jouis pour moi…
 
-# CG:
+Elle accélère encore, la main glissante et frénétique, le regard fiévreux levé vers toi. Ses lèvres effleurent ton cou, sa langue te lèche la peau pendant qu’elle continue à te pomper sans ralentir.
+
+Quand le plaisir devient trop intense, tu jouis dans sa main avec un grognement étouffé. Étoile ne s’arrête pas tout de suite : elle continue à te caresser lentement pendant que tu éjacules, recueillant ton sperme chaud entre ses doigts, un petit sourire satisfait et troublé sur les lèvres.
+
+ÉTOILE : (essoufflée) …Voilà… c’est mieux comme ça…
+
+Elle retire lentement sa main, regarde un instant le résultat sur ses doigts, puis les essuie discrètement sur sa jupe sans te quitter des yeux.
+
+ÉTOILE : Reste avec moi ce soir… Je veux pas redescendre seule.
+
+# CG: dating-scene2-unhealthy
 
 -> scene2_end
 
-=== scene2_end ===
 
+=== scene2_end ===
 # SPRITE: etoile-neutre
 # BG: toit-lycee
 
-Le soleil disparaît derrière les immeubles. La routine reprend ses droits.
+Le soleil disparaît derrière les immeubles. Le vent du soir se lève, un peu plus frais.
 
-Mais quelque chose a changé. Étoile a goûté à ses pouvoirs — et au regard des autres. Et toi, tu as vu ce que ça lui fait.
-
-La question, maintenant, c'est : combien de fois encore ?
+Étoile a goûté à ses pouvoirs… et à cette nouvelle façon de se sentir vivante.
+Et toi, tu viens de comprendre à quel point ça peut monter vite… et à quel point ça peut devenir dangereux.
 
 [ Fin de la Scène 2 — À suivre... ]
 
