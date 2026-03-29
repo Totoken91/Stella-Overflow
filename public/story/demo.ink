@@ -112,17 +112,6 @@ LUNAE : Oh~ C'est donc *toi*. Oui, oui... tu feras très bien l'affaire~
 # SPEAKER: etoile
 ÉTOILE : Est-ce que... est-ce que tu crois que je suis normale ?
 
-* [Tu es extraordinaire.]
-  ~ score = score + 3
-  # SPEAKER: etoile
-  # SPRITE: etoile-soulagee lunae-enthousiaste
-  ÉTOILE : ...Extraordinaire, hein ?
-  Elle sourit, mais ses yeux brillent d'une lueur différente.
-  # SPEAKER: lunae
-  LUNAE : Oh, je l'aime bien celui-là~
-  ÉTOILE : J'espère que tu le penseras encore quand tu sauras tout.
-  -> murmure
-
 * [Personne n'est normal.]
   ~ score = score + 5
   # SPEAKER: etoile
@@ -133,6 +122,17 @@ LUNAE : Oh~ C'est donc *toi*. Oui, oui... tu feras très bien l'affaire~
   # SPEAKER: lunae
   # SPRITE: etoile-neutre lunae-enthousiaste
   LUNAE : Hmm~ Intéressant comme réponse...
+  -> murmure
+
+* [Tu es extraordinaire.]
+  ~ score = score + 3
+  # SPEAKER: etoile
+  # SPRITE: etoile-soulagee lunae-enthousiaste
+  ÉTOILE : ...Extraordinaire, hein ?
+  Elle sourit, mais ses yeux brillent d'une lueur différente.
+  # SPEAKER: lunae
+  LUNAE : Oh, je l'aime bien celui-là~
+  ÉTOILE : J'espère que tu le penseras encore quand tu sauras tout.
   -> murmure
 
 === murmure ===
