@@ -332,8 +332,8 @@ export default function MainMenu() {
           {MENU_BUTTONS.map((btn, i) => (
             <motion.button
               key={btn.key}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.6 + i * 0.15 }}
               whileHover={{ y: -1 }}
               whileTap={{ scale: 0.98 }}

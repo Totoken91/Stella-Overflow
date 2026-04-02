@@ -1,5 +1,5 @@
 import { Story } from "inkjs";
-import { useGameStore } from "./gameState";
+import { useGameStore, type SceneMode } from "./gameState";
 
 let story: Story | null = null;
 let storyLoaded = false;
@@ -87,6 +87,10 @@ function processTags(tags: string[] | null) {
         store.setCurrentScene(sceneName, labels[sceneName] || sceneName);
         break;
       }
+
+      case "MOOD":
+        store.setSceneMode(value as SceneMode);
+        break;
 
       case "STOP_FF":
         // Checked externally via hasStopFF()

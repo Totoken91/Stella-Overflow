@@ -10,6 +10,8 @@ import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
 import CGOverlay from "@/components/game/CGOverlay";
+import AutosaveToast from "@/components/game/AutosaveToast";
+import EndScreen from "@/components/game/EndScreen";
 import InGameMenu from "@/components/menu/InGameMenu";
 import SaveLoadMenu from "@/components/menu/SaveLoadMenu";
 import ConfirmDialog from "@/components/menu/ConfirmDialog";
@@ -39,6 +41,7 @@ export default function GamePage() {
   const [saveMenuOpen, setSaveMenuOpen] = useState(false);
   const [saveMenuMode, setSaveMenuMode] = useState<"save" | "load">("save");
   const [confirmReturnOpen, setConfirmReturnOpen] = useState(false);
+  const [showAutosaveToast, setShowAutosaveToast] = useState(false);
 
   // Fast-forward
   const [fastForward, setFastForward] = useState(false);
@@ -51,6 +54,7 @@ export default function GamePage() {
   const currentCG = useGameStore((s) => s.currentCG);
   const currentBg = useGameStore((s) => s.currentBg);
   const currentScene = useGameStore((s) => s.currentScene);
+  const sceneMode = useGameStore((s) => s.sceneMode);
   const [sceneTransition, setSceneTransition] = useState(false);
   const prevBgRef = useRef<string | null>(null);
 
@@ -170,6 +174,8 @@ export default function GamePage() {
       engine.choose(index);
       setChoices([]);
       advance();
+      useSaveStore.getState().autoSave();
+      setShowAutosaveToast(true);
     },
     [advance]
   );
@@ -314,7 +320,7 @@ export default function GamePage() {
 
   return (
     <div
-      className="game-container relative h-screen w-screen overflow-hidden"
+      className={`game-container scene-${sceneMode} relative h-screen w-screen overflow-hidden`}
       onClick={handleScreenClick}
     >
       <MeshBackground />
@@ -457,45 +463,17 @@ export default function GamePage() {
       )}
 
       {/* End of story */}
-      <AnimatePresence>
-        {storyEnded && !booting && (
-          <motion.div
-            className="absolute inset-0 z-[50] flex flex-col items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.5, delay: 0.5 }}
-            style={{
-              background: "rgba(26, 10, 30, 0.85)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-            onClick={() => router.push("/")}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontSize: "1.8rem",
-                fontStyle: "italic",
-                color: "var(--pink-soft)",
-                textShadow: "0 0 20px rgba(255,143,171,0.4)",
-                marginBottom: "1rem",
-              }}
-            >
-              À suivre...
-            </h2>
-            <p
-              style={{
-                fontFamily: "var(--font-dm-mono)",
-                fontSize: "0.7rem",
-                letterSpacing: "0.15em",
-                color: "rgba(255, 179, 198, 0.4)",
-              }}
-            >
-              cliquer pour revenir au menu
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <EndScreen
+        visible={storyEnded && !booting}
+        variant={sceneMode === "dissociation" ? "game-over" : "act-end"}
+        onExit={() => router.push("/")}
+      />
+
+      {/* Autosave feedback */}
+      <AutosaveToast
+        visible={showAutosaveToast}
+        onHide={() => setShowAutosaveToast(false)}
+      />
 
       {/* Fallback */}
       {initialized && !storyLoaded && !booting && (

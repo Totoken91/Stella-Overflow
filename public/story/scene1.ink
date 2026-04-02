@@ -1,0 +1,543 @@
+// === TAG FORMAT ===
+// # BG: nom-du-background
+// # SPRITE: nom-personnage-expression [nom2-expression2]
+// # SPEAKER: nom-personnage
+// # ENTER: nom-personnage-expression
+// # EXIT: nom-personnage
+// # MOOD: calm | tension | intimate | dissociation
+// # SFX: nom-effet
+// # MUSIC: nom-piste
+// ==================
+
+VAR score = 0
+
+// ═══════════════════════════════════════════
+// SCÈNE 1 — LA RENCONTRE
+// ═══════════════════════════════════════════
+
+# SCENE: scene1
+# BG: couloir-lycee
+# MOOD: calm
+
+La journée tire à sa fin. Le couloir sent la poussière et le fond de sac.
+
+Tu récupères tes affaires. Les élèves passent, pressés de rentrer.
+
+Stella passe aussi.
+
+Elle marche près du mur, sac serré contre elle, les yeux quelque part entre le sol et les casiers. Comme d'habitude.
+
+Vous vous croisez des dizaines de fois par semaine sans vraiment vous parler.
+
+Elle va passer.
+
+# SPRITE: stella-neutre
+
+Elle s'arrête.
+
+Se retourne.
+
+# SPEAKER: stella
+
+STELLA : Hé.
+
+Elle sort son téléphone, regarde l'écran une seconde — puis le remet dans sa poche sans l'avoir vraiment consulté.
+
+STELLA : T'as rien ce soir ? Enfin — peu importe, viens sur le toit dans vingt minutes.
+
+Elle hésite.
+
+STELLA : J'ai quelque chose à te montrer — enfin c'est pas vraiment quelque chose à *montrer*, c'est plutôt...
+
+Elle s'interrompt. Secoue légèrement la tête.
+
+STELLA : Vingt minutes. Le toit.
+
+# EXIT: stella
+
+Elle repart avant que tu aies pu dire quoi que ce soit.
+
+...
+
+Tu restes là une seconde, sac à la main.
+
+Vous êtes dans la même classe depuis septembre. C'est la première fois qu'elle t'adresse plus de deux mots d'affilée.
+
+// ─────────────────────────────────────────
+// TRAJET — MONOLOGUE INTÉRIEUR
+// ─────────────────────────────────────────
+
+Tu prends l'escalier de service, celui du fond. Moins de monde.
+
+...
+
+Stella.
+
+Tu ne lui as jamais vraiment parlé. Personne ne lui parle vraiment, en fait — pas par rejet, juste parce qu'elle n'occupe pas l'espace de cette façon-là.
+
+Elle est là, elle écoute, elle part. Discrète au point de devenir presque invisible.
+
+Tu connais son prénom parce qu'il est sur la liste d'appel. Tu sais qu'elle s'assoit côté fenêtre, rangée du milieu.
+
+Tu sais qu'elle ne lève jamais la main même quand elle connaît la réponse — tu l'as vu hésiter une fois, la main à mi-chemin, et se raviser.
+
+C'est à peu près tout ce que tu sais d'elle.
+
+Alors pourquoi toi ?
+
+Tu n'es pas le plus proche d'elle. Pas son meilleur ami, pas son voisin, pas quelqu'un avec qui tu manges le midi.
+
+Juste quelqu'un dans la même salle, à quelques rangs de distance, depuis septembre.
+
+Peut-être qu'elle a envoyé le même message à dix autres personnes.
+
+...
+
+Peut-être pas.
+
+Le métal de la porte du toit est froid sous ta main.
+
+Tu pousses.
+
+// ─────────────────────────────────────────
+// TOIT — L'ATTENTE
+// ─────────────────────────────────────────
+
+# BG: toit-lycee
+
+L'air du soir te frappe — frais, teinté de rose.
+
+Elle est là, dos à toi, accoudée à la rambarde.
+
+Elle regarde ses mains.
+
+Pas la ville. Pas le ciel. Ses mains.
+
+# SPRITE: stella-neutre
+# SPEAKER: stella
+
+STELLA : T'as mis le temps.
+
+Elle se retourne. Trop vite.
+
+STELLA : ...Ouais, non. C'était pas un reproche.
+
+Un silence.
+
+STELLA : Je sais pas par où commencer.
+
+Elle reprend ses mains devant elle, les examine comme si elle les voyait pour la première fois.
+
+STELLA : Ça a commencé il y a trois jours — enfin, trois jours et demi si on compte depuis le soir où j'ai...
+
+Elle s'interrompt. Secoue la tête.
+
+STELLA : Non. Montre-toi d'abord. Après j'explique.
+
+// ─────────────────────────────────────────
+// LA RÉVÉLATION
+// ─────────────────────────────────────────
+
+# MOOD: intimate
+
+Une lueur rosée apparaît entre ses doigts — douce, pulsante, comme un battement de cœur.
+
+Elle ne te regarde pas. Elle regarde la lumière.
+
+# SPRITE: stella-vide
+
+...
+
+Pendant quelques secondes, quelque chose change dans ses yeux. Pas la peur. Pas l'émerveillement. Quelque chose de plus lointain — comme si la pièce s'était vidée d'elle sans qu'elle parte.
+
+# SPRITE: stella-genee
+
+Elle cligne des yeux.
+
+# SPEAKER: stella
+
+STELLA : C'est beau, non ?
+
+Elle réalise ce qu'elle vient de dire. Elle retire sa main. La lueur s'estompe.
+
+STELLA : Enfin je veux dire — c'est bizarre. C'est surtout bizarre. Je sais pas pourquoi j'ai dit ça.
+
+Elle te regarde enfin, cherchant quelque chose dans ton expression.
+
+* ["C'est beau. T'as pas à t'excuser."]
+    ~ score = score + 5
+    # SPRITE: stella-soulagee
+    # SPEAKER: stella
+    STELLA : ...Oh.
+    Elle a l'air surprise — comme si elle s'était préparée à devoir se défendre.
+    STELLA : Merci. Vraiment.
+    Elle baisse les yeux une seconde, puis les relève.
+    STELLA : T'es peut-être la seule personne à qui j'aurais pu montrer ça.
+    -> lunae_approche
+
+* ["T'as peur ?"]
+    ~ score = score + 3
+    # SPRITE: stella-surprise
+    # SPEAKER: stella
+    La question la prend de court. Elle y réfléchit vraiment.
+    STELLA : Je... non. C'est ça le truc.
+    STELLA : Je devrais avoir peur, non ? Mais j'ai surtout envie de recommencer.
+    Elle dit ça comme un aveu.
+    -> lunae_approche
+
+// ─────────────────────────────────────────
+// LUNAE — ENTRÉE
+// ─────────────────────────────────────────
+
+=== lunae_approche ===
+
+# MOOD: tension
+# SPRITE: stella-neutre
+
+Un silence s'installe. La lueur a disparu mais l'air sur le toit est différent — plus dense, comme avant un orage.
+
+Stella s'arrête de parler.
+
+Elle regarde un point derrière toi.
+
+Son expression — pas de la peur. Quelque chose qu'on pourrait appeler de la reconnaissance.
+
+# ENTER: lunae-neutre
+
+Lunae est là.
+
+Petite, lumineuse, suspendue dans l'air du soir. Elle vous regarde tous les deux — Stella d'abord, brièvement.
+
+Puis elle se tourne vers toi.
+
+Son regard dure une seconde de trop.
+
+# SPEAKER: lunae
+# SPRITE: stella-neutre lunae-neutre
+
+LUNAE : ...Ah. C'est donc toi.
+
+Un silence. Elle ne complète pas.
+
+LUNAE : Je m'appelle Lunae.
+
+Elle laisse ça reposer. Pas de présentation théâtrale. Pas d'explication.
+
+Elle se tourne vers Stella. Son ton change — plus doux, presque attentionné. Ce qui est encore plus étrange.
+
+LUNAE : Tu as bien fait de le faire venir. Tu vas avoir besoin de lui.
+
+# SPEAKER: stella
+# SPRITE: stella-surprise lunae-neutre
+
+STELLA : Comment tu sais qu'il est—
+
+# SPEAKER: lunae
+
+LUNAE : Parce que c'est moi qui t'ai choisie. Et lui avec toi.
+
+Elle dit ça simplement. Comme un fait établi depuis longtemps.
+
+* ["Comment tu sais qui je suis ?"]
+    ~ score = score + 3
+    # SPRITE: stella-surprise lunae-neutre
+    # SPEAKER: lunae
+    LUNAE : Bonne question.
+    Elle te regarde avec quelque chose qui ressemble à de la satisfaction.
+    LUNAE : Tu poseras les bonnes questions. C'est rassurant.
+    Elle ne répond pas pour autant.
+    -> fin_scene1
+
+* [L'observer en silence.]
+    ~ score = score + 5
+    # SPRITE: stella-surprise lunae-neutre
+    # SPEAKER: lunae
+    Lunae remarque ton silence. Le coin de ses lèvres remonte, légèrement.
+    LUNAE : ...Encore mieux.
+    # SPEAKER: stella
+    STELLA : (à voix basse) Elle te fait pas peur ?
+    -> fin_scene1
+
+// ─────────────────────────────────────────
+// FIN DE SCÈNE
+// ─────────────────────────────────────────
+
+=== fin_scene1 ===
+
+# EXIT: lunae
+# SPRITE: stella-neutre
+# MOOD: intimate
+
+Lunae disparaît aussi discrètement qu'elle est venue — pas de sortie théâtrale, juste une absence là où il y avait une présence.
+
+# SPEAKER: stella
+
+STELLA : Elle... te regardait bizarrement.
+
+Un temps.
+
+STELLA : Moi aussi elle me regarde comme ça depuis trois jours. Depuis que c'est apparu.
+
+Elle baisse les yeux sur ses mains. La lueur ne revient pas.
+
+STELLA : J'ai pas demandé à ce que ce soit toi.
+
+Elle hésite.
+
+STELLA : Mais... je suis contente que ce soit toi.
+
+Elle ramasse son sac.
+
+STELLA : Bonne nuit.
+
+# EXIT: stella
+# BG: soir
+# MOOD: calm
+
+Tu la regardes partir. La porte se referme.
+
+Tu es seul sur le toit.
+
+Le ciel est violet. Les lumières de la ville s'allument une à une en contrebas.
+
+Et dans ta tête, ce regard de Lunae — direct, reconnaissant, trop informé.
+
+*"C'est donc toi."*
+
+...Qu'est-ce que ça veut dire ?
+
+-> scene2
+
+// ═══════════════════════════════════════════
+// SCÈNE 2 — PREMIER SAUVETAGE
+// ═══════════════════════════════════════════
+
+=== scene2 ===
+
+# BG:
+# SCENE: scene2
+# MOOD: calm
+
+La nuit a été longue. Tu n'as presque pas dormi.
+
+À chaque fois que tu fermais les yeux, tu revoyais cette lueur rosée entre ses doigts. Et ce regard vide — juste un instant — comme si quelqu'un d'autre regardait à travers elle.
+
+Et cette chose. Lunae. « C'est donc *toi*. »
+
+Qu'est-ce qu'elle voulait dire par là ?
+
+# BG: couloir-lycee
+
+Le lendemain. Le lycée bruisse de son bourdonnement habituel.
+
+Tu marches dans le couloir principal, les mains dans les poches. La fatigue te colle aux paupières.
+
+Et puis tu entends sa voix.
+
+# SPRITE: stella-neutre
+# SPEAKER: stella
+
+STELLA : Hey ! Tu as bien dormi ?
+
+Elle te rejoint en trottinant, un peu essoufflée.
+
+STELLA : Moi j'ai pas fermé l'œil. Je pouvais pas arrêter de... tu sais.
+
+Elle jette un coup d'œil à ses mains. La lueur n'est pas visible — mais elle sait qu'elle est là, juste sous la surface.
+
+STELLA : J'ai essayé de faire léviter ma télécommande cette nuit. J'ai cassé une lampe.
+
+Un bruit sourd résonne depuis l'étage du dessus. Puis un cri.
+
+# MOOD: tension
+# SPRITE: stella-surprise
+
+Vous courez vers les escaliers. Un élève est étalé en bas des marches, le visage tordu de douleur. Sa jambe forme un angle anormal. Autour, les gens paniquent — certains filment avec leurs téléphones.
+
+STELLA : Oh non... Sa jambe... C'est...
+
+Elle recule d'un pas. Ses mains tremblent. La lueur rosée commence à filtrer entre ses doigts.
+
+STELLA : Je... je pourrais peut-être...
+
+# ENTER: lunae-enthousiaste
+# SPEAKER: lunae
+
+LUNAE : Tu pourrais, oui~ Tu pourrais complètement~
+
+# SPEAKER: stella
+# SPRITE: stella-surprise lunae-enthousiaste
+
+STELLA : Lunae ?! Pas ici, les gens vont te voir !
+
+# SPEAKER: lunae
+
+LUNAE : Personne ne me voit sauf toi et ton Manager, chérie~ Allez, montre-leur ce que tu sais faire !
+
+Stella te regarde, cherchant une réponse dans tes yeux.
+
+# SPEAKER: stella
+
+STELLA : Qu'est-ce que je fais ?
+
+-> scene2_choice
+
+=== scene2_choice ===
+
+* [La pousser — "Fonce, montre-leur qui tu es"]
+  ~ score = score - 3
+  # SPRITE: stella-surprise lunae-enthousiaste
+  # SPEAKER: lunae
+  LUNAE : Exactement ! C'est le moment, Stella !
+  # SPEAKER: stella
+  Stella serre les poings. La lueur s'intensifie.
+  STELLA : OK. OK, j'y vais.
+  -> scene2_intervention
+
+* [L'encourager avec mesure — "Vas-y doucement"]
+  ~ score = score + 5
+  # SPRITE: stella-neutre lunae-neutre
+  # SPEAKER: stella
+  Tu poses ta main sur son épaule. « Respire. Concentre-toi juste sur lui. Pas sur la foule. »
+  Elle hoche la tête, inspire profondément.
+  STELLA : ...D'accord. Juste lui.
+  -> scene2_intervention
+
+=== scene2_intervention ===
+
+# EXIT: lunae
+# MOOD: intimate
+
+Elle s'agenouille près de l'élève. Ses mains brillent — et cette fois, tout le monde peut voir.
+
+# CG: transformation-scene2
+
+La lumière l'enveloppe. Pendant une seconde, son uniforme semble se dissoudre dans l'éclat rosé avant de se reformer en quelque chose d'autre — un costume que personne ne lui a appris à porter.
+
+C'est la première fois. Et c'est magnifique.
+
+# CG:
+# SPRITE: stella-neutre
+
+La lueur se concentre dans ses paumes. Elle les pose sur la jambe blessée. L'élève grimace — puis son visage se détend. L'os se replace. La douleur s'efface.
+
+Silence dans le couloir. Puis quelqu'un applaudit. Puis un autre. Stella se relève, les jambes tremblantes, le costume déjà en train de se dissiper.
+
+# SPRITE: stella-soulagee
+# SPEAKER: stella
+
+STELLA : ...J'ai réussi ?
+
+Elle rit nerveusement, les yeux brillants.
+
+STELLA : J'ai vraiment réussi !
+
+Mais tu remarques ses mains — elles tremblent encore. Et il y a une fine pellicule de sueur sur son front. Ce n'était pas gratuit.
+
+-> scene2_dating
+
+=== scene2_dating ===
+
+Après les cours. Le lycée est presque vide.
+
+# BG: toit-lycee
+# SPRITE: stella-neutre
+
+Stella t'a envoyé un message : « Rejoins-moi au toit. J'ai un truc pour toi 💫 »
+
+{ score >= 8:
+  -> dating_scene2_healthy
+- else:
+  -> dating_scene2_unhealthy
+}
+
+=== dating_scene2_healthy ===
+
+# MOOD: intimate
+# SPEAKER: stella
+# SPRITE: stella-genee
+
+Quand tu arrives, Stella est assise par terre avec un tupperware sur les genoux et un sourire timide.
+
+STELLA : J'ai… j'ai cuisiné. Pour fêter ma première mission réussie !
+
+Elle ouvre le tupperware. L'odeur est… particulière.
+
+STELLA : C'est censé être des onigiri. Enfin… je crois.
+
+Tu en prends un. La forme est bancale et le goût est un mélange sucré-salé raté. Tu fais une grimace malgré toi. Stella éclate de rire, les joues rouges.
+
+# CG: dating-scene2-healthy
+
+STELLA : C'est horrible, hein ?! Mon Dieu, ta tête ! Je le savais !
+
+Vous riez tous les deux, assis sur le béton tiède du toit pendant que le soleil couchant colore le ciel en rose orangé. Elle finit par se rapprocher de toi, encore secouée de rire.
+
+STELLA : …Merci d'avoir été là aujourd'hui. Vraiment.
+
+Elle monte doucement à califourchon sur tes jambes. Le baiser commence timidement puis devient plus profond. Ses hanches bougent lentement contre toi, ses seins pressés contre ton torse dans une tension sensuelle et joueuse.
+
+# CG: dating-scene2-healthy
+
+STELLA : La prochaine fois… je commanderai des pizzas, promis.
+
+Elle rit doucement contre tes lèvres, le souffle un peu court.
+
+-> scene2_end
+
+=== dating_scene2_unhealthy ===
+
+# MOOD: tension
+# SPEAKER: stella
+# SPRITE: stella-excitee
+
+Quand tu arrives sur le toit, Stella court vers toi et se jette littéralement dans tes bras, le corps tremblant d'adrénaline.
+
+STELLA : Tu as vu ?! Tu as vu ce que j'ai fait ?!
+
+Ses yeux brillent d'une excitation presque fiévreuse. Elle se colle violemment contre toi, poitrine écrasée contre ton torse.
+
+# CG: dating-scene2-unhealthy
+
+STELLA : J'étais incroyable, non ? Dis-moi que j'étais incroyable… !
+
+Sans te laisser le temps de répondre, elle enfouit son visage dans ton cou et t'embrasse la peau avec urgence, la respiration saccadée. Sa main descend rapidement entre vos corps. Elle caresse d'abord ton sexe par-dessus le pantalon, puis glisse directement à l'intérieur, ses doigts chauds se refermant autour de ta verge déjà dure.
+
+STELLA : (murmure rauque contre ton cou) Je me sens tellement puissante… mais j'ai besoin de ça… j'ai besoin de toi…
+
+Elle commence à te masturber avec des mouvements rapides et impatients. Sa main monte et descend le long de ta queue avec ferveur, le pouce passant régulièrement sur ton gland humide. Elle tremble contre toi, son souffle chaud et irrégulier.
+
+STELLA : Plus fort… dis-moi que j'étais bien… dis-le…
+
+Ses mouvements s'accélèrent. Elle te branle de plus en plus vite, serrant juste comme il faut, le corps collé au tien comme si elle avait peur que tu disparaisses. Ses seins se pressent contre ta poitrine à chaque va-et-vient de sa main.
+
+STELLA : Je veux te sentir jouir… s'il te plaît… jouis pour moi…
+
+Elle accélère encore, la main glissante et frénétique, le regard fiévreux levé vers toi. Ses lèvres effleurent ton cou, sa langue te lèche la peau pendant qu'elle continue à te pomper sans ralentir.
+
+Quand le plaisir devient trop intense, tu jouis dans sa main avec un grognement étouffé. Stella ne s'arrête pas tout de suite : elle continue à te caresser lentement pendant que tu éjacules, recueillant ton sperme chaud entre ses doigts, un petit sourire satisfait et troublé sur les lèvres.
+
+STELLA : (essoufflée) …Voilà… c'est mieux comme ça…
+
+Elle retire lentement sa main, regarde un instant le résultat sur ses doigts, puis les essuie discrètement sur sa jupe sans te quitter des yeux.
+
+STELLA : Reste avec moi ce soir… Je veux pas redescendre seule.
+
+# CG: dating-scene2-unhealthy
+
+-> scene2_end
+
+=== scene2_end ===
+
+# CG:
+# SPRITE: stella-neutre
+# BG: toit-lycee
+# MOOD: calm
+
+Le soleil disparaît derrière les immeubles. Le vent du soir se lève, un peu plus frais.
+
+Stella a goûté à ses pouvoirs… et à cette nouvelle façon de se sentir vivante. Et toi, tu viens de comprendre à quel point ça peut monter vite… et à quel point ça peut devenir dangereux.
+
+[ Fin de la Scène 2 — À suivre... ]
+
+-> END

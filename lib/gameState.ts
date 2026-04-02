@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type SceneMode = "calm" | "tension" | "intimate" | "dissociation";
+
 interface GameState {
   // Narrative
   score: number;
@@ -13,6 +15,7 @@ interface GameState {
   currentCG: string | null;
   currentScene: string;
   currentSceneLabel: string;
+  sceneMode: SceneMode;
 
   // Sprites
   currentSpeaker: string;
@@ -24,6 +27,7 @@ interface GameState {
   setMusic: (music: string | null) => void;
   setCG: (cg: string | null) => void;
   setCurrentScene: (scene: string, label: string) => void;
+  setSceneMode: (mode: SceneMode) => void;
 
   // Sprite actions
   setSpeaker: (name: string) => void;
@@ -48,6 +52,7 @@ const initialState = {
   currentCG: null,
   currentScene: "",
   currentSceneLabel: "",
+  sceneMode: "calm" as SceneMode,
   currentSpeaker: "",
   visibleSprites: [],
   currentExpression: {},
@@ -63,6 +68,7 @@ export const useGameStore = create<GameState>()(
       setCG: (cg) => set({ currentCG: cg }),
       setCurrentScene: (scene, label) =>
         set({ currentScene: scene, currentSceneLabel: label }),
+      setSceneMode: (mode) => set({ sceneMode: mode }),
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 

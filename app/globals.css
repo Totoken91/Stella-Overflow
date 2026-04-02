@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --idle-amplitude: 4px;
   --pink-soft: #FFD6E0;
   --pink-mid: #FFB3C6;
   --pink-deep: #FF8FAB;
@@ -92,7 +93,31 @@ body {
 /* ─── SPRITE IDLE ─── */
 @keyframes spriteIdle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+  50% { transform: translateY(calc(-1 * var(--idle-amplitude))); }
+}
+
+/* ─── BACKGROUND TENSION ─── */
+@keyframes bgTension {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25%       { transform: translate3d(-1px, 0.5px, 0); }
+  75%       { transform: translate3d(1px, -0.5px, 0); }
+}
+
+/* ─── SCENE MODES ─── */
+.scene-tension {
+  --idle-amplitude: 7px;
+}
+.scene-tension .mesh-bg {
+  animation: bgTension 2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.scene-intimate {
+  --idle-amplitude: 2px;
+}
+
+.scene-dissociation {
+  --idle-amplitude: 0px;
 }
 
 /* ─── MENU BUTTON HOVER ─── */

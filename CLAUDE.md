@@ -93,7 +93,7 @@ scripts/
   compile-ink.js      → compile .ink → .json (usage: node scripts/compile-ink.js)
 
 public/
-  story/demo.ink      → script Ink de la scène 1 (source)
+  story/scene1.ink    → script Ink des scènes 1 et 2 (source)
   story/scene1.json   → JSON compilé (généré)
   sprites/            → PNG sprites ({perso}-{expression}.png ou {perso}-placeholder.png)
   backgrounds/        → PNG backgrounds
@@ -119,6 +119,37 @@ public/
 1. Cherche `/sprites/{perso}-{expression}.png` (exact)
 2. Sinon utilise `/sprites/{perso}-placeholder.png`
 3. Sinon bloc glassmorphism
+
+### Règles de présence sprite — OBLIGATOIRES dans le .ink
+
+Ces règles s'appliquent à CHAQUE scène, sans exception. Les violer crée des personnages fantômes à l'écran.
+
+**Apparition**
+- Un personnage n'est jamais visible avant d'entrer physiquement dans la scène.
+- Première apparition dans une scène → `# SPRITE: {perso}-{expression}` ou `# ENTER: {perso}-{expression}`
+- `SPRITE` : apparition directe (personnage déjà présent dans le lieu)
+- `ENTER` : apparition avec animation d'entrée (personnage qui arrive)
+
+**Disparition — TOUJOURS explicite**
+- Dès qu'un personnage quitte le lieu (part, sort, disparaît) → `# EXIT: {perso}` immédiatement, avant le texte narratif qui suit.
+- Ne pas supposer qu'un personnage disparaît "naturellement" entre deux scènes — le EXIT doit être dans le .ink.
+- Changement de lieu (nouveau `# BG:`) → vérifier que tous les personnages présents ont reçu `# EXIT` avant ou juste après le tag BG.
+
+**Narration sans personnage**
+- Monologue intérieur du joueur, texte de transition, ellipse temporelle → aucun sprite visible.
+- Si un personnage était visible, il doit avoir reçu `# EXIT` avant ce bloc.
+
+**Checklist par scène**
+Avant de valider une scène .ink, vérifier :
+- [ ] Chaque personnage a un `# SPRITE` ou `# ENTER` au moment où il apparaît
+- [ ] Chaque personnage a un `# EXIT` au moment où il part
+- [ ] Les blocs de narration pure (monologue, transition) ne contiennent aucun sprite actif
+- [ ] Les changements de `# BG:` sont précédés d'un `# EXIT` pour chaque personnage visible
+
+**Personnages du projet**
+- `stella` : apparaît/disparaît selon les scènes, jamais pendant les monologues du joueur
+- `lunae` : apparaît toujours avec `# ENTER`, disparaît toujours avec `# EXIT` (jamais de `# SPRITE` direct)
+- Le joueur (Y/N) : **aucun sprite, jamais**
 
 ### Animations framer-motion
 - **Entrée** : spring y:80→0, scale:0.8→1, opacity:0→1 (stiffness 180, damping 16)
@@ -154,12 +185,12 @@ public/
 
 ## TODO / pas encore fait
 - [ ] Audio (howler.js installé mais pas de musique/SFX intégrés)
-- [ ] Vrais sprites par expression (actuellement placeholder PNG unique par perso)
-- [ ] Vrais backgrounds (actuellement mesh gradient seulement)
-- [ ] Menu principal
-- [ ] Système de sauvegarde (actuellement reset à chaque refresh)
+- [ ] Vrais sprites par expression (actuellement placeholder PNG unique par perso — stella + lunae)
+- [ ] Vrais backgrounds (actuellement mesh gradient seulement — dossier public/backgrounds/ à créer)
+- [x] Menu principal (MainMenu.tsx — particles, boutons animés, curseur custom)
+- [x] Système de sauvegarde (saveStore.ts — slots localStorage + autosave)
 - [ ] Galerie CG
-- [ ] Scènes 2-8 en Ink
-- [ ] Les 12 CG dating (6 × 2 variantes)
+- [ ] Scènes 3-8 en Ink (scènes 1 et 2 complètes)
+- [ ] Les 12 CG dating (6 × 2 variantes score haut/bas)
 - [ ] Écran de fin / crédits
 - [ ] Transitions entre scènes

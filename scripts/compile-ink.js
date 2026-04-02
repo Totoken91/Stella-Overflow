@@ -1,8 +1,8 @@
-const { Compiler } = require("/home/user/Stella-Overflow/node_modules/inkjs/dist/ink-full.js");
+const { Compiler } = require("inkjs/full");
 const fs = require("fs");
 const path = require("path");
 
-const inputFile = process.argv[2] || "public/story/demo.ink";
+const inputFile = process.argv[2] || "public/story/scene1.ink";
 const outputFile = process.argv[3] || "public/story/scene1.json";
 
 const inkSource = fs.readFileSync(path.resolve(inputFile), "utf-8");

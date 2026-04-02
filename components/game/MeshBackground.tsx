@@ -45,7 +45,7 @@ export default function MeshBackground() {
 
   return (
     <div
-      className="noise-overlay pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      className="mesh-bg noise-overlay pointer-events-none absolute inset-0 z-0 overflow-hidden"
       style={{
         background: theme.base,
         transition: "background 1.5s ease-in-out",
