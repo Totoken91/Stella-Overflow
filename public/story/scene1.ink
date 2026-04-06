@@ -314,8 +314,6 @@ Tu ne sais pas encore ce que ça veut dire.
 
 Mais tu as envie de le savoir.
 
-[ Fin de la Scène 1 — À suivre... ]
-
 -> scene2
 
 // ═══════════════════════════════════════════
@@ -929,8 +927,6 @@ Tu ne sais pas encore ce que tu es en train de faire.
 Mais Lunae, elle, avait l'air de savoir.
 
 *"Prends soin d'elle."*
-
-[ Fin de la Scène 2 — À suivre... ]
 
 -> scene3
 
