@@ -308,7 +308,7 @@ Le ciel est violet maintenant. Les lumières de la ville s'allument une à une e
 
 Une fille que tu croisais sans lui parler depuis septembre. Une lueur entre ses doigts. Une entité suspendue dans l'air du soir qui connaît ton nom.
 
-*"C'est donc toi."*
+"C'est donc toi."
 
 Tu ne sais pas encore ce que ça veut dire.
 
@@ -328,7 +328,7 @@ Mais tu as envie de le savoir.
 
 Tu as mal dormi.
 
-Pas d'insomnie franche — juste ce genre de nuit où le cerveau tourne à vide sans jamais s'arrêter vraiment. La lueur entre ses doigts. Le regard de Lunae. *"C'est donc toi."*
+Pas d'insomnie franche — juste ce genre de nuit où le cerveau tourne à vide sans jamais s'arrêter vraiment. La lueur entre ses doigts. Le regard de Lunae. "C'est donc toi."
 
 Tu ranges tes affaires en automatique. Premier cours dans vingt minutes.
 
@@ -926,7 +926,7 @@ Tu ne sais pas encore ce que tu es en train de faire.
 
 Mais Lunae, elle, avait l'air de savoir.
 
-*"Prends soin d'elle."*
+"Prends soin d'elle."
 
 -> scene3
 
