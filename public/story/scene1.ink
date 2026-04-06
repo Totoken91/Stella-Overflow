@@ -532,8 +532,7 @@ Elle regarde la densité sombre qui pulse autour de l'étudiant. Puis elle te re
 
 Elle tient encore le Glock bras tendu vers le bas. Elle ne sait pas quoi en faire.
 
-*Elle attend. Pas de permission — juste un signal.*
-
+Elle attend. Pas de permission — juste un signal.
 # STOP_FF
 
 * [Faire un mouvement vers la table au fond.]
@@ -893,7 +892,7 @@ STELLA : J'aime bien ça. Je pense.
 
 # SPEAKER:
 
-*Je pense.* Elle n'est pas sûre. Et toi tu dis toujours rien.
+Je pense. Elle n'est pas sûre. Et toi tu dis toujours rien.
 
 -> fin_scene2
 
@@ -1162,7 +1161,7 @@ La manifestation tourne autour de lui, plus lente maintenant — comme si elle a
 
 Stella tient le Glock. Elle te cherche du regard.
 
-*Il est dedans. Il le sait.*
+Il est dedans. Il le sait.
 
 * [Il peut en sortir par lui-même.]
     ~ score = score + 5
@@ -1360,7 +1359,7 @@ C'est une réponse. Elle n'explique rien.
 
 Tu repenses à la cafétéria. Au toit. À chaque fois que Lunae est apparue — où elle était, depuis combien de temps.
 
-*Quand est-ce qu'elle est arrivée ce soir ?*
+Quand est-ce qu'elle est arrivée ce soir ?
 
 # SPEAKER: lunae
 
