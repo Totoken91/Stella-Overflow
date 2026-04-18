@@ -93,13 +93,7 @@ export default function VnDemoPage() {
         )}
 
         {choices.length > 0 && (
-          <div
-            className="pointer-events-auto absolute left-0 right-0 z-40"
-            style={{ bottom: "calc(var(--vn-letterbox-h, 0px) + 14rem)" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ChoiceList choices={choices} onChoice={handleChoice} />
-          </div>
+          <ChoiceList choices={choices} onChoice={handleChoice} />
         )}
 
         {ended && (

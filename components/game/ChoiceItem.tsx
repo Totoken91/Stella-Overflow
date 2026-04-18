@@ -16,7 +16,10 @@ export default function ChoiceItem({ text, index, number, onChoose }: ChoiceItem
 
   return (
     <button
-      onClick={() => onChoose(index)}
+      onClick={(e) => {
+        e.stopPropagation();
+        onChoose(index);
+      }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       className={`${styles.choice} ${hover ? styles.choiceHover : ""}`}
