@@ -25,15 +25,18 @@ export default function SceneFrame({
   letterbox = true,
 }: SceneFrameProps) {
   const sceneMode = useGameStore((s) => s.sceneMode);
+  const currentCG = useGameStore((s) => s.currentCG);
 
   const tension = sceneMode === "tension";
   const intimate = sceneMode === "intimate";
   const dissociation = sceneMode === "dissociation";
+  const cgActive = currentCG !== null;
 
   const frameClass = [
     styles.frame,
     intimate ? styles.frameIntimate : "",
     tension ? styles.frameTension : "",
+    cgActive ? styles.frameRetracted : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -51,10 +54,22 @@ export default function SceneFrame({
       {letterbox && (
         <>
           <div
-            className={`${styles.letterboxTop} ${intimate ? styles.letterboxIntimate : ""}`}
+            className={[
+              styles.letterboxTop,
+              intimate ? styles.letterboxIntimate : "",
+              cgActive ? styles.letterboxRetracted : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
           />
           <div
-            className={`${styles.letterboxBottom} ${intimate ? styles.letterboxIntimate : ""}`}
+            className={[
+              styles.letterboxBottom,
+              intimate ? styles.letterboxIntimate : "",
+              cgActive ? styles.letterboxRetracted : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
           />
         </>
       )}

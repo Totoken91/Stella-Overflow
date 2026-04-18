@@ -12,9 +12,15 @@
   overflow: hidden;
   isolation: isolate;
   --vn-letterbox-h: 8vh;
+  transition: --vn-letterbox-h 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .frameIntimate {
   --vn-letterbox-h: 10vh;
+}
+/* CG active: letterbox var → 0 so downstream components (DialogueBox
+   padding, ChoiceList bottom) shift with the bars. */
+.frameRetracted {
+  --vn-letterbox-h: 0px;
 }
 
 /* Vignette — rendered as SceneFrame::after.
@@ -116,6 +122,13 @@
 .letterboxIntimate.letterboxTop,
 .letterboxIntimate.letterboxBottom {
   height: 10vh;
+}
+
+/* Retracted: CG on screen, bars animate to 0 so the art fills edge
+   to edge. Uses !important to win over .letterboxIntimate's 10vh. */
+.letterboxRetracted.letterboxTop,
+.letterboxRetracted.letterboxBottom {
+  height: 0 !important;
 }
 
 /* ─── DialogueBox ──────────────────────────────── */

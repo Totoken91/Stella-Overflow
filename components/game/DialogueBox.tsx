@@ -146,6 +146,7 @@ export default function DialogueBox({
         paddingBottom: "calc(var(--vn-letterbox-h, 0px) + 1.5rem)",
         paddingLeft: "1rem",
         paddingRight: "1rem",
+        transition: "padding-bottom 600ms cubic-bezier(0.4, 0, 0.2, 1)",
       }}
       onClick={(e) => {
         e.stopPropagation();
