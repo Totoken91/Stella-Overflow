@@ -1,3 +1,20 @@
+export interface SaveSceneState {
+  currentBg: string | null;
+  currentMusic: string | null;
+  currentCG: string | null;
+  sceneMode: string;
+  emphasis: string;
+  bgTransition: string;
+  currentSpeaker: string;
+  visibleSprites: string[];
+  currentExpression: Record<string, string>;
+  /**
+   * The last displayed dialogue text. Restored verbatim on load so the
+   * user sees the passage they saved on, not the next one.
+   */
+  lastText: string | null;
+}
+
 export interface SaveSlot {
   id: number;
   timestamp: number;
@@ -7,6 +24,7 @@ export interface SaveSlot {
   lunae_trust: number;
   gave_choice: boolean;
   inkState: string;
+  scene_state?: SaveSceneState;
 }
 
 export const AUTOSAVE_SLOT_ID = 0;

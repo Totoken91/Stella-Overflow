@@ -1,19 +1,22 @@
 import { create } from "zustand";
-import type { SaveSlot } from "@/types/save";
+import type { SaveSlot, SaveSceneState } from "@/types/save";
 import { SAVE_STORAGE_KEY, AUTOSAVE_SLOT_ID } from "@/types/save";
 import * as engine from "@/lib/engine";
-import { useGameStore } from "@/lib/gameState";
+import { useGameStore, type SceneMode, type Emphasis, type BgTransition } from "@/lib/gameState";
 
 interface SaveStore {
   slots: Record<number, SaveSlot | null>;
   pendingLoad: number | null;
+  /** Text to restore on next render after a load. Consumed once. */
+  pendingRestoreText: string | null;
   loadSlots: () => void;
-  save: (slotId: number) => boolean;
+  save: (slotId: number, lastText?: string | null) => boolean;
   load: (slotId: number) => boolean;
   deleteSave: (slotId: number) => void;
-  autoSave: () => void;
+  autoSave: (lastText?: string | null) => void;
   hasAutosave: () => boolean;
   setPendingLoad: (slotId: number | null) => void;
+  consumePendingRestoreText: () => string | null;
 }
 
 function readFromStorage(): Record<number, SaveSlot | null> {
@@ -52,16 +55,48 @@ function formatTimestamp(ts: number): string {
 
 export { formatTimestamp };
 
+function captureSceneState(lastText: string | null): SaveSceneState {
+  const g = useGameStore.getState();
+  return {
+    currentBg: g.currentBg,
+    currentMusic: g.currentMusic,
+    currentCG: g.currentCG,
+    sceneMode: g.sceneMode,
+    emphasis: g.emphasis,
+    bgTransition: g.bgTransition,
+    currentSpeaker: g.currentSpeaker,
+    visibleSprites: [...g.visibleSprites],
+    currentExpression: { ...g.currentExpression },
+    lastText,
+  };
+}
+
+function restoreSceneState(state: SaveSceneState) {
+  const g = useGameStore.getState();
+  g.setBg(state.currentBg);
+  g.setMusic(state.currentMusic);
+  g.setCG(state.currentCG);
+  g.setSceneMode(state.sceneMode as SceneMode);
+  g.setEmphasis(state.emphasis as Emphasis);
+  g.setBgTransition(state.bgTransition as BgTransition);
+  g.setSpeaker(state.currentSpeaker);
+  g.setVisibleSprites(state.visibleSprites);
+  for (const [char, expr] of Object.entries(state.currentExpression)) {
+    g.setExpression(char, expr);
+  }
+}
+
 export const useSaveStore = create<SaveStore>()((set, get) => ({
   slots: {},
   pendingLoad: null,
+  pendingRestoreText: null,
 
   loadSlots: () => {
     const slots = readFromStorage();
     set({ slots });
   },
 
-  save: (slotId: number) => {
+  save: (slotId: number, lastText: string | null = null) => {
     const inkState = engine.saveState();
     if (!inkState) return false;
 
@@ -75,6 +110,7 @@ export const useSaveStore = create<SaveStore>()((set, get) => ({
       lunae_trust: gameState.lunae_trust,
       gave_choice: gameState.gave_choice,
       inkState,
+      scene_state: captureSceneState(lastText),
     };
 
     const slots = { ...get().slots, [slotId]: slot };
@@ -87,15 +123,19 @@ export const useSaveStore = create<SaveStore>()((set, get) => ({
     const slot = get().slots[slotId];
     if (!slot) return false;
     const success = engine.loadState(slot.inkState);
-    if (success) {
-      // Restore game state from the save
-      const gs = useGameStore.getState();
-      gs.setCurrentScene(
-        slot.scene,
-        slot.sceneLabel
-      );
+    if (!success) return false;
+
+    const gs = useGameStore.getState();
+    gs.setCurrentScene(slot.scene, slot.sceneLabel);
+
+    if (slot.scene_state) {
+      restoreSceneState(slot.scene_state);
+      set({ pendingRestoreText: slot.scene_state.lastText });
+    } else {
+      set({ pendingRestoreText: null });
     }
-    return success;
+
+    return true;
   },
 
   deleteSave: (slotId: number) => {
@@ -104,8 +144,8 @@ export const useSaveStore = create<SaveStore>()((set, get) => ({
     writeToStorage(slots);
   },
 
-  autoSave: () => {
-    get().save(AUTOSAVE_SLOT_ID);
+  autoSave: (lastText: string | null = null) => {
+    get().save(AUTOSAVE_SLOT_ID, lastText);
   },
 
   hasAutosave: () => {
@@ -114,5 +154,11 @@ export const useSaveStore = create<SaveStore>()((set, get) => ({
 
   setPendingLoad: (slotId: number | null) => {
     set({ pendingLoad: slotId });
+  },
+
+  consumePendingRestoreText: () => {
+    const t = get().pendingRestoreText;
+    set({ pendingRestoreText: null });
+    return t;
   },
 }));

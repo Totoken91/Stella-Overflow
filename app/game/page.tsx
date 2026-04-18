@@ -51,6 +51,11 @@ export default function GamePage() {
   const ffRef = useRef(false);
   ffRef.current = fastForward;
 
+  // Mirror `text` into a ref so autosave can read the latest displayed
+  // passage without re-running the callback on every text change.
+  const textRef = useRef<string | null>(null);
+  textRef.current = text;
+
   const prevSceneRef = useRef("");
   const dialogueSkipRef = useRef<(() => void) | null>(null);
 
@@ -77,40 +82,50 @@ export default function GamePage() {
       useGameStore.getState().reset();
     }
 
-    engine.init().then((loaded) => {
-      setStoryLoaded(loaded);
-      setInitialized(true);
+    useSaveStore.getState().loadSlots();
 
-      // Handle pending load from main menu
+    engine.init().then((loaded) => {
+      // When there's a pending load, restore the saved state BEFORE
+      // flipping storyLoaded → the pre-advance effect won't fire on
+      // the fresh story and overwrite the restored BG/sprites/etc.
       if (loaded && pendingLoad !== null) {
-        useSaveStore.getState().loadSlots();
         const success = useSaveStore.getState().load(pendingLoad);
         useSaveStore.getState().setPendingLoad(null);
         if (success) {
           setBooting(false);
-          // Advance once to get text + process tags from loaded position
-          const nextText = engine.getText();
-          if (nextText) {
-            setText(nextText);
+          // Prefer the exact passage the user was on at save time.
+          const restoredText = useSaveStore.getState().consumePendingRestoreText();
+          if (restoredText) {
+            setText(restoredText);
             setChoices(engine.getChoices());
+          } else {
+            // Fallback for legacy slots without scene_state.lastText.
+            const nextText = engine.getText();
+            if (nextText) {
+              setText(nextText);
+              setChoices(engine.getChoices());
+            }
           }
-          return;
         }
       }
-    });
 
-    useSaveStore.getState().loadSlots();
+      setStoryLoaded(loaded);
+      setInitialized(true);
+    });
   }, []);
 
-  const advance = useCallback(() => {
+  const advance = useCallback((): string | null => {
     // If browsing history, clicking forward returns to current
     if (browsingHistory) {
       setBrowsingHistory(false);
       setHistoryIndex(-1);
       // Restore the current (latest) text from history
       const latest = historyRef.current[historyRef.current.length - 1];
-      if (latest) setText(latest.text);
-      return;
+      if (latest) {
+        setText(latest.text);
+        return latest.text;
+      }
+      return null;
     }
 
     const nextText = engine.getText();
@@ -126,14 +141,16 @@ export default function GamePage() {
       if (engine.getChoices().length > 0) {
         historyRef.current = [];
       }
-    } else {
-      const currentChoices = engine.getChoices();
-      setChoices(currentChoices);
-      if (currentChoices.length === 0) {
-        setText(null);
-        setStoryEnded(true);
-      }
+      return nextText;
     }
+
+    const currentChoices = engine.getChoices();
+    setChoices(currentChoices);
+    if (currentChoices.length === 0) {
+      setText(null);
+      setStoryEnded(true);
+    }
+    return null;
   }, [text, browsingHistory]);
 
   const goBack = useCallback(() => {
@@ -176,8 +193,10 @@ export default function GamePage() {
     (index: number) => {
       engine.choose(index);
       setChoices([]);
-      advance();
-      useSaveStore.getState().autoSave();
+      // Capture the freshly-displayed passage so load restores exactly
+      // it instead of advancing past the save point.
+      const nextText = advance();
+      useSaveStore.getState().autoSave(nextText);
       setShowAutosaveToast(true);
       setAutosaveTick((n) => n + 1);
     },
@@ -301,11 +320,21 @@ export default function GamePage() {
     if (success) {
       setSaveMenuOpen(false);
       setFastForward(false);
-      // Advance once to get text + process tags from loaded position
-      const nextText = engine.getText();
-      if (nextText) {
-        setText(nextText);
+      historyRef.current = [];
+      setBrowsingHistory(false);
+      setHistoryIndex(-1);
+      // Restore the exact passage the user saved on; fall back to
+      // advancing through the ink state for legacy slots.
+      const restoredText = useSaveStore.getState().consumePendingRestoreText();
+      if (restoredText) {
+        setText(restoredText);
         setChoices(engine.getChoices());
+      } else {
+        const nextText = engine.getText();
+        if (nextText) {
+          setText(nextText);
+          setChoices(engine.getChoices());
+        }
       }
     }
   };
@@ -468,6 +497,9 @@ export default function GamePage() {
         open={saveMenuOpen}
         onClose={() => setSaveMenuOpen(false)}
         onLoadSlot={handleLoadSlot}
+        onSaveSlot={(slotId) => {
+          useSaveStore.getState().save(slotId, textRef.current);
+        }}
       />
 
       {/* Confirm return to menu */}

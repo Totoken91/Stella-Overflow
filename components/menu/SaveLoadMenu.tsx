@@ -11,6 +11,12 @@ interface SaveLoadMenuProps {
   open: boolean;
   onClose: () => void;
   onLoadSlot?: (slotId: number) => void;
+  /**
+   * Called when the user confirms a save. The host wires this so the
+   * currently displayed passage can be captured alongside the ink state.
+   * Falls back to the store's save() with no text if unset.
+   */
+  onSaveSlot?: (slotId: number) => void;
 }
 
 export default function SaveLoadMenu({
@@ -18,11 +24,17 @@ export default function SaveLoadMenu({
   open,
   onClose,
   onLoadSlot,
+  onSaveSlot,
 }: SaveLoadMenuProps) {
   const slots = useSaveStore((s) => s.slots);
   const save = useSaveStore((s) => s.save);
   const deleteSave = useSaveStore((s) => s.deleteSave);
   const [confirmOverwrite, setConfirmOverwrite] = useState<number | null>(null);
+
+  const performSave = (slotId: number) => {
+    if (onSaveSlot) onSaveSlot(slotId);
+    else save(slotId);
+  };
 
   const handleSlotClick = (slotId: number) => {
     const slot = slots[slotId];
@@ -31,7 +43,7 @@ export default function SaveLoadMenu({
       if (slot) {
         setConfirmOverwrite(slotId);
       } else {
-        save(slotId);
+        performSave(slotId);
         onClose();
       }
     } else {
@@ -44,7 +56,7 @@ export default function SaveLoadMenu({
 
   const handleConfirmOverwrite = () => {
     if (confirmOverwrite !== null) {
-      save(confirmOverwrite);
+      performSave(confirmOverwrite);
       setConfirmOverwrite(null);
       onClose();
     }
