@@ -274,9 +274,12 @@ export default function GamePage() {
     }
   }, [sceneTransition, fastForward]);
 
-  // Fast-forward loop
+  // Fast-forward loop — pauses while a BG transition is playing so the
+  // user actually SEES the fade instead of skipping through it.
+  const bgTransitioning = useGameStore((s) => s.bgTransitioning);
+
   useEffect(() => {
-    if (!fastForward || !text || sceneTransition) return;
+    if (!fastForward || !text || sceneTransition || bgTransitioning) return;
 
     const timer = setTimeout(() => {
       if (!ffRef.current) return;
@@ -300,7 +303,7 @@ export default function GamePage() {
     }, 80);
 
     return () => clearTimeout(timer);
-  }, [fastForward, text, advance]);
+  }, [fastForward, text, advance, sceneTransition, bgTransitioning]);
 
   // Menu handlers
   const handleSave = () => {

@@ -28,6 +28,8 @@ interface GameState {
   emphasis: Emphasis;
   disturbanceTrigger: number;
   bgTransition: BgTransition;
+  /** True while a fade-color transition is playing. FF should pause. */
+  bgTransitioning: boolean;
 
   // Sprites
   currentSpeaker: string;
@@ -45,6 +47,7 @@ interface GameState {
   setEmphasis: (e: Emphasis) => void;
   bumpDisturbance: () => void;
   setBgTransition: (t: BgTransition) => void;
+  setBgTransitioning: (v: boolean) => void;
 
   // Sprite actions
   setSpeaker: (name: string) => void;
@@ -73,6 +76,7 @@ const initialState = {
   emphasis: "none" as Emphasis,
   disturbanceTrigger: 0,
   bgTransition: "crossfade" as BgTransition,
+  bgTransitioning: false,
   currentSpeaker: "",
   visibleSprites: [],
   currentExpression: {},
@@ -93,6 +97,7 @@ export const useGameStore = create<GameState>()(
       setEmphasis: (e) => set({ emphasis: e }),
       bumpDisturbance: () => set((s) => ({ disturbanceTrigger: s.disturbanceTrigger + 1 })),
       setBgTransition: (t) => set({ bgTransition: t }),
+      setBgTransitioning: (v) => set({ bgTransitioning: v }),
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 

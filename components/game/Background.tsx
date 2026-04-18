@@ -36,6 +36,7 @@ export default function Background({ syncAudio = true }: BackgroundProps) {
   const currentBg = useGameStore((s) => s.currentBg);
   const bgTransition = useGameStore((s) => s.bgTransition);
   const sceneMode = useGameStore((s) => s.sceneMode);
+  const setBgTransitioning = useGameStore((s) => s.setBgTransitioning);
 
   // Two stacked layers so we can crossfade. Only one is "active" at a time.
   const [layerA, setLayerA] = useState<string | null>(null);
@@ -64,6 +65,7 @@ export default function Background({ syncAudio = true }: BackgroundProps) {
     if (!prevBg || !currentBg) {
       if (activeIsA) setLayerA(currentBg);
       else setLayerB(currentBg);
+      setBgTransitioning(false);
       return;
     }
 
@@ -71,27 +73,36 @@ export default function Background({ syncAudio = true }: BackgroundProps) {
     // into a short crossfade; `cut` stays a cut (user opted in).
     let effective: BgTransition = bgTransition;
     if (reducedMotion && effective !== "cut") effective = "crossfade";
-    // Intimate scenes get a slightly slower crossfade for a softer feel.
     const intimate = sceneMode === "intimate" && effective === "crossfade";
 
     if (effective === "cut") {
       if (activeIsA) setLayerA(currentBg);
       else setLayerB(currentBg);
+      setBgTransitioning(false);
       return;
     }
 
     if (effective === "crossfade") {
       const duration = reducedMotion ? 200 : intimate ? 1000 : 600;
       setCrossfadeMs(duration);
-      // Put the new BG on the INACTIVE layer, then flip which is active.
-      // The CSS opacity transition handles the crossfade smoothly.
       if (activeIsA) setLayerB(currentBg);
       else setLayerA(currentBg);
-      // Small delay so the image has a chance to commit before the flip
+      // Two rAFs: first commits the mount at opacity 0, second flips
+      // activeIsA so CSS actually sees the opacity change as a transition.
+      setBgTransitioning(true);
+      let raf1 = 0;
+      let raf2 = 0;
+      raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => {
+          setActiveIsA((prev) => !prev);
+        });
+      });
       timersRef.current.push(
         setTimeout(() => {
-          setActiveIsA((prev) => !prev);
-        }, 20)
+          setBgTransitioning(false);
+          cancelAnimationFrame(raf1);
+          cancelAnimationFrame(raf2);
+        }, duration + 40)
       );
       return;
     }
@@ -101,40 +112,41 @@ export default function Background({ syncAudio = true }: BackgroundProps) {
     if (!color) return;
     const t = TIMINGS[effective];
 
-    // Phase 1: fade overlay IN (out of old BG into color)
-    setCrossfadeMs(0); // disable crossfade on layers; overlay hides everything
+    // Phase 1: mount overlay at opacity 0, then fade it in
+    setBgTransitioning(true);
+    setCrossfadeMs(0);
     setOverlayColor(color);
     setOverlayDuration(t.out);
-    // Small tick so the transition applies
-    timersRef.current.push(
-      setTimeout(() => setOverlayOpacity(1), 20)
-    );
+    setOverlayOpacity(0);
+    // Double rAF so React commits the initial (opacity:0) render
+    // before the browser sees the opacity:1 change — CSS transition fires.
+    const raf1 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setOverlayOpacity(1);
+      });
+    });
 
-    // Phase 2: swap BG behind the full-color overlay (instant, invisible)
+    // Phase 2: swap BG + start fade-out. Happens when overlay has been at
+    // full opacity for `hold` ms. Swap is invisible because overlay is solid.
     timersRef.current.push(
       setTimeout(() => {
         if (activeIsA) setLayerB(currentBg);
         else setLayerA(currentBg);
         setActiveIsA((prev) => !prev);
-      }, t.out)
-    );
-
-    // Phase 3: hold on color
-    // Phase 4: fade overlay OUT (from color into new BG)
-    timersRef.current.push(
-      setTimeout(() => {
         setOverlayDuration(t.in);
         setOverlayOpacity(0);
       }, t.out + t.hold)
     );
 
-    // Phase 5: cleanup — remove overlay node
+    // Phase 3: cleanup — remove overlay node after the fade-out completes
     timersRef.current.push(
       setTimeout(() => {
         setOverlayColor(null);
+        setBgTransitioning(false);
+        cancelAnimationFrame(raf1);
       }, t.out + t.hold + t.in)
     );
-  }, [currentBg, bgTransition, reducedMotion, sceneMode, activeIsA]);
+  }, [currentBg, bgTransition, reducedMotion, sceneMode, activeIsA, setBgTransitioning]);
 
   useEffect(() => {
     return () => {
