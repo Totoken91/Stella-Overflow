@@ -372,6 +372,17 @@
   opacity: 1;
 }
 
+/* Menu variant: no right-side number, 2-column grid */
+.choiceNoNumber {
+  grid-template-columns: 1.5rem 1fr;
+}
+
+.choiceDisabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* Mobile: tighter spacing, full-width text */
 @media (max-width: 640px) {
   .choiceList {
@@ -383,6 +394,9 @@
     gap: 0.6rem;
     padding: 0.6rem 0.5rem;
     font-size: 1rem;
+  }
+  .choiceNoNumber {
+    grid-template-columns: 1.25rem 1fr;
   }
 }
 
@@ -469,9 +483,160 @@
   100% { transform: scale(1); }
 }
 
+/* ─── Meta screens (title / loading) background stack ─────
+   Same grain + vignette recipe as SceneFrame but without the
+   letterbox bars. Applied to the root of MainMenu / BootScreen. */
+.metaScreen {
+  position: fixed;
+  inset: 0;
+  background: #0a0612;
+  overflow: hidden;
+  isolation: isolate;
+}
+.metaScreen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(10, 6, 18, 0.65) 100%
+  );
+}
+/* Subtle rose wash from one corner so the BG is never 100% flat. */
+.metaScreenGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 61, 127, 0.08), transparent 55%),
+    radial-gradient(circle at 15% 90%, rgba(123, 45, 255, 0.05), transparent 60%);
+}
+.metaGrain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+  opacity: 0.06;
+  animation: grainShift 8s steps(8) infinite;
+  will-change: background-position;
+}
+
+/* ─── Title (used by MainMenu + optional display) ───────── */
+.titleText {
+  font-family: var(--font-serif-display), "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--vn-cream, #f4ede4);
+  text-shadow:
+    0 0 40px rgba(10, 6, 18, 0.9),
+    0 2px 10px rgba(10, 6, 18, 0.8);
+}
+.titleStar {
+  display: inline-block;
+  vertical-align: middle;
+  color: #ff3d7f;
+  filter: drop-shadow(0 0 14px rgba(255, 61, 127, 0.55));
+  animation: starPulseRose 2.4s ease-in-out infinite;
+}
+@keyframes starPulseRose {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,61,127,0.4)); }
+  50%      { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(255,61,127,0.75)); }
+}
+
+.tagline {
+  font-family: var(--font-serif-body), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(244, 237, 228, 0.55);
+  letter-spacing: 0.06em;
+}
+
+.credit {
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(244, 237, 228, 0.4);
+}
+.creditMuted {
+  color: rgba(244, 237, 228, 0.28);
+}
+
+/* ─── Loading screen bits ──────────────────────────────── */
+.loadingStage {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.loadingStar {
+  width: 60px;
+  height: 60px;
+  color: #ff3d7f;
+  filter: drop-shadow(0 0 20px rgba(255, 61, 127, 0.6));
+  animation: starPulseRose 2s ease-in-out infinite;
+}
+
+.loadingBar {
+  position: relative;
+  width: min(320px, 80vw);
+  height: 2px;
+  background: rgba(244, 237, 228, 0.15);
+  overflow: hidden;
+  border-radius: 1px;
+}
+.loadingBarFill {
+  height: 100%;
+  background: linear-gradient(to right, #ff3d7f 0%, #7b2dff 100%);
+  box-shadow: 0 0 12px rgba(255, 61, 127, 0.4);
+  transition: width 16ms linear;
+  border-radius: 1px;
+}
+
+.loadingStatus {
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--vn-cream, #f4ede4);
+  display: inline-flex;
+  align-items: baseline;
+}
+.loadingDots {
+  display: inline-flex;
+  margin-left: 0.25rem;
+}
+.loadingDots span {
+  opacity: 0.25;
+  animation: loadingDot 1.4s ease-in-out infinite;
+}
+.loadingDots span:nth-child(1) { animation-delay: 0s; }
+.loadingDots span:nth-child(2) { animation-delay: 0.2s; }
+.loadingDots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes loadingDot {
+  0%, 60%, 100% { opacity: 0.25; }
+  30%          { opacity: 1; }
+}
+
 /* ─── prefers-reduced-motion: kill animations ─── */
 @media (prefers-reduced-motion: reduce) {
-  .grain { animation: none; }
+  .grain,
+  .metaGrain { animation: none; }
   .caret { animation: none; opacity: 1; }
   .chromaticPulse { animation: none; }
   .letterboxTop,
@@ -479,4 +644,7 @@
   .choice { animation: none; opacity: 1; transform: none; }
   .choiceIndicator { animation: none; }
   .autosaveDot { animation: none; }
+  .titleStar,
+  .loadingStar { animation: none; }
+  .loadingDots span { animation: none; opacity: 0.8; }
 }
