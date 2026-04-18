@@ -3,6 +3,12 @@ import { persist } from "zustand/middleware";
 
 export type SceneMode = "calm" | "tension" | "intimate" | "dissociation";
 export type Emphasis = "none" | "thought" | "whisper";
+export type BgTransition =
+  | "crossfade"
+  | "fade-black"
+  | "fade-white"
+  | "fade-crimson"
+  | "cut";
 
 interface GameState {
   // Narrative
@@ -21,6 +27,7 @@ interface GameState {
   // VN UI
   emphasis: Emphasis;
   disturbanceTrigger: number;
+  bgTransition: BgTransition;
 
   // Sprites
   currentSpeaker: string;
@@ -37,6 +44,7 @@ interface GameState {
   // VN UI actions
   setEmphasis: (e: Emphasis) => void;
   bumpDisturbance: () => void;
+  setBgTransition: (t: BgTransition) => void;
 
   // Sprite actions
   setSpeaker: (name: string) => void;
@@ -64,6 +72,7 @@ const initialState = {
   sceneMode: "calm" as SceneMode,
   emphasis: "none" as Emphasis,
   disturbanceTrigger: 0,
+  bgTransition: "crossfade" as BgTransition,
   currentSpeaker: "",
   visibleSprites: [],
   currentExpression: {},
@@ -83,6 +92,7 @@ export const useGameStore = create<GameState>()(
 
       setEmphasis: (e) => set({ emphasis: e }),
       bumpDisturbance: () => set((s) => ({ disturbanceTrigger: s.disturbanceTrigger + 1 })),
+      setBgTransition: (t) => set({ bgTransition: t }),
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 

@@ -1,6 +1,6 @@
 // ─── VN UI demo reel ──────────────────────────────
-// Couvre : dialogue simple → choix 2 → disturbance →
-//           dialogue + emphasis → choix 3 → fin.
+// Dialogue simple → choix → disturbance → emphasis →
+// choix 3 → démo transitions BG → fin.
 // ──────────────────────────────────────────────────
 
 # BG: couloir-univ
@@ -55,14 +55,52 @@ Elle s'approche d'un pas.
 STELLA : Qu'est-ce qu'on fait.
 
 * [Partir maintenant.]
-    -> fin
+    -> transitions_reel
 * [Attendre de voir.]
-    -> fin
+    -> transitions_reel
 * ["Je ne sais pas."]
     # MOOD: dissociation
     # SPEAKER: stella
     STELLA : Moi non plus.
-    -> fin
+    -> transitions_reel
+
+=== transitions_reel ===
+
+// ─── Démo transitions BG ──────────────────────────
+
+# BG: couloir-univ
+# TRANSITION: crossfade
+# MOOD: calm
+# SPEAKER:
+
+On part du couloir.
+
+# BG: exterieur-soir
+# TRANSITION: crossfade
+
+Crossfade vers l'extérieur.
+
+# BG: rue-nuit
+# TRANSITION: fade-black
+
+Fade-black. Ellipse temporelle.
+
+# BG: rue-manifestation
+# TRANSITION: fade-crimson
+
+Fade-crimson. Bascule dissociation.
+
+# BG: toit-univ
+# TRANSITION: fade-white
+
+Fade-white. Flashback.
+
+# BG: couloir-univ
+# TRANSITION: cut
+
+Cut sec, retour brutal.
+
+-> fin
 
 === fin ===
 

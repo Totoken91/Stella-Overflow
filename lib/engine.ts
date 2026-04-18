@@ -1,5 +1,13 @@
 import { Story } from "inkjs";
-import { useGameStore, type SceneMode, type Emphasis } from "./gameState";
+import { useGameStore, type SceneMode, type Emphasis, type BgTransition } from "./gameState";
+
+const VALID_TRANSITIONS: readonly BgTransition[] = [
+  "crossfade",
+  "fade-black",
+  "fade-white",
+  "fade-crimson",
+  "cut",
+];
 
 let story: Story | null = null;
 let storyLoaded = false;
@@ -25,6 +33,18 @@ function processTags(tags: string[] | null) {
   if (!tags) return;
 
   const store = useGameStore.getState();
+
+  // Pre-pass: TRANSITION must be set before BG is processed so the
+  // Background component reads the correct transition for this change.
+  for (const tag of tags) {
+    const [key, ...rest] = tag.split(":");
+    if (key.trim().toUpperCase() !== "TRANSITION") continue;
+    const v = rest.join(":").trim().toLowerCase() as BgTransition;
+    store.setBgTransition(
+      VALID_TRANSITIONS.includes(v) ? v : "crossfade"
+    );
+    break;
+  }
 
   for (const tag of tags) {
     const [key, ...rest] = tag.split(":");
@@ -103,6 +123,10 @@ function processTags(tags: string[] | null) {
         store.bumpDisturbance();
         break;
 
+      case "TRANSITION":
+        // Handled in pre-pass above
+        break;
+
       case "STOP_FF":
         // Checked externally via hasStopFF()
         break;
@@ -138,9 +162,12 @@ export function getText(): string | null {
   if (!story || !storyLoaded) return null;
   if (!story.canContinue) return null;
 
-  // Emphasis is per-line: reset before processing this line's tags so the
-  // absence of an # EMPHASIS tag clears the previous state.
-  useGameStore.getState().setEmphasis("none");
+  // Emphasis + BG transition are per-line: reset before processing this
+  // line's tags so the absence of the matching tag clears the previous
+  // state.
+  const store = useGameStore.getState();
+  store.setEmphasis("none");
+  store.setBgTransition("crossfade");
 
   let text = story.Continue();
   processTags(story.currentTags);
