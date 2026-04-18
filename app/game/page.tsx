@@ -12,6 +12,8 @@ import ChoiceList from "@/components/game/ChoiceList";
 import CGOverlay from "@/components/game/CGOverlay";
 import AutosaveToast from "@/components/game/AutosaveToast";
 import EndScreen from "@/components/game/EndScreen";
+import SceneFrame from "@/components/game/SceneFrame";
+import HUD from "@/components/game/HUD";
 import InGameMenu from "@/components/menu/InGameMenu";
 import SaveLoadMenu from "@/components/menu/SaveLoadMenu";
 import ConfirmDialog from "@/components/menu/ConfirmDialog";
@@ -42,6 +44,7 @@ export default function GamePage() {
   const [saveMenuMode, setSaveMenuMode] = useState<"save" | "load">("save");
   const [confirmReturnOpen, setConfirmReturnOpen] = useState(false);
   const [showAutosaveToast, setShowAutosaveToast] = useState(false);
+  const [autosaveTick, setAutosaveTick] = useState(0);
 
   // Fast-forward
   const [fastForward, setFastForward] = useState(false);
@@ -176,6 +179,7 @@ export default function GamePage() {
       advance();
       useSaveStore.getState().autoSave();
       setShowAutosaveToast(true);
+      setAutosaveTick((n) => n + 1);
     },
     [advance]
   );
@@ -336,31 +340,43 @@ export default function GamePage() {
       />
 
       {initialized && storyLoaded && (
-        <>
+        <SceneFrame>
           <Background />
           <SpriteWindow />
           <CGOverlay onReady={handleCGReady} />
 
-          {/* Eye toggle — during CG with dialogue */}
+          {/* HUD cluster — always visible during gameplay */}
+          {!booting && (
+            <HUD
+              onBack={goBack}
+              canGoBack={canGoBack}
+              onToggleFastForward={() => setFastForward((f) => !f)}
+              fastForward={fastForward}
+              onOpenMenu={() => setMenuOpen(true)}
+              autosaveTick={autosaveTick}
+            />
+          )}
+
+          {/* Eye toggle — during CG with dialogue (stays as its own affordance) */}
           {currentCG && text && !booting && (
             <button
               onClick={toggleDialogue}
-              className="fixed left-4 top-4 z-[50] flex h-10 w-10 items-center justify-center rounded-full transition-opacity hover:opacity-100"
+              className="fixed left-4 z-[50] flex h-10 w-10 items-center justify-center rounded-full transition-opacity hover:opacity-100"
               style={{
-                background: "rgba(255, 255, 255, 0.15)",
+                top: "calc(var(--vn-letterbox-h, 0px) + 0.75rem)",
+                background: "rgba(10, 6, 18, 0.7)",
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 255, 255, 0.25)",
-                color: "rgba(255, 255, 255, 0.7)",
+                border: "1px solid rgba(255, 61, 127, 0.25)",
+                color: "var(--vn-cream)",
                 fontSize: "1.1rem",
-                opacity: dialogueHidden ? 0.5 : 0.8,
+                opacity: dialogueHidden ? 0.5 : 0.85,
               }}
               title={dialogueHidden ? "Afficher le dialogue" : "Masquer le dialogue"}
             >
               {dialogueHidden ? "◡" : "👁"}
             </button>
           )}
-
 
           {/* Fast-forward shimmer bar */}
           <AnimatePresence>
@@ -372,7 +388,7 @@ export default function GamePage() {
                 exit={{ opacity: 0 }}
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent, var(--teal), transparent)",
+                    "linear-gradient(90deg, transparent, #ff3d7f, transparent)",
                   backgroundSize: "200% 100%",
                   animation: "ffShimmer 1s linear infinite",
                 }}
@@ -396,70 +412,13 @@ export default function GamePage() {
                   onNext={handleNext}
                   charDelay={fastForward ? 2 : 20}
                   skipRef={dialogueSkipRef}
-                  controls={
-                    <>
-                      <button
-                        onClick={goBack}
-                        className="flex h-8 w-8 items-center justify-center rounded-lg transition-all"
-                        style={{
-                          fontFamily: "var(--font-dm-mono)",
-                          fontSize: "0.75rem",
-                          color: canGoBack ? "var(--pink-dark)" : "rgba(107,45,74,0.3)",
-                          background: "rgba(255, 255, 255, 0.6)",
-                          backdropFilter: "blur(10px)",
-                          WebkitBackdropFilter: "blur(10px)",
-                          border: "1px solid rgba(255, 143, 171, 0.3)",
-                          cursor: canGoBack ? "pointer" : "default",
-                        }}
-                        disabled={!canGoBack}
-                      >
-                        {"<"}
-                      </button>
-                      <button
-                        onClick={() => setFastForward((f) => !f)}
-                        className="flex h-8 w-8 items-center justify-center rounded-lg transition-all"
-                        style={{
-                          fontFamily: "var(--font-dm-mono)",
-                          fontSize: "0.65rem",
-                          color: fastForward ? "var(--teal-dark)" : "var(--pink-dark)",
-                          background: "rgba(255, 255, 255, 0.6)",
-                          backdropFilter: "blur(10px)",
-                          WebkitBackdropFilter: "blur(10px)",
-                          border: fastForward
-                            ? "1.5px solid var(--teal)"
-                            : "1px solid rgba(255, 143, 171, 0.3)",
-                          boxShadow: fastForward
-                            ? "0 0 8px rgba(127,216,216,0.4)"
-                            : "none",
-                        }}
-                      >
-                        {">>"}
-                      </button>
-                      <button
-                        onClick={() => setMenuOpen(true)}
-                        className="flex h-8 items-center justify-center rounded-lg px-3 transition-all"
-                        style={{
-                          fontFamily: "var(--font-dm-mono)",
-                          fontSize: "0.65rem",
-                          letterSpacing: "0.1em",
-                          color: "var(--pink-dark)",
-                          background: "rgba(255, 255, 255, 0.6)",
-                          backdropFilter: "blur(10px)",
-                          WebkitBackdropFilter: "blur(10px)",
-                          border: "1px solid rgba(255, 143, 171, 0.3)",
-                        }}
-                      >
-                        MENU
-                      </button>
-                    </>
-                  }
                 />
                 <ChoiceList choices={choices} onChoice={handleChoice} />
               </motion.div>
             )}
           </AnimatePresence>
 
-        </>
+        </SceneFrame>
       )}
 
       {/* End of story */}
