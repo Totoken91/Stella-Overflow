@@ -154,34 +154,43 @@ export default function Background({ syncAudio = true }: BackgroundProps) {
   });
 
   return (
-    <div className="absolute inset-0 z-10" aria-hidden>
-      {layerA && (
-        <img
-          key={`A-${layerA}`}
-          src={`/backgrounds/${layerA}.png`}
-          alt=""
-          style={layerStyle(activeIsA)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-      )}
-      {layerB && (
-        <img
-          key={`B-${layerB}`}
-          src={`/backgrounds/${layerB}.png`}
-          alt=""
-          style={layerStyle(!activeIsA)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-      )}
+    <>
+      {/* BG layers sit at the bottom of the stack (z:10). */}
+      <div className="absolute inset-0 z-10" aria-hidden>
+        {layerA && (
+          <img
+            key={`A-${layerA}`}
+            src={`/backgrounds/${layerA}.png`}
+            alt=""
+            style={layerStyle(activeIsA)}
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        )}
+        {layerB && (
+          <img
+            key={`B-${layerB}`}
+            src={`/backgrounds/${layerB}.png`}
+            alt=""
+            style={layerStyle(!activeIsA)}
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        )}
+      </div>
+
+      {/* Color overlay rides ABOVE sprites (z:20) so the whole scene —
+          BG + characters — gets enveloped by the transition. Stays
+          below dialogue (z:30), HUD (z:40), letterbox (z:50). */}
       {overlayColor && (
         <div
+          aria-hidden
           style={{
             position: "absolute",
             inset: 0,
+            zIndex: 25,
             backgroundColor: overlayColor,
             opacity: overlayOpacity,
             transition: `opacity ${overlayDuration}ms ease-in-out`,
@@ -189,6 +198,6 @@ export default function Background({ syncAudio = true }: BackgroundProps) {
           }}
         />
       )}
-    </div>
+    </>
   );
 }
