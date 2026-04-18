@@ -33,6 +33,8 @@ Tu ranges tes affaires sans regarder. Les stylos dans la poche avant, le chargeu
 
 Le câble est trop long, il prend toujours plus de place que prévu. Tu fais ça dans l'ordre depuis des semaines.
 
+Cinquante-trois néons dans le couloir. Tu les as comptés en première année quand tu avais rien d'autre. Chaque fois que tu passes tu vérifies.
+
 Les étudiants quittent la salle par vagues. Les premiers partent avant même que le prof ait fini sa phrase.
 
 Les derniers traînent sans raison particulière. Tu fais partie de ni l'un ni l'autre.
@@ -84,7 +86,7 @@ Tu la vois en premier.
 
 Ou plutôt : tu vois la lumière en premier.
 
-Une lueur entre ses doigts. Rosée, pulsante.
+Une lueur entre ses doigts. Rose clair. Elle pulse.
 
 Elle a les mains tendues devant elle, les yeux fermés, les épaules contractées.
 
@@ -225,8 +227,6 @@ LUNAE : C'est donc toi.
 
 Elle dit ça comme si elle confirmait quelque chose qu'elle savait déjà. Comme si elle avait une liste quelque part, et que tu venais d'être coché dessus.
 
-Il y a quelque chose dans ce ton. Trop assuré. Trop posé. Comme quelqu'un qui connaît la fin de l'histoire avant qu'elle commence.
-
 LUNAE : Je m'appelle Lunae.
 
 Elle laisse ça reposer. Pas de présentation théâtrale, pas d'explication.
@@ -252,13 +252,13 @@ Elle dit ça simplement. Comme un fait établi depuis longtemps.
 
 Tu la regardes. Elle soutient ton regard sans ciller.
 
-Quelque chose cloche. Tu ne saurais pas dire quoi. Comme quelqu'un qui récite un texte appris, qui n'a jamais eu à improviser.
+Quelque chose cloche. Tu ne saurais pas dire quoi.
 
 * ["Comment tu sais qui je suis ?"]
     ~ score = score + 3
     # SPEAKER: lunae
     LUNAE : Bonne question.
-    Elle te regarde avec quelque chose qui ressemble à de la satisfaction.
+    Elle te regarde. Presque satisfaite.
     LUNAE : Tu poseras les bonnes questions. C'est rassurant.
     Elle ne répond pas pour autant.
     -> fin_scene1
@@ -310,7 +310,7 @@ Elle te regarde une seconde. Pas longtemps.
 
 STELLA : Tu vas pas le dire à personne ?
 
-Ce n'est pas vraiment une question sur la réponse. C'est une question sur pourquoi tu es encore là.
+C'est une question sur pourquoi tu es encore là.
 
 STELLA : Bonne nuit.
 
@@ -350,6 +350,8 @@ Pas d'insomnie franche. Juste ce genre de nuit où le cerveau tourne à vide san
 
 Tu ranges tes affaires en automatique. Premier cours dans vingt minutes.
 
+Cinquante-trois néons. Tu comptes. Tu en rates trois. Tu recommences.
+
 # SPRITE: stella-excitee
 
 Stella est dans le couloir.
@@ -373,6 +375,8 @@ Elle regarde autour d'elle. Couloir plein. Elle baisse la voix.
 STELLA : J'ai déplacé mon bureau. De trente centimètres. Sans le toucher.
 
 STELLA : J'ai passé deux heures à remettre les trucs qui étaient dessus parce que tout était tombé. Mais. J'ai déplacé le bureau.
+
+STELLA : Ma mère pense que j'ai une phase. Je veux pas la décevoir.
 
 Elle te regarde. Elle attend quelque chose. Pas de la stupéfaction. Plutôt une confirmation que ça compte autant qu'elle pense que ça compte.
 
@@ -456,7 +460,7 @@ Mais ça prend de la place.
 
 # MOOD: tension
 
-Les étudiants les plus proches ont l'air mal sans savoir pourquoi. Une fille se frotte les bras. Un garçon regarde dans sa direction puis détourne les yeux immédiatement.
+Les étudiants les plus proches ont l'air mal sans savoir pourquoi. Une fille se frotte les bras. Un garçon regarde dans sa direction, détourne les yeux.
 
 L'étudiant ne bouge toujours pas.
 
@@ -680,6 +684,10 @@ STELLA : Je pense qu'il va bien.
 
 Elle ne rajoute rien. Elle n'est pas sûre.
 
+STELLA : C'est bizarre. J'ai rien senti.
+
+Elle le dit comme si ça la rassurait. Ça devrait pas la rassurer.
+
 -> scene2_aftermath
 
 === scene2_aftermath ===
@@ -866,6 +874,8 @@ Elle s'appuie contre les casiers. Elle te regarde.
 
 STELLA : T'as rien dit quand j'ai tiré. T'as pas bougé. C'était... je sais pas. Ça m'a aidée.
 
+Elle te regarde. Un peu plus longtemps que d'habitude.
+
 STELLA : Peut-être que j'ai besoin de quelqu'un qui bouge pas.
 
 
@@ -956,6 +966,8 @@ Les cours étaient finis, tu allais quelque part, elle allait quelque part.
 Vos quelque part sont devenus le même endroit sans que personne ne le propose vraiment.
 
 Les rues près du campus à cette heure. Petits commerces qui ferment. Vélos garés en double. Une odeur de dashi qui sort d'un izakaya.
+
+Tu comptes les vélos au lieu d'écouter. Cinq, six, sept en double. Tu arrêtes.
 
 # SPRITE: stella-neutre
 # SPEAKER: stella
@@ -1233,7 +1245,11 @@ La manifestation hésite. Elle pulse, irrégulière, comme quelque chose qui che
 
 Stella lève le Glock. Pas vers lui. Vers ce qui reste autour de lui.
 
-Cette fois c'est différent. La lumière sort lentement, presque à contrecœur, comme si l'arme aussi sentait que c'est plus compliqué qu'avant. Puis elle cède.
+Cette fois c'est différent. La lumière sort lentement, presque à contrecœur. Puis elle s'arrête.
+
+La manifestation tient encore.
+
+Stella respire. Elle tire pour de vrai.
 
 La manifestation se défait, par fragments.
 
@@ -1251,6 +1267,8 @@ STELLA : (souffle court) C'était... elle résistait. Elle voulait pas partir.
 Elle regarde sa main qui tremble légèrement.
 
 STELLA : La prochaine fois ce sera encore plus dur je pense.
+
+STELLA : Et j'ai quand même tiré.
 
 -> s3_aftermath
 
@@ -1293,9 +1311,9 @@ Impossible de dire si c'est bien ou pas.
 
 STELLA : Il est parti.
 
-STELLA : C'est... ouais. C'est réglé.
+Elle ne rajoute rien.
 
-Elle dit ça comme si elle essayait de savoir si elle y croit.
+Elle range le Glock sans regarder sa main.
 
 -> s3_aftermath
 
@@ -1402,15 +1420,9 @@ Vous restez là quelques secondes sans rien dire.
 
 La rue est normale. Les gens passent. Un scooter double une voiture. Quelqu'un rit dans un izakaya.
 
-Stella range ses mains dans ses poches.
+Stella range ses mains dans ses poches. Elle recommence à marcher.
 
-# SPEAKER: stella
-
-STELLA : On marche ?
-
-# SPEAKER:
-
-C'est pas une vraie question. Elle commence déjà à avancer.
+Tu la suis.
 
 { score >= 13:
     -> s3_dating_healthy
@@ -1560,6 +1572,8 @@ STELLA : Merci d'être venu sur le toit ce soir-là.
 
 Elle repart avant que tu puisses répondre.
 
+Tu restes là une seconde. La main dans la poche. Tu n'as pas envie de rentrer mais tu n'as nulle part d'autre.
+
 -> cliffhanger
 
 === s3_dating_unhealthy ===
@@ -1627,9 +1641,9 @@ STELLA : Ouais, probablement.
 
 # SPEAKER:
 
-Quelque chose dans cette facilité devrait t'alerter.
+La phrase était trop prête dans sa bouche.
 
-Ça ne t'alerte pas.
+Tu ne t'arrêtes pas dessus.
 
 -> s3_unhealthy_glock
 
@@ -1675,6 +1689,8 @@ Tu l'entends.
 La cadence. Le choix des mots. Ce n'est pas Stella.
 
 Elle repart avant que tu puisses y mettre un nom.
+
+Tu restes sous le lampadaire. Il fait pas froid. Tu as froid quand même.
 
 -> cliffhanger
 
