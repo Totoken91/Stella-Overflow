@@ -207,8 +207,11 @@ export function saveState(): string | null {
 export function loadState(stateJson: string): boolean {
   if (!story || !storyLoaded) return false;
   try {
-    // LoadJson expects a parsed object in inkjs 2.4
-    story.state.LoadJson(JSON.parse(stateJson));
+    // inkjs 2.4's LoadJson runs JSON.parse internally — it expects a
+    // string, not a pre-parsed object. Passing an object made the call
+    // fail silently and left the story at its initial position, which
+    // is why saves looked like they restarted from the top.
+    story.state.LoadJson(stateJson);
     return true;
   } catch {
     return false;
