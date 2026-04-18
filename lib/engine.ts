@@ -1,5 +1,5 @@
 import { Story } from "inkjs";
-import { useGameStore, type SceneMode } from "./gameState";
+import { useGameStore, type SceneMode, type Emphasis } from "./gameState";
 
 let story: Story | null = null;
 let storyLoaded = false;
@@ -92,6 +92,17 @@ function processTags(tags: string[] | null) {
         store.setSceneMode(value as SceneMode);
         break;
 
+      case "EMPHASIS": {
+        const v = (value || "none").toLowerCase();
+        const valid: Emphasis[] = ["none", "thought", "whisper"];
+        store.setEmphasis((valid.includes(v as Emphasis) ? v : "none") as Emphasis);
+        break;
+      }
+
+      case "DISTURB":
+        store.bumpDisturbance();
+        break;
+
       case "STOP_FF":
         // Checked externally via hasStopFF()
         break;
@@ -99,9 +110,9 @@ function processTags(tags: string[] | null) {
   }
 }
 
-export async function init(): Promise<boolean> {
+export async function init(url: string = "/story/scene1.json"): Promise<boolean> {
   try {
-    const response = await fetch("/story/scene1.json");
+    const response = await fetch(url);
     const jsonText = await response.text();
 
     const parsed = JSON.parse(jsonText);
@@ -126,6 +137,10 @@ export function isLoaded(): boolean {
 export function getText(): string | null {
   if (!story || !storyLoaded) return null;
   if (!story.canContinue) return null;
+
+  // Emphasis is per-line: reset before processing this line's tags so the
+  // absence of an # EMPHASIS tag clears the previous state.
+  useGameStore.getState().setEmphasis("none");
 
   let text = story.Continue();
   processTags(story.currentTags);

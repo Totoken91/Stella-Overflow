@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type SceneMode = "calm" | "tension" | "intimate" | "dissociation";
+export type Emphasis = "none" | "thought" | "whisper";
 
 interface GameState {
   // Narrative
@@ -17,6 +18,10 @@ interface GameState {
   currentSceneLabel: string;
   sceneMode: SceneMode;
 
+  // VN UI
+  emphasis: Emphasis;
+  disturbanceTrigger: number;
+
   // Sprites
   currentSpeaker: string;
   visibleSprites: string[];
@@ -28,6 +33,10 @@ interface GameState {
   setCG: (cg: string | null) => void;
   setCurrentScene: (scene: string, label: string) => void;
   setSceneMode: (mode: SceneMode) => void;
+
+  // VN UI actions
+  setEmphasis: (e: Emphasis) => void;
+  bumpDisturbance: () => void;
 
   // Sprite actions
   setSpeaker: (name: string) => void;
@@ -53,6 +62,8 @@ const initialState = {
   currentScene: "",
   currentSceneLabel: "",
   sceneMode: "calm" as SceneMode,
+  emphasis: "none" as Emphasis,
+  disturbanceTrigger: 0,
   currentSpeaker: "",
   visibleSprites: [],
   currentExpression: {},
@@ -69,6 +80,9 @@ export const useGameStore = create<GameState>()(
       setCurrentScene: (scene, label) =>
         set({ currentScene: scene, currentSceneLabel: label }),
       setSceneMode: (mode) => set({ sceneMode: mode }),
+
+      setEmphasis: (e) => set({ emphasis: e }),
+      bumpDisturbance: () => set((s) => ({ disturbanceTrigger: s.disturbanceTrigger + 1 })),
 
       setSpeaker: (name) => set({ currentSpeaker: name }),
 

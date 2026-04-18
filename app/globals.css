@@ -16,6 +16,14 @@
   --foreground: #3D2535;
   --font-playfair: 'Playfair Display', Georgia, serif;
   --font-dm-mono: 'DM Mono', 'Courier New', monospace;
+
+  /* ─── VN palette (refonte) ─── */
+  --vn-black: #0a0612;
+  --vn-rose: #ff3d7f;
+  --vn-violet: #7b2dff;
+  --vn-cream: #f4ede4;
+  --vn-blood: #8b1538;
+  --vn-letterbox-h: 0px;
 }
 
 body {

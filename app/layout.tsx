@@ -1,5 +1,29 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond, EB_Garamond, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600"],
+  style: ["italic"],
+  variable: "--font-serif-display",
+  display: "swap",
+});
+
+const ebGaramond = EB_Garamond({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-serif-body",
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "700"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Stella \u2605 Overflow",
@@ -12,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${cormorant.variable} ${ebGaramond.variable} ${jetbrains.variable}`}>
       <head>
         <link
           rel="preconnect"

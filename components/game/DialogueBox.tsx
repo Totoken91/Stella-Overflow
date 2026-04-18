@@ -1,12 +1,18 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useGameStore } from "@/lib/gameState";
+import styles from "@/styles/vn.module.css";
 
 interface DialogueBoxProps {
   text: string;
   onNext: () => void;
   charDelay?: number;
   skipRef?: React.MutableRefObject<(() => void) | null>;
+  /**
+   * Temporary slot for HUD controls (back, fast-forward, menu).
+   * Rendered at top-right of the box until the HUD component takes over.
+   */
   controls?: React.ReactNode;
 }
 
@@ -21,17 +27,32 @@ function parseDialogue(text: string): {
   return { speaker: null, content: text.trim() };
 }
 
-const CHAR_DELAY = 20;
-const BOX_HEIGHT = 140; // fixed height in px
-
-export default function DialogueBox({ text, onNext, charDelay = 20, skipRef, controls }: DialogueBoxProps) {
+export default function DialogueBox({
+  text,
+  onNext,
+  charDelay = 20,
+  skipRef,
+  controls,
+}: DialogueBoxProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
+  const [pulseKey, setPulseKey] = useState(0);
 
   const generationRef = useRef(0);
   const lastClickRef = useRef(0);
 
+  const emphasis = useGameStore((s) => s.emphasis);
+  const sceneMode = useGameStore((s) => s.sceneMode);
+  const disturbanceTrigger = useGameStore((s) => s.disturbanceTrigger);
+
   const { speaker, content } = parseDialogue(text);
+  const dissociation = sceneMode === "dissociation";
+
+  // One-shot 300ms pulse whenever the disturbance counter bumps.
+  useEffect(() => {
+    if (disturbanceTrigger === 0) return;
+    setPulseKey((k) => k + 1);
+  }, [disturbanceTrigger]);
 
   // Typewriter with generation guard
   useEffect(() => {
@@ -59,9 +80,8 @@ export default function DialogueBox({ text, onNext, charDelay = 20, skipRef, con
     }, charDelay);
 
     return () => clearInterval(interval);
-  }, [content]);
+  }, [content, charDelay]);
 
-  // Expose skip/advance function via ref for parent to call
   const handleClickInner = useCallback(() => {
     const now = Date.now();
     if (now - lastClickRef.current < 80) return;
@@ -76,88 +96,62 @@ export default function DialogueBox({ text, onNext, charDelay = 20, skipRef, con
     }
   }, [isComplete, content, onNext]);
 
-  // Keep skipRef updated so parent can call the same logic
   useEffect(() => {
     if (skipRef) skipRef.current = handleClickInner;
-    return () => { if (skipRef) skipRef.current = null; };
+    return () => {
+      if (skipRef) skipRef.current = null;
+    };
   }, [skipRef, handleClickInner]);
+
+  const boxClass = [
+    styles.box,
+    dissociation ? styles.boxDisturbed : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const textClass = [
+    emphasis === "thought" ? styles.emphasisThought : "",
+    emphasis === "whisper" ? styles.emphasisWhisper : "",
+    dissociation ? styles.chromaticPersistent : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
       className="absolute bottom-0 left-0 right-0 z-30 cursor-pointer"
+      style={{
+        paddingBottom: "calc(var(--vn-letterbox-h, 0px) + 1.5rem)",
+        paddingLeft: "1rem",
+        paddingRight: "1rem",
+      }}
       onClick={(e) => {
         e.stopPropagation();
         handleClickInner();
       }}
     >
-      <div className="mx-auto max-w-4xl px-4 pb-6">
-        {/* Top row: speaker name left, controls right — fixed height */}
-        <div className="mb-2 flex h-9 items-center justify-between">
-          {speaker ? (
-            <div
-              className="inline-block rounded-xl px-4 py-1.5"
-              style={{
-                fontFamily: "var(--font-dm-mono)",
-                fontSize: "0.75rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "var(--pink-accent)",
-                background: "rgba(255, 255, 255, 0.6)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 143, 171, 0.3)",
-              }}
-            >
-              {speaker}
-            </div>
-          ) : (
-            <div />
-          )}
-          {controls && (
-            <div
-              className="flex gap-2"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {controls}
-            </div>
-          )}
-        </div>
+      <div className={boxClass}>
+        {speaker && (
+          <div className={styles.pill}>{speaker}</div>
+        )}
 
-        {/* Dialogue box — fixed height */}
-        <div
-          className="overflow-hidden rounded-2xl"
-          style={{
-            height: `${BOX_HEIGHT}px`,
-            background: "rgba(255, 255, 255, 0.7)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 143, 171, 0.2)",
-            borderLeft: "4px solid",
-            borderImage:
-              "linear-gradient(to bottom, var(--pink-deep), var(--teal)) 1",
-            padding: "1.25rem 1.5rem",
-          }}
-        >
-          <p
-            className="m-0 leading-relaxed"
-            style={{
-              fontFamily: "var(--font-playfair)",
-              fontSize: "1.05rem",
-              color: speaker ? "var(--foreground)" : "var(--pink-dark)",
-              fontStyle: speaker ? "normal" : "italic",
-            }}
+        {controls && (
+          <div
+            className={styles.controlsSlot}
+            onClick={(e) => e.stopPropagation()}
           >
-            {displayedText}
-            {!isComplete && (
-              <span
-                className="animate-pulse"
-                style={{ color: "var(--pink-accent)" }}
-              >
-                |
-              </span>
-            )}
-          </p>
-        </div>
+            {controls}
+          </div>
+        )}
+
+        <p
+          key={pulseKey}
+          className={`m-0 ${textClass} ${pulseKey > 0 ? styles.chromaticPulse : ""}`}
+        >
+          {displayedText}
+          {!isComplete && <span className={styles.caret}>|</span>}
+        </p>
       </div>
     </div>
   );
