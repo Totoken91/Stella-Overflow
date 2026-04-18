@@ -127,9 +127,15 @@ export function getText(): string | null {
   if (!story || !storyLoaded) return null;
   if (!story.canContinue) return null;
 
-  const text = story.Continue();
+  let text = story.Continue();
   processTags(story.currentTags);
-  return text ?? null;
+
+  while ((text === null || text.trim() === "") && story.canContinue) {
+    text = story.Continue();
+    processTags(story.currentTags);
+  }
+
+  return text && text.trim() !== "" ? text : null;
 }
 
 export function getChoices(): Array<{ text: string; index: number }> {
