@@ -175,11 +175,13 @@
 }
 
 /* Speaker pill — anchors to left, aligned with the vertical rail.
-   Floats above the box top edge by -12px. */
+   Floats above the box top edge by -12px. z-index 3 to sit on top
+   of the dark box below. */
 .pill {
   position: absolute;
   left: 24px;
   top: -12px;
+  z-index: 3;
   padding: 0.4rem 1.2rem;
   background: #0a0612;
   border: 1px solid #ff3d7f;
