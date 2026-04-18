@@ -29,7 +29,7 @@ Deuxième année. Les cours ont arrêté d'être nouveaux depuis un moment.
 
 Tu ranges tes affaires sans regarder. Les stylos dans la poche avant, le chargeur en dernier parce que le câble est trop long et prend toujours plus de place que prévu. Tu fais ça dans l'ordre depuis des semaines.
 
-Les étudiants quittent la salle par vagues — les premiers partent avant même que le prof ait fini sa phrase, les derniers traînent sans raison particulière. Tu fais partie de ni l'un ni l'autre.
+Les étudiants quittent la salle par vagues. Les premiers partent avant même que le prof ait fini sa phrase. Les derniers traînent sans raison particulière. Tu fais partie de ni l'un ni l'autre.
 
 # SPRITE: stella-neutre
 
@@ -68,7 +68,7 @@ Elle grince. Elle a toujours grincé.
 
 Tu la vois en premier.
 
-Ou plutôt — tu vois la lumière en premier.
+Ou plutôt : tu vois la lumière en premier.
 
 Une lueur entre ses doigts. Rosée, pulsante. Elle a les mains tendues devant elle, les yeux fermés, les épaules contractées comme quelqu'un qui essaie de soulever quelque chose qu'on ne peut pas toucher.
 
@@ -112,7 +112,7 @@ Elle attend.
 
 Le toit est silencieux sauf pour le bruit de la ville en contrebas — klaxons lointains, un chien quelque part, une fenêtre qui se ferme.
 
-Tu n'as aucune explication rationnelle pour ce que tu viens de voir. Tu en cherches une quand même, par réflexe. La lumière du soleil. Un reflet. Quelque chose dans tes yeux.
+Tu n'as aucune explication rationnelle pour ce que tu viens de voir. Tu en cherches une quand même, par réflexe. La lumière du soleil, un reflet, un truc dans tes yeux.
 
 Aucune tient.
 
@@ -141,7 +141,7 @@ Aucune tient.
 # SPRITE: stella-neutre
 # SPEAKER: stella
 
-Elle s'assoit aussi — pas près de toi, à deux mètres, dos à la rambarde. Elle regarde ses mains posées à plat sur ses genoux.
+Elle s'assoit aussi. Pas près de toi. Deux mètres, dos à la rambarde. Elle regarde ses mains posées à plat sur ses genoux.
 
 STELLA : Ça a commencé il y a trois jours.
 
@@ -183,14 +183,14 @@ Un silence s'installe.
 
 Stella a arrêté de parler.
 
-Elle regarde un point derrière toi — et quelque chose dans son expression change. Pas de la peur. Quelque chose qu'on pourrait appeler de la reconnaissance. Comme si elle s'était attendue à ça.
+Elle regarde un point derrière toi. Son expression change. Pas de la peur. Quelque chose qui ressemble à de la reconnaissance. Comme si elle s'était attendue à ça.
 
 # ENTER: lunae-neutre
 # SPRITE: stella-neutre lunae-neutre
 
 Lunae est là.
 
-Petite. Lumineuse. Suspendue dans l'air du soir comme si la gravité avait décidé de faire une exception pour elle.
+Elle est petite et lumineuse. Suspendue dans l'air du soir comme si la gravité avait décidé de faire une exception pour elle.
 
 Elle vous regarde tous les deux — Stella d'abord, longuement.
 
@@ -208,13 +208,13 @@ LUNAE : C'est donc toi.
 
 Elle dit ça comme si elle confirmait quelque chose qu'elle savait déjà. Comme si elle avait une liste quelque part, et que tu venais d'être coché dessus.
 
-Il y a quelque chose dans ce ton — trop assuré, trop posé. Comme quelqu'un qui connaît la fin de l'histoire avant qu'elle commence.
+Il y a quelque chose dans ce ton. Trop assuré. Trop posé. Comme quelqu'un qui connaît la fin de l'histoire avant qu'elle commence.
 
 LUNAE : Je m'appelle Lunae.
 
-Elle laisse ça reposer. Pas de présentation théâtrale. Pas d'explication.
+Elle laisse ça reposer. Pas de présentation théâtrale, pas d'explication.
 
-Elle se tourne vers Stella. Son ton change — plus doux, presque attentionné. La différence entre les deux versions d'elle est nette.
+Elle se tourne vers Stella. Son ton change. Plus doux. Presque attentionné. La différence entre les deux versions d'elle est nette.
 
 LUNAE : Tu as bien fait. Tu vas avoir besoin de lui.
 
@@ -235,7 +235,7 @@ Elle dit ça simplement. Comme un fait établi depuis longtemps.
 
 Tu la regardes. Elle soutient ton regard sans ciller.
 
-Quelque chose cloche — tu ne saurais pas dire quoi exactement. Une sensation vague. Comme quelqu'un qui récite un texte appris et n'a jamais eu à improviser.
+Quelque chose cloche. Tu ne saurais pas dire quoi. Comme quelqu'un qui récite un texte appris, qui n'a jamais eu à improviser.
 
 * ["Comment tu sais qui je suis ?"]
     ~ score = score + 3
@@ -267,7 +267,7 @@ Quelque chose cloche — tu ne saurais pas dire quoi exactement. Une sensation v
 
 Lunae disparaît.
 
-Pas de sortie théâtrale. Juste une absence là où il y avait une présence — comme si l'air s'était refermé sur elle.
+Pas de sortie théâtrale. Juste une absence là où il y avait une présence. Comme si l'air s'était refermé sur elle.
 
 Un long silence.
 
@@ -306,7 +306,7 @@ Tu restes seul sur le toit.
 
 Le ciel est violet maintenant. Les lumières de la ville s'allument une à une en contrebas.
 
-Une fille que tu croisais sans lui parler depuis septembre. Une lueur entre ses doigts. Une entité suspendue dans l'air du soir qui connaît ton nom.
+Une fille que tu croisais sans lui parler depuis septembre. Une lueur entre ses doigts. Quelque chose dans l'air du soir qui connaît ton nom.
 
 "C'est donc toi."
 
@@ -328,7 +328,7 @@ Mais tu as envie de le savoir.
 
 Tu as mal dormi.
 
-Pas d'insomnie franche — juste ce genre de nuit où le cerveau tourne à vide sans jamais s'arrêter vraiment. La lueur entre ses doigts. Le regard de Lunae. "C'est donc toi."
+Pas d'insomnie franche. Juste ce genre de nuit où le cerveau tourne à vide sans jamais s'arrêter vraiment. La lueur entre ses doigts. Le regard de Lunae. "C'est donc toi."
 
 Tu ranges tes affaires en automatique. Premier cours dans vingt minutes.
 
@@ -358,7 +358,7 @@ Un temps.
 
 STELLA : J'ai passé deux heures à remettre les trucs qui étaient dessus parce que tout était tombé. Mais — j'ai déplacé le bureau.
 
-Elle te regarde. Elle attend quelque chose — pas de la stupéfaction. Plutôt une confirmation que ça compte autant qu'elle pense que ça compte.
+Elle te regarde. Elle attend quelque chose. Pas de la stupéfaction. Plutôt une confirmation que ça compte autant qu'elle pense que ça compte.
 
 * ["C'est énorme."]
     ~ score = score + 2
@@ -386,7 +386,7 @@ Elle te regarde. Elle attend quelque chose — pas de la stupéfaction. Plutôt 
 
 Le cours commence. Vous rentrez en classe.
 
-Tu passes l'heure à la regarder de profil — deux rangs devant toi, côté fenêtre. Elle prend des notes. Ou elle fait semblant.
+Tu passes l'heure à la regarder de profil. Deux rangs devant toi, côté fenêtre. Elle prend des notes. Ou elle fait semblant.
 
 De temps en temps elle regarde ses mains.
 
@@ -399,7 +399,7 @@ De temps en temps elle regarde ses mains.
 
 La pause de midi. La cafétéria est pleine.
 
-Vous vous retrouvez à la même table — par défaut, sans que personne ne le propose vraiment. Elle s'est assise. Tu t'es assis.
+Vous vous retrouvez à la même table. Par défaut, sans que personne ne le propose vraiment. Elle s'est assise. Tu t'es assis.
 
 # SPRITE: stella-neutre
 # SPEAKER: stella
@@ -416,7 +416,7 @@ STELLA : Il a pas bougé depuis qu'on est arrivés.
 
 # MOOD: tension
 
-C'est vrai. Il n'a pas mangé. Il n'a pas regardé son téléphone. Il n'a pas levé la tête quand quelqu'un a fait tomber un plateau.
+C'est vrai. Il n'a pas mangé. Il n'a pas regardé son téléphone. Il n'a pas levé la tête quand quelqu'un a fait tomber un plateau à côté.
 
 Son highlighter est encore ouvert. L'encre va sécher.
 
@@ -424,7 +424,7 @@ Quelque chose dans la façon dont il est immobile n'est pas normale.
 
 Puis les gens autour de lui commencent à se déplacer.
 
-Pas brusquement. Juste — ils prennent leurs plateaux, ils changent de table, ils trouvent une raison de s'éloigner. Sans se concerter. Sans savoir pourquoi.
+Pas brusquement. Ils prennent leurs plateaux, changent de table, trouvent une raison de s'éloigner. Sans se concerter. Sans savoir pourquoi.
 
 La table autour de lui se vide.
 
@@ -432,9 +432,9 @@ La table autour de lui se vide.
 
 Et alors tu le vois.
 
-Quelque chose flotte autour de lui. Pas de la fumée. Pas de la lumière. Quelque chose entre les deux — une densité dans l'air, sombre, qui pulse très lentement. Comme une respiration.
+Quelque chose flotte autour de lui. Pas de la fumée. Pas de la lumière. Une densité dans l'air, sombre, qui pulse très lentement. Comme une respiration.
 
-Ça n'a pas de forme. Ça n'a pas de bruit.
+Ça n'a pas de forme, ni de bruit.
 
 Mais ça prend de la place.
 
@@ -461,13 +461,13 @@ Les mains de Stella sont posées à plat sur la table.
 
 La lueur revient.
 
-Pas comme sur le toit — douce, pulsante, contrôlée. Là c'est différent. Ça monte trop vite, ça déborde de ses paumes, ça remonte le long de ses bras sans qu'elle fasse rien.
+Pas comme sur le toit. Là elle était douce, contrôlée. Maintenant ça monte trop vite, ça déborde de ses paumes, ça remonte le long de ses bras sans qu'elle fasse rien.
 
 # SPRITE: stella-vide
 
 Ses yeux changent.
 
-Ce regard — tu l'as déjà vu. Sur le toit, une fraction de seconde. La pièce qui se vide d'elle sans qu'elle parte.
+Ce regard, tu l'as déjà vu. Sur le toit, une fraction de seconde. La pièce qui se vide d'elle sans qu'elle parte.
 
 Cette fois ça dure.
 
@@ -475,7 +475,7 @@ Cette fois ça dure.
 
 Puis quelque chose se passe.
 
-La lumière explose vers l'extérieur — un battement unique, silencieux, qui fait ciller tout le monde dans la cafétéria sans qu'ils sachent pourquoi.
+La lumière explose vers l'extérieur. Un battement unique. Silencieux. Tout le monde cille sans savoir pourquoi.
 
 // ─────────────────────────────────────────
 // CG BRIEF POUR MÉLANIE — transformation-scene2
@@ -496,9 +496,9 @@ Quand la lumière se dissipe, Stella est debout.
 
 Son uniforme a changé.
 
-Elle baisse les yeux sur elle-même — puis sur sa main droite.
+Elle baisse les yeux sur elle-même. Puis sur sa main droite.
 
-Le Glock est là. Lavande pastel. Réel. Lourd.
+Le Glock est là. Lavande pastel. Lourd.
 
 Elle le tient à bout de bras, bras tendu vers le bas, comme quelqu'un qui ne sait pas s'il faut poser la chose ou la lancer.
 
@@ -512,7 +512,7 @@ STELLA : C'est quoi ça.
 
 Elle parle de l'arme. Pas de la manifestation. Pas du costume. De l'arme.
 
-Autour d'elle, les gens regardent. Certains ont sorti leur téléphone — réflexe. Mais quelque chose dans leurs yeux est étrange. Ils voient. Ils ne *comprennent* pas ce qu'ils voient. Le costume, la lumière, l'arme — ça ne rentre dans aucune case. Leurs cerveaux cherchent une explication et n'en trouvent pas.
+Autour d'elle, les gens regardent. Certains ont sorti leur téléphone par réflexe. Mais quelque chose dans leurs yeux est étrange. Ils voient. Ils ne *comprennent* pas ce qu'ils voient. Le costume, la lumière, l'arme : ça ne rentre dans aucune case. Leurs cerveaux cherchent une explication sans la trouver.
 
 Une fille murmure *c'est quoi ce cosplay*.
 
@@ -532,7 +532,7 @@ Elle regarde la densité sombre qui pulse autour de l'étudiant. Puis elle te re
 
 Elle tient encore le Glock bras tendu vers le bas. Elle ne sait pas quoi en faire.
 
-Elle attend. Pas de permission — juste un signal.
+Elle attend. Pas de permission, juste un signal.
 # STOP_FF
 
 * [Faire un mouvement vers la table au fond.]
@@ -550,7 +550,7 @@ Elle attend. Pas de permission — juste un signal.
 
 Tu te lèves. Un mouvement, pas un plan.
 
-Stella lit ça immédiatement. Elle se lève aussi — et elle passe devant toi.
+Stella lit ça immédiatement. Elle se lève aussi. Elle passe devant toi.
 
 Elle marche vers la table du fond, toi un pas derrière. C'est elle qui avance. Toi tu la suis.
 
@@ -565,7 +565,7 @@ L'étudiant ne réagit pas.
 
 STELLA : Hé. Tu peux me dire ton nom ?
 
-Rien. Puis —
+Rien. Puis :
 
 STELLA : Je m'appelle Stella. Je suis deux rangs derrière toi en cours de socio. Je sais pas si t'as déjà fait attention à moi mais — moi j'ai fait attention à toi.
 
@@ -575,9 +575,9 @@ C'est une technique bizarre et elle le sait. Son ton est direct, presque maladro
 
 La densité change.
 
-Elle pulse différemment — plus vite, comme quelque chose qui essaie de résister. Haruto frémit. Puis quelque chose se casse.
+Elle pulse différemment. Plus vite. Comme quelque chose qui essaie de résister. Haruto frémit. Puis quelque chose se casse.
 
-Il parle. Des mots qui sortent trop vite, trop longtemps coincés — l'examen de fin de semestre, son père qui attend les résultats, le dortoir silencieux à 2h du matin avec les fiches de révision qui ne rentrent plus. Il pleure sans s'en rendre compte.
+Il parle. Des mots qui sortent trop vite, trop longtemps coincés. L'examen de fin de semestre. Son père qui attend les résultats. Le dortoir silencieux à 2h du matin, les fiches de révision qui ne rentrent plus. Il pleure sans s'en rendre compte.
 
 Stella l'écoute. Elle ne dit rien.
 
@@ -585,7 +585,7 @@ Stella l'écoute. Elle ne dit rien.
 
 La densité se contracte.
 
-Elle ne regarde pas le Glock — mais dans sa main, l'arme émet quelque chose. Pas un son. Une vibration, brève, comme une corde qu'on pince une seule fois.
+Elle ne regarde pas le Glock. Dans sa main, l'arme émet quelque chose. Pas un son. Une vibration brève, comme une corde qu'on pince une seule fois.
 
 La densité se contracte encore. Disparaît.
 
@@ -638,7 +638,7 @@ Les gens autour regardent dans la direction d'où venait le bruit — et ne voie
 
 Haruto cligne des yeux.
 
-Il pose le highlighter. Il regarde ses mains. Il range ses feuilles dans son sac, une par une, méthodiquement, sans urgence.
+Il pose le highlighter. Il regarde ses mains. Il range ses feuilles dans son sac, une par une, sans urgence.
 
 Il se lève. Il part.
 
@@ -646,7 +646,7 @@ Il se lève. Il part.
 
 Il a l'air bien.
 
-Vraiment bien — détendu, presque serein.
+Vraiment bien. Détendu. Presque serein.
 
 Quelque chose qui était dans ses yeux ne l'est plus.
 
@@ -701,7 +701,7 @@ Tu te retournes.
 
 Lunae est là.
 
-Pas comme sur le toit — elle ne flotte pas, elle n'est pas théâtrale. Elle est simplement debout, à deux tables de toi, comme si elle avait été là depuis le début.
+Pas comme sur le toit. Elle ne flotte pas, elle n'est pas théâtrale. Elle est simplement debout, à deux tables de toi, comme si elle avait été là depuis le début.
 
 # ENTER: lunae
 # SPRITE: lunae-neutre
@@ -717,7 +717,7 @@ Et elle sourit.
 
 # STOP_FF
 
-Ce sourire — tu l'as déjà vu. Il y a cinq minutes. Sur le visage de Stella, quand Haruto a commencé à parler.
+Ce sourire, tu l'as déjà vu. Il y a cinq minutes. Sur le visage de Stella, quand Haruto a commencé à parler.
 
 Identique.
 
@@ -740,7 +740,7 @@ Tu ne sais pas si elle a disparu ou si tu as détourné les yeux une fraction de
 
 C'est le soir. Les couloirs sont presque vides.
 
-Tu croises Stella devant les casiers. Elle t'a pas cherché cette fois — c'est toi qui passais par là.
+Tu croises Stella devant les casiers. Elle t'a pas cherché cette fois. C'est toi qui passais par là.
 
 Elle a l'air moins épuisée qu'à midi. Pas bien non plus. Entre les deux.
 
@@ -757,7 +757,7 @@ Elle a l'air moins épuisée qu'à midi. Pas bien non plus. Entre les deux.
 
 STELLA : T'es encore là.
 
-Pas une question. Plutôt — une observation. Elle range quelque chose dans son sac.
+Pas une question. Plutôt une observation. Elle range quelque chose dans son sac.
 
 STELLA : Je pensais que t'aurais... jsp. Disparu.
 
@@ -784,7 +784,7 @@ STELLA : T'as faim ?
 
 C'est une invitation. Elle te regarde en attendant.
 
-Pas de sourire. Juste — elle attend.
+Pas de sourire. Elle attend, c'est tout.
 
 * [Ouais.]
     -> dating_healthy_suite
@@ -840,7 +840,7 @@ Tu sais pas si c'était la bonne réponse.
 
 STELLA : T'es encore là.
 
-C'est dit différemment. Pas une observation — presque une accusation douce.
+C'est dit différemment. Pas une observation. Presque une accusation douce.
 
 STELLA : Après ce matin... t'aurais pu partir. La plupart des gens partent.
 
@@ -944,7 +944,7 @@ Vous marchez.
 
 Pas de destination précise — c'est arrivé comme ça. Les cours étaient finis, tu allais quelque part, elle allait quelque part, et à un moment vos quelque part sont devenus le même endroit sans que personne ne le propose vraiment.
 
-Les rues près du campus à cette heure — petits commerces qui ferment, vélos garés en double, une odeur de dashi qui sort d'un izakaya.
+Les rues près du campus à cette heure. Petits commerces qui ferment. Vélos garés en double. Une odeur de dashi qui sort d'un izakaya.
 
 # SPRITE: stella-neutre
 # SPEAKER: stella
@@ -971,14 +971,14 @@ Tu comprends ce qu'elle veut dire.
 
 C'est là que vous l'entendez.
 
-Une voix. Pas fort — mais le genre de ton qui coupe l'air. Quelqu'un qui parle à quelqu'un d'autre avec l'intention que ça fasse mal.
+Une voix. Pas fort, mais le genre de ton qui coupe l'air. Quelqu'un qui parle à quelqu'un d'autre avec l'intention que ça fasse mal.
 
 Vous tournez au coin de rue.
 
 # BG: rue-incident
 # STOP_FF
 
-Ils sont trois. Enfin — deux qui regardent et un qui se fait détruire.
+Ils sont trois. Enfin, deux qui regardent et un qui se fait détruire.
 
 Le garçon contre le mur a la vingtaine, cartable à l'épaule, les épaules remontées comme s'il essayait de prendre moins de place. En face de lui, une fille. Elle parle pas fort. Elle n'a pas besoin.
 
@@ -1001,7 +1001,7 @@ Les deux témoins ont sorti leur téléphone. Quelqu'un filme.
 
 Le garçon regarde toujours le sol.
 
-Tu restes là toi aussi. T'as pas bougé. T'aurais pu — l'impulsion était là. Mais t'as pas bougé.
+Tu restes là toi aussi. T'as pas bougé. T'aurais pu. L'impulsion était là. Mais t'as pas bougé.
 
 // ─────────────────────────────────────────
 // LA MANIFESTATION
@@ -1016,22 +1016,22 @@ Pas vers la fille. Vers le téléphone.
 
 Il voit qu'on filme.
 
-Un temps. Puis quelque chose se passe dans son visage — pas de l'effondrement. L'inverse.
+Un temps. Puis quelque chose se passe dans son visage. Pas de l'effondrement. L'inverse.
 
 # STOP_FF
 
 Ça vient de lui.
 
-Pas comme dans la cafétéria — froid, dense, qui s'accumulait depuis des mois sur un garçon qui ne savait plus comment respirer. Ça c'était de la pression. Quelque chose qui cherchait une issue.
+Pas comme dans la cafétéria. Froid, dense. Quelque chose qui s'accumulait depuis des mois sur un garçon qui ne savait plus comment respirer. Ça c'était de la pression, une issue qui se cherchait.
 
-Ça, c'est de la rage. Et elle sait exactement où elle va.
+Là c'est de la rage. Et elle sait exactement où elle va.
 
 # BG: rue-manifestation
 # MOOD: dissociation
 
 La température monte.
 
-L'air autour de lui ondule, lourd, chaud. La manifestation ne flotte pas autour de lui comme une aura — elle sort de lui, elle est lui, elle prend la même posture que lui quand il se redresse enfin contre le mur.
+L'air autour de lui ondule, lourd, chaud. La manifestation ne flotte pas autour de lui comme une aura. Elle sort de lui. Elle est lui. Elle prend la même posture que lui quand il se redresse enfin contre le mur.
 
 Il se redresse.
 
@@ -1090,14 +1090,14 @@ STELLA : Ok. Je — ok.
 
 # SPEAKER:
 
-Elle lève les mains. La lumière revient — mais différemment. Pas comme hier — débordante, incontrôlable, qui montait sans qu'elle fasse rien. Là elle l'appelle. Elle essaie de l'appeler.
+Elle lève les mains. La lumière revient, mais différemment. Pas comme hier : débordante, incontrôlable, qui montait sans qu'elle fasse rien. Là elle l'appelle. Elle essaie de l'appeler.
 
 Ça résiste.
 
 # MOOD: tension
 # STOP_FF
 
-La lueur commence, s'arrête. Recommence. Ses mains tremblent légèrement — pas de peur. D'effort.
+La lueur commence, s'arrête. Recommence. Ses mains tremblent légèrement. Pas de peur. D'effort.
 
 On peut presque voir le moment où elle faillit renoncer.
 
@@ -1157,7 +1157,7 @@ STELLA : Je te vois.
 
 Le garçon ne répond pas. Mais il ne détourne pas les yeux non plus.
 
-La manifestation tourne autour de lui, plus lente maintenant — comme si elle attendait.
+La manifestation tourne autour de lui, plus lente maintenant, comme si elle attendait.
 
 Stella tient le Glock. Elle te cherche du regard.
 
@@ -1208,7 +1208,7 @@ Il regarde. La fille qui a reculé. Les témoins. La poubelle renversée. Les vi
 
 Il reste avec ça un moment.
 
-Puis quelque chose dans ses épaules lâche — différemment que la rage. Quelque chose en dessous.
+Puis quelque chose dans ses épaules lâche. Différemment que la rage. Quelque chose en dessous.
 
 # MOOD: tension
 
@@ -1216,7 +1216,7 @@ La manifestation hésite. Elle pulse, irrégulière, comme quelque chose qui che
 
 Stella lève le Glock — pas vers lui. Vers ce qui reste autour de lui.
 
-Cette fois c'est différent. La lumière sort lentement, presque à contrecœur — comme si l'arme aussi sentait que c'est plus compliqué qu'avant. Puis elle cède.
+Cette fois c'est différent. La lumière sort lentement, presque à contrecœur, comme si l'arme aussi sentait que c'est plus compliqué qu'avant. Puis elle cède.
 
 La manifestation se défait, par fragments.
 
@@ -1225,7 +1225,7 @@ La manifestation se défait, par fragments.
 
 Le garçon s'assoit par terre.
 
-Pas un effondrement — juste ses jambes qui décident d'arrêter. Il regarde ses mains. Il respire.
+Pas un effondrement. Juste ses jambes qui décident d'arrêter. Il regarde ses mains. Il respire.
 
 # SPRITE: stella-genee
 # SPEAKER: stella
@@ -1253,7 +1253,7 @@ Elle tire.
 
 # STOP_FF
 
-L'impact est différent de la cafétéria. La rage résiste — une fraction de seconde, la lumière lavande et le rouge sombre se heurtent — puis ça cède.
+L'impact est différent de la cafétéria. La rage résiste une fraction de seconde. La lumière lavande et le rouge sombre se heurtent. Puis ça cède.
 
 La manifestation explose vers l'intérieur et disparaît.
 
@@ -1265,11 +1265,11 @@ Il regarde ses mains. La fille est toujours là. Il lève les yeux vers elle.
 
 Il se relève. Il ramasse son cartable.
 
-Il repart. Seul. Pas avec elle — juste ailleurs.
+Il repart. Seul. Pas avec elle. Juste ailleurs.
 
 # STOP_FF
 
-Il marchait différemment qu'avant. Plus droit. Ou peut-être juste — plus rien à porter.
+Il marchait différemment qu'avant. Plus droit. Ou peut-être juste : plus rien à porter.
 
 Impossible de dire si c'est bien ou pas.
 
@@ -1357,7 +1357,7 @@ LUNAE : Il s'appelait Kenji dans mon esprit. C'est tout.
 
 C'est une réponse. Elle n'explique rien.
 
-Tu repenses à la cafétéria. Au toit. À chaque fois que Lunae est apparue — où elle était, depuis combien de temps.
+Tu repenses à la cafétéria. Au toit. À chaque fois que Lunae est apparue. Où elle était. Depuis combien de temps.
 
 Quand est-ce qu'elle est arrivée ce soir ?
 
@@ -1461,7 +1461,7 @@ Elle dit ça comme si tu venais de confirmer quelque chose qu'elle pensait déj�
 
 STELLA : Ok. Bien.
 
-Elle se lève. Elle tend la main — pas pour que tu la prennes. Pour te tirer debout.
+Elle se lève. Elle tend la main. Pas pour que tu la prennes. Pour te tirer debout.
 
 # STOP_FF
 
@@ -1504,7 +1504,7 @@ Le Glock est dans la main de Stella.
 
 Pas de transformation. Pas de manifestation. Pas de raison visible.
 
-Il est juste là — lavande pastel, réel, lourd — pendant deux secondes.
+Il est juste là, lavande pastel, réel, lourd. Pendant deux secondes.
 
 Puis il disparaît.
 
@@ -1644,7 +1644,7 @@ Quelque chose dans cette facilité devrait t'alerter.
 
 Elle reste là, sous le lampadaire. Trop proche peut-être.
 
-Sa main s'approche — pas pour toucher. Juste près. La chaleur qui dort dans ses pouvoirs passe à travers l'air entre vous.
+Sa main s'approche. Pas pour toucher. Juste près. La chaleur qui dort dans ses pouvoirs passe à travers l'air entre vous.
 
 Elle ne sait pas qu'elle fait ça.
 
@@ -1697,7 +1697,7 @@ Tu rentres seul.
 
 Les rues sont plus vides maintenant. Les commerces fermés. Les néons éteints un par un.
 
-Tu penses à Lunae. Pas ce soir — avant.
+Tu penses à Lunae. Pas ce soir. Avant.
 
 # MOOD: dissociation
 # STOP_FF
@@ -1706,7 +1706,7 @@ Avant le toit.
 
 Avant Stella.
 
-Il y a quelque chose dans ta mémoire qui ressemble à un souvenir de Lunae — mais antérieur. Quelque chose qui ne peut pas être là. Tu essaies de le retrouver. C'est comme essayer de regarder quelque chose en vision périphérique — dès que tu tournes la tête vers ça, ça disparaît.
+Il y a quelque chose dans ta mémoire qui ressemble à un souvenir de Lunae. Mais antérieur. Quelque chose qui ne peut pas être là. Tu essaies de le retrouver. C'est comme essayer de regarder en vision périphérique : dès que tu tournes la tête vers ça, ça disparaît.
 
 Mais c'était là.
 
@@ -1742,7 +1742,7 @@ Tu repars.
 
 Derrière toi, sur le toit — tu ne regardes pas si elle est encore là.
 
-[ Fin de l'Acte 1 — À suivre... ]
+[ Fin de l'Acte 1 ]
 
 -> END
 
