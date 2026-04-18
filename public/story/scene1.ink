@@ -23,13 +23,19 @@ La journée tire à sa fin.
 
 Le couloir sent la poussière, le café froid, et ce fond de sac qui colle à tout.
 
-Tu connais cette odeur par cœur. Tu connais ce couloir par cœur. Même trajet depuis septembre. Même sortie à droite, même escalier du fond, même porte métallique au dernier étage qui grince si tu la laisses claquer.
+Tu connais cette odeur par cœur. Tu connais ce couloir par cœur. Même trajet depuis septembre.
+
+Même sortie à droite, même escalier du fond, même porte métallique au dernier étage qui grince si tu la laisses claquer.
 
 Deuxième année. Les cours ont arrêté d'être nouveaux depuis un moment.
 
-Tu ranges tes affaires sans regarder. Les stylos dans la poche avant, le chargeur en dernier parce que le câble est trop long et prend toujours plus de place que prévu. Tu fais ça dans l'ordre depuis des semaines.
+Tu ranges tes affaires sans regarder. Les stylos dans la poche avant, le chargeur en dernier.
 
-Les étudiants quittent la salle par vagues. Les premiers partent avant même que le prof ait fini sa phrase. Les derniers traînent sans raison particulière. Tu fais partie de ni l'un ni l'autre.
+Le câble est trop long, il prend toujours plus de place que prévu. Tu fais ça dans l'ordre depuis des semaines.
+
+Les étudiants quittent la salle par vagues. Les premiers partent avant même que le prof ait fini sa phrase.
+
+Les derniers traînent sans raison particulière. Tu fais partie de ni l'un ni l'autre.
 
 # SPRITE: stella-neutre
 
@@ -37,7 +43,11 @@ Stella passe dans le couloir.
 
 Elle marche près du mur, sac serré contre elle, les yeux quelque part entre le sol et les dalles. Comme d'habitude.
 
-Tu la connais de vue. Même promo depuis septembre — tu sais qu'elle s'appelle Stella parce qu'elle est sur la liste d'appel, tu sais qu'elle s'assoit côté fenêtre rangée du milieu. Tu sais qu'elle ne lève jamais la main même quand elle connaît la réponse — tu l'as vue hésiter une fois, la main à mi-chemin, et se raviser.
+Tu la connais de vue. Même promo depuis septembre. Tu sais qu'elle s'appelle Stella parce qu'elle est sur la liste d'appel.
+
+Elle s'assoit côté fenêtre, rangée du milieu. Elle ne lève jamais la main même quand elle connaît la réponse.
+
+Tu l'as vue hésiter une fois, la main à mi-chemin, et se raviser.
 
 C'est à peu près tout. Elle n'occupe pas l'espace de cette façon-là. Elle est là, elle écoute, elle part.
 
@@ -49,7 +59,11 @@ Tu finis de ranger tes affaires.
 
 Dehors il fait encore clair. Pas envie de rentrer tout de suite.
 
-Tu prends l'escalier de service, celui du fond. Moins de monde. En haut il y a le toit — accès normalement interdit, serrure cassée depuis des mois, personne n'a jamais réparé. Quelques étudiants le savent. La plupart s'en foutent.
+Tu prends l'escalier de service, celui du fond. Moins de monde.
+
+En haut il y a le toit. Accès normalement interdit, serrure cassée depuis des mois.
+
+Personne n'a jamais réparé. Quelques étudiants le savent. La plupart s'en foutent.
 
 Toi tu y vas parfois. Quand t'as besoin d'air.
 
@@ -70,13 +84,21 @@ Tu la vois en premier.
 
 Ou plutôt : tu vois la lumière en premier.
 
-Une lueur entre ses doigts. Rosée, pulsante. Elle a les mains tendues devant elle, les yeux fermés, les épaules contractées comme quelqu'un qui essaie de soulever quelque chose qu'on ne peut pas toucher.
+Une lueur entre ses doigts. Rosée, pulsante.
+
+Elle a les mains tendues devant elle, les yeux fermés, les épaules contractées.
+
+Comme quelqu'un qui essaie de soulever quelque chose qu'on ne peut pas toucher.
 
 Elle n'a pas entendu la porte.
 
 ...
 
-La lumière vacille. S'intensifie une seconde. Puis elle lâche — les doigts se desserrent, la lueur disparaît, et Stella rouvre les yeux sur ses paumes vides avec quelque chose qui ressemble à de la frustration.
+La lumière vacille. S'intensifie une seconde. Puis elle lâche.
+
+Les doigts se desserrent, la lueur disparaît.
+
+Stella rouvre les yeux sur ses paumes vides. Quelque chose qui ressemble à de la frustration.
 
 # SPRITE: stella-surprise
 
@@ -155,7 +177,9 @@ STELLA : La lampe a explosé.
 
 # SPRITE: stella-surprise
 
-STELLA : Enfin — j'ai pas su si c'était moi ou si c'était la lampe qui avait décidé de mourir ce soir-là. Mais le lendemain j'ai recommencé avec un stylo et le stylo a traversé le mur.
+STELLA : Enfin — j'ai pas su si c'était moi ou si c'était la lampe qui avait décidé de mourir ce soir-là.
+
+STELLA : Mais le lendemain j'ai recommencé avec un stylo. Et le stylo a traversé le mur.
 
 Elle lève les yeux.
 
@@ -512,7 +536,11 @@ STELLA : C'est quoi ça.
 
 Elle parle de l'arme. Pas de la manifestation. Pas du costume. De l'arme.
 
-Autour d'elle, les gens regardent. Certains ont sorti leur téléphone par réflexe. Mais quelque chose dans leurs yeux est étrange. Ils voient. Ils ne *comprennent* pas ce qu'ils voient. Le costume, la lumière, l'arme : ça ne rentre dans aucune case. Leurs cerveaux cherchent une explication sans la trouver.
+Autour d'elle, les gens regardent. Certains ont sorti leur téléphone par réflexe.
+
+Mais quelque chose dans leurs yeux est étrange. Ils voient. Ils ne *comprennent* pas ce qu'ils voient.
+
+Le costume, la lumière, l'arme : ça ne rentre dans aucune case. Leurs cerveaux cherchent une explication sans la trouver.
 
 Une fille murmure *c'est quoi ce cosplay*.
 
@@ -577,7 +605,11 @@ La densité change.
 
 Elle pulse différemment. Plus vite. Comme quelque chose qui essaie de résister. Haruto frémit. Puis quelque chose se casse.
 
-Il parle. Des mots qui sortent trop vite, trop longtemps coincés. L'examen de fin de semestre. Son père qui attend les résultats. Le dortoir silencieux à 2h du matin, les fiches de révision qui ne rentrent plus. Il pleure sans s'en rendre compte.
+Il parle. Des mots qui sortent trop vite, trop longtemps coincés.
+
+L'examen de fin de semestre. Son père qui attend les résultats.
+
+Le dortoir silencieux à 2h du matin, les fiches de révision qui ne rentrent plus. Il pleure sans s'en rendre compte.
 
 Stella l'écoute. Elle ne dit rien.
 
@@ -942,7 +974,11 @@ Mais Lunae, elle, avait l'air de savoir.
 
 Vous marchez.
 
-Pas de destination précise — c'est arrivé comme ça. Les cours étaient finis, tu allais quelque part, elle allait quelque part, et à un moment vos quelque part sont devenus le même endroit sans que personne ne le propose vraiment.
+Pas de destination précise. C'est arrivé comme ça.
+
+Les cours étaient finis, tu allais quelque part, elle allait quelque part.
+
+Vos quelque part sont devenus le même endroit sans que personne ne le propose vraiment.
 
 Les rues près du campus à cette heure. Petits commerces qui ferment. Vélos garés en double. Une odeur de dashi qui sort d'un izakaya.
 
@@ -980,7 +1016,9 @@ Vous tournez au coin de rue.
 
 Ils sont trois. Enfin, deux qui regardent et un qui se fait détruire.
 
-Le garçon contre le mur a la vingtaine, cartable à l'épaule, les épaules remontées comme s'il essayait de prendre moins de place. En face de lui, une fille. Elle parle pas fort. Elle n'a pas besoin.
+Le garçon contre le mur a la vingtaine, cartable à l'épaule, les épaules remontées comme s'il essayait de prendre moins de place.
+
+En face de lui, une fille. Elle parle pas fort. Elle n'a pas besoin.
 
 VOIX : — t'as même pas su quoi dire. Comme d'habitude. Bébé Cadum.
 
@@ -1022,7 +1060,11 @@ Un temps. Puis quelque chose se passe dans son visage. Pas de l'effondrement. L'
 
 Ça vient de lui.
 
-Pas comme dans la cafétéria. Froid, dense. Quelque chose qui s'accumulait depuis des mois sur un garçon qui ne savait plus comment respirer. Ça c'était de la pression, une issue qui se cherchait.
+Pas comme dans la cafétéria. Froid, dense.
+
+Quelque chose qui s'accumulait depuis des mois sur un garçon qui ne savait plus comment respirer.
+
+Ça c'était de la pression, une issue qui se cherchait.
 
 Là c'est de la rage. Et elle sait exactement où elle va.
 
@@ -1031,7 +1073,11 @@ Là c'est de la rage. Et elle sait exactement où elle va.
 
 La température monte.
 
-L'air autour de lui ondule, lourd, chaud. La manifestation ne flotte pas autour de lui comme une aura. Elle sort de lui. Elle est lui. Elle prend la même posture que lui quand il se redresse enfin contre le mur.
+L'air autour de lui ondule, lourd, chaud.
+
+La manifestation ne flotte pas autour de lui comme une aura. Elle sort de lui. Elle est lui.
+
+Elle prend la même posture que lui quand il se redresse enfin contre le mur.
 
 Il se redresse.
 
@@ -1090,7 +1136,11 @@ STELLA : Ok. Je — ok.
 
 # SPEAKER:
 
-Elle lève les mains. La lumière revient, mais différemment. Pas comme hier : débordante, incontrôlable, qui montait sans qu'elle fasse rien. Là elle l'appelle. Elle essaie de l'appeler.
+Elle lève les mains. La lumière revient, mais différemment.
+
+Pas comme hier : débordante, incontrôlable, qui montait sans qu'elle fasse rien.
+
+Là elle l'appelle. Elle essaie de l'appeler.
 
 Ça résiste.
 
@@ -1706,7 +1756,11 @@ Avant le toit.
 
 Avant Stella.
 
-Il y a quelque chose dans ta mémoire qui ressemble à un souvenir de Lunae. Mais antérieur. Quelque chose qui ne peut pas être là. Tu essaies de le retrouver. C'est comme essayer de regarder en vision périphérique : dès que tu tournes la tête vers ça, ça disparaît.
+Il y a quelque chose dans ta mémoire qui ressemble à un souvenir de Lunae. Mais antérieur.
+
+Quelque chose qui ne peut pas être là. Tu essaies de le retrouver.
+
+C'est comme essayer de regarder en vision périphérique : dès que tu tournes la tête vers ça, ça disparaît.
 
 Mais c'était là.
 
