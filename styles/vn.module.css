@@ -541,15 +541,31 @@
     0 2px 10px rgba(10, 6, 18, 0.8);
 }
 .titleStar {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
   vertical-align: middle;
   color: #ff3d7f;
   filter: drop-shadow(0 0 14px rgba(255, 61, 127, 0.55));
-  animation: starPulseRose 2.4s ease-in-out infinite;
+  /* Continuous rotation, delayed so the pop explosion plays first */
+  animation: titleStarSpin 4s linear infinite;
+  animation-delay: 1s;
 }
-@keyframes starPulseRose {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,61,127,0.4)); }
-  50%      { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(255,61,127,0.75)); }
+@keyframes titleStarSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes titleStarPulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255,61,127,0.4)); }
+  50%      { filter: drop-shadow(0 0 22px rgba(255,61,127,0.75)); }
+}
+.titleStar svg {
+  width: 100%;
+  height: 100%;
+  animation: titleStarPulse 3s ease-in-out infinite;
+  animation-delay: 1s;
 }
 
 .tagline {
@@ -645,6 +661,7 @@
   .choiceIndicator { animation: none; }
   .autosaveDot { animation: none; }
   .titleStar,
+  .titleStar svg,
   .loadingStar { animation: none; }
   .loadingDots span { animation: none; opacity: 0.8; }
 }
