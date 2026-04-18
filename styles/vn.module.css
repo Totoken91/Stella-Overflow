@@ -565,8 +565,6 @@
     0 0 40px rgba(10, 6, 18, 0.9),
     0 2px 10px rgba(10, 6, 18, 0.8);
 }
-/* Star wrapper — hosts both the main star and its reverse-rotating halo.
-   framer-motion drives the initial pop on this element. */
 .titleStar {
   display: inline-flex;
   align-items: center;
@@ -574,76 +572,24 @@
   width: 1em;
   height: 1em;
   vertical-align: middle;
-  position: relative;
-}
-
-/* Halo: identical star, behind, reverse slow rotation, larger + blurred.
-   Creates the double-exposure focal point effect. */
-.titleStarHalo {
-  position: absolute;
-  inset: 0;
   color: #ff3d7f;
-  opacity: 0.3;
-  animation: titleStarSpinReverse 15s linear infinite;
-  animation-delay: 1s;
-  filter: blur(1.5px) drop-shadow(0 0 16px rgba(255, 61, 127, 0.5));
-  pointer-events: none;
-}
-.titleStarHalo svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Main star: slower than before (8s), glow pulse still carried by SVG */
-.titleStarMain {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  color: #ff3d7f;
-  animation: titleStarSpin 8s linear infinite;
-  animation-delay: 1s;
-}
-.titleStarMain svg {
-  width: 100%;
-  height: 100%;
   filter: drop-shadow(0 0 14px rgba(255, 61, 127, 0.55));
-  animation: titleStarPulse 3s ease-in-out infinite;
+  animation: titleStarSpin 4s linear infinite;
   animation-delay: 1s;
 }
-
 @keyframes titleStarSpin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
-}
-@keyframes titleStarSpinReverse {
-  from { transform: scale(1.4) rotate(0deg); }
-  to   { transform: scale(1.4) rotate(-360deg); }
 }
 @keyframes titleStarPulse {
   0%, 100% { filter: drop-shadow(0 0 10px rgba(255,61,127,0.4)); }
   50%      { filter: drop-shadow(0 0 22px rgba(255,61,127,0.75)); }
 }
-
-/* Title breathing — applied to h1 after the letter-by-letter reveal. */
-.titleBreathing {
-  animation: titleBreathe 6s ease-in-out infinite;
-  animation-delay: 2s;
-}
-@keyframes titleBreathe {
-  0%, 100% {
-    transform: scale(1);
-    text-shadow:
-      0 0 40px rgba(10, 6, 18, 0.9),
-      0 2px 10px rgba(10, 6, 18, 0.8),
-      0 0 24px rgba(255, 61, 127, 0.3);
-  }
-  50% {
-    transform: scale(1.015);
-    text-shadow:
-      0 0 40px rgba(10, 6, 18, 0.9),
-      0 2px 10px rgba(10, 6, 18, 0.8),
-      0 0 40px rgba(255, 61, 127, 0.5);
-  }
+.titleStar svg {
+  width: 100%;
+  height: 100%;
+  animation: titleStarPulse 3s ease-in-out infinite;
+  animation-delay: 1s;
 }
 
 .tagline {
@@ -769,10 +715,7 @@
   .choiceIndicator { animation: none; }
   .autosaveDot { animation: none; }
   .titleStar,
-  .titleStarMain,
-  .titleStarMain svg,
-  .titleStarHalo,
-  .titleBreathing,
+  .titleStar svg,
   .loadingStar { animation: none; }
   .loadingDots span { animation: none; opacity: 0.8; }
 }

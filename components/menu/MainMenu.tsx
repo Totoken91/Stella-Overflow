@@ -164,11 +164,11 @@ export default function MainMenu() {
 
       {/* Content */}
       <div className="relative z-20 flex h-full w-full flex-col items-center justify-center px-6">
-        {/* Title — letter-by-letter reveal + breathing loop after
-            entrance (CSS animation-delay 2s). Star at index 7 pops
-            at 0.42s with particles, double-layer halo spins reverse. */}
+        {/* Title — letter-by-letter reveal. Star pops at its turn
+            (index 7, delay 0.42s), then continuous rotation via
+            CSS animation-delay on .titleStar. */}
         <h1
-          className={`${styles.titleText} ${reducedMotion ? "" : styles.titleBreathing} mb-3 text-center`}
+          className={`${styles.titleText} mb-3 text-center`}
           style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", lineHeight: 1 }}
         >
           {LETTERS.map((l) => {
@@ -191,18 +191,9 @@ export default function MainMenu() {
                     ease: "easeOut",
                   }}
                 >
-                  {/* Halo: reverse rotation 15s, scaled 1.4, blurred */}
-                  <span className={styles.titleStarHalo} aria-hidden>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
-                    </svg>
-                  </span>
-                  {/* Main star: forward rotation 8s */}
-                  <span className={styles.titleStarMain} aria-hidden>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
-                    </svg>
-                  </span>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
+                  </svg>
                   <StarParticles reducedMotion={reducedMotion} />
                 </motion.span>
               );
@@ -280,20 +271,16 @@ export default function MainMenu() {
           </motion.p>
         </div>
 
-        {/* Menu offset to the left of center (~30vw from left edge),
-            items left-aligned. Creates a diagonal axis title-center /
-            menu-left that breaks perfect symmetry. */}
+        {/* Menu — centered, always rendered so layout stays stable. */}
         <ul
           className="flex flex-col"
           style={{
             listStyle: "none",
             padding: 0,
             margin: 0,
-            width: "min(360px, 90vw)",
-            gap: "0.25rem",
+            width: "min(400px, 90vw)",
+            gap: "0.35rem",
             display: "flex",
-            alignSelf: "stretch",
-            marginLeft: "clamp(1rem, 30vw, 30vw)",
           }}
         >
           {MENU_ENTRIES.map((entry, i) => (
@@ -304,7 +291,6 @@ export default function MainMenu() {
               number={i}
               onChoose={handleChoose}
               showNumber={false}
-              leftAlign
               hoverSpark
               disabled={entry.key === "continue" && !autosaveExists}
               baseDelayMs={reducedMotion ? 0 : MENU_DELAY_MS}
