@@ -13,6 +13,9 @@ interface ChoiceItemProps {
   showNumber?: boolean;
   /** When true, the choice is visually de-emphasized (e.g. no save slot). */
   disabled?: boolean;
+  /** Extra delay (ms) before the stagger animation fires. Lets callers
+      reserve the layout from mount while starting the reveal later. */
+  baseDelayMs?: number;
 }
 
 export default function ChoiceItem({
@@ -22,6 +25,7 @@ export default function ChoiceItem({
   onChoose,
   showNumber = true,
   disabled = false,
+  baseDelayMs = 0,
 }: ChoiceItemProps) {
   const [hover, setHover] = useState(false);
 
@@ -41,7 +45,7 @@ export default function ChoiceItem({
       ]
         .filter(Boolean)
         .join(" ")}
-      style={{ animationDelay: `${number * 80}ms` }}
+      style={{ animationDelay: `${baseDelayMs + number * 80}ms` }}
       type="button"
       disabled={disabled}
     >

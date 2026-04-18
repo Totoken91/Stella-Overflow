@@ -8,10 +8,37 @@ import ChoiceItem from "@/components/game/ChoiceItem";
 import SaveLoadMenu from "./SaveLoadMenu";
 import styles from "@/styles/vn.module.css";
 
-// ─── Star pop/explosion particles (ported from old BootScreen) ───
+// ─── Title letter-by-letter reveal + star pop (from BootScreen@96b782f) ───
+const TITLE_PARTS = [
+  { text: "Stella ", type: "word" as const },
+  { text: "star", type: "star" as const },
+  { text: " Overflow", type: "word" as const },
+];
+const LETTER_STAGGER = 0.06;
 const PARTICLE_COUNT = 8;
 
-function StarParticles() {
+type Letter = { char: string; type: "word" | "star"; index: number };
+
+const LETTERS: Letter[] = (() => {
+  let globalIndex = 0;
+  return TITLE_PARTS.flatMap((part) =>
+    part.text.split("").map((char) => ({
+      char,
+      type: part.type,
+      index: globalIndex++,
+    }))
+  );
+})();
+
+const STAR_INDEX = LETTERS.findIndex((l) => l.type === "star");
+const STAR_DELAY_S = STAR_INDEX * LETTER_STAGGER;
+// All letters in by (lastIndex * STAGGER) + 0.5s duration
+const TITLE_END_S = (LETTERS.length - 1) * LETTER_STAGGER + 0.5;
+const TAGLINE_DELAY_S = TITLE_END_S + 0.1;
+const MENU_DELAY_MS = Math.round((TAGLINE_DELAY_S + 0.6) * 1000);
+
+function StarParticles({ reducedMotion }: { reducedMotion: boolean | null }) {
+  if (reducedMotion) return null;
   return (
     <>
       {Array.from({ length: PARTICLE_COUNT }).map((_, i) => {
@@ -24,15 +51,20 @@ function StarParticles() {
             key={i}
             className="pointer-events-none absolute"
             style={{
-              fontSize: "0.65rem",
+              fontSize: "0.55rem",
               color: "#ff3d7f",
               left: "50%",
               top: "50%",
               filter: "drop-shadow(0 0 6px rgba(255,61,127,0.85))",
             }}
-            initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-            animate={{ x, y, opacity: 0, scale: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            initial={{ x: 0, y: 0, opacity: 0, scale: 1 }}
+            animate={{ x, y, opacity: [0, 1, 0], scale: [1, 1, 0.3] }}
+            transition={{
+              duration: 0.8,
+              delay: STAR_DELAY_S,
+              times: [0, 0.05, 1],
+              ease: "easeOut",
+            }}
           >
             ✦
           </motion.span>
@@ -70,26 +102,9 @@ export default function MainMenu() {
   const [exiting, setExiting] = useState(false);
   const [loadMenuOpen, setLoadMenuOpen] = useState(false);
   const [autosaveExists, setAutosaveExists] = useState(false);
-  const [showPop, setShowPop] = useState(false);
-  const [menuReady, setMenuReady] = useState(false);
 
   useEffect(() => { loadSlots(); }, [loadSlots]);
   useEffect(() => { setAutosaveExists(hasAutosave()); }, [hasAutosave]);
-
-  // Animation timeline: pop at 0.8s, menu mount at 1.8s.
-  // Reduced motion: skip timings, mount menu fast.
-  useEffect(() => {
-    if (reducedMotion) {
-      setMenuReady(true);
-      return;
-    }
-    const popTimer = setTimeout(() => setShowPop(true), 800);
-    const menuTimer = setTimeout(() => setMenuReady(true), 1800);
-    return () => {
-      clearTimeout(popTimer);
-      clearTimeout(menuTimer);
-    };
-  }, [reducedMotion]);
 
   const navigateToGame = useCallback(() => {
     sessionStorage.setItem("stella-from-menu", "1");
@@ -146,44 +161,76 @@ export default function MainMenu() {
 
       {/* Content */}
       <div className="relative z-20 flex h-full w-full flex-col items-center justify-center px-6">
-        {/* Title — fade + blur-in from old MainMenu (commit 96b782f) */}
-        <motion.h1
+        {/* Title — letter-by-letter reveal. Star pops at its turn
+            (index 7, delay 0.42s), then continuous rotation via
+            CSS animation-delay on .titleStar. */}
+        <h1
           className={`${styles.titleText} mb-3 text-center`}
           style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", lineHeight: 1 }}
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{
-            duration: reducedMotion ? 0.3 : 1.8,
-            ease: [0.22, 1, 0.36, 1],
-            delay: reducedMotion ? 0 : 0.3,
-          }}
         >
-          Stella{" "}
-          {/* Star wrapper — scale pop at t=0.8s, continuous rotation after t=1s (CSS delay) */}
-          <motion.span
-            className={styles.titleStar}
-            style={{ fontSize: "0.55em", position: "relative" }}
-            initial={{ scale: 0.3, opacity: 0 }}
-            animate={
-              reducedMotion
-                ? { scale: 1, opacity: 1 }
-                : { scale: [0.3, 1.3, 1], opacity: [0, 1, 1] }
+          {LETTERS.map((l) => {
+            if (l.type === "star") {
+              return (
+                <motion.span
+                  key={l.index}
+                  className={styles.titleStar}
+                  style={{ fontSize: "0.55em", position: "relative" }}
+                  initial={{ opacity: 0, scale: 0.3 }}
+                  animate={
+                    reducedMotion
+                      ? { opacity: 1, scale: 1 }
+                      : { opacity: [0, 1, 1], scale: [0.3, 1.3, 1] }
+                  }
+                  transition={{
+                    duration: reducedMotion ? 0.3 : 0.5,
+                    delay: reducedMotion ? 0 : STAR_DELAY_S,
+                    times: reducedMotion ? undefined : [0, 0.55, 1],
+                    ease: "easeOut",
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
+                  </svg>
+                  <StarParticles reducedMotion={reducedMotion} />
+                </motion.span>
+              );
             }
-            transition={{
-              duration: reducedMotion ? 0.3 : 0.6,
-              delay: reducedMotion ? 0 : 0.8,
-              times: reducedMotion ? undefined : [0, 0.55, 1],
-              ease: "easeOut",
-            }}
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
-            </svg>
-            {/* Particle explosion emitted once when the star pops */}
-            {showPop && !reducedMotion && <StarParticles />}
-          </motion.span>{" "}
-          Overflow
-        </motion.h1>
+            return (
+              <motion.span
+                key={l.index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={
+                  reducedMotion
+                    ? { opacity: 1, y: 0 }
+                    : {
+                        opacity: 1,
+                        y: 0,
+                        filter: [
+                          "drop-shadow(0 0 0px rgba(255,61,127,0))",
+                          "drop-shadow(0 0 8px rgba(255,61,127,0.9))",
+                          "drop-shadow(0 0 4px rgba(255,61,127,0.4))",
+                        ],
+                      }
+                }
+                transition={{
+                  delay: reducedMotion ? 0 : l.index * LETTER_STAGGER,
+                  duration: reducedMotion ? 0.3 : 0.5,
+                  ease: "easeOut",
+                  filter: reducedMotion
+                    ? undefined
+                    : {
+                        delay: l.index * LETTER_STAGGER,
+                        duration: 0.8,
+                        times: [0, 0.4, 1],
+                      },
+                }}
+                style={{ display: "inline-block" }}
+              >
+                {l.char === " " ? "\u00A0" : l.char}
+              </motion.span>
+            );
+          })}
+        </h1>
 
         <motion.p
           className={`${styles.tagline} text-center`}
@@ -192,38 +239,39 @@ export default function MainMenu() {
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: reducedMotion ? 0.3 : 0.9,
-            delay: reducedMotion ? 0 : 1.2,
+            delay: reducedMotion ? 0 : TAGLINE_DELAY_S,
           }}
         >
           Tu n&apos;es pas le h&eacute;ros. Tu es celui qui d&eacute;cide si elle le devient.
         </motion.p>
 
-        {/* Menu list — mounts at t=1.8s so ChoiceItem's CSS stagger fires clean */}
-        {menuReady && (
-          <ul
-            className="flex flex-col"
-            style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              width: "min(400px, 90vw)",
-              gap: "0.35rem",
-              display: "flex",
-            }}
-          >
-            {MENU_ENTRIES.map((entry, i) => (
-              <ChoiceItem
-                key={entry.key}
-                text={entry.label}
-                index={i}
-                number={i}
-                onChoose={handleChoose}
-                showNumber={false}
-                disabled={entry.key === "continue" && !autosaveExists}
-              />
-            ))}
-          </ul>
-        )}
+        {/* Menu always rendered → layout reserved from mount, no jump
+            when items reveal. The stagger fires via per-item CSS
+            animationDelay seeded with baseDelayMs = MENU_DELAY_MS. */}
+        <ul
+          className="flex flex-col"
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            width: "min(400px, 90vw)",
+            gap: "0.35rem",
+            display: "flex",
+          }}
+        >
+          {MENU_ENTRIES.map((entry, i) => (
+            <ChoiceItem
+              key={entry.key}
+              text={entry.label}
+              index={i}
+              number={i}
+              onChoose={handleChoose}
+              showNumber={false}
+              disabled={entry.key === "continue" && !autosaveExists}
+              baseDelayMs={reducedMotion ? 0 : MENU_DELAY_MS}
+            />
+          ))}
+        </ul>
       </div>
 
       {/* Credits */}
