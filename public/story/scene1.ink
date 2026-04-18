@@ -120,9 +120,9 @@ Elle dit ça trop vite pour que ça soit vrai.
 
 ...
 
-STELLA : OK t'as vu. Mais — dis-le à personne.
+STELLA : OK t'as vu. Mais. Dis-le à personne.
 
-Elle te regarde. Elle cherche quelque chose dans ton expression — la peur, peut-être, ou le jugement. Elle ne trouve probablement pas ce qu'elle cherchait.
+Elle te regarde. Elle cherche quelque chose dans ton expression. La peur, peut-être. Ou le jugement. Elle ne trouve probablement pas ce qu'elle cherchait.
 
 STELLA : S'il te plaît.
 
@@ -132,7 +132,7 @@ STELLA : S'il te plaît.
 
 Elle attend.
 
-Le toit est silencieux sauf pour le bruit de la ville en contrebas — klaxons lointains, un chien quelque part, une fenêtre qui se ferme.
+Le toit est silencieux sauf pour le bruit de la ville en contrebas. Klaxons lointains, un chien quelque part, une fenêtre qui se ferme.
 
 Tu n'as aucune explication rationnelle pour ce que tu viens de voir. Tu en cherches une quand même, par réflexe. La lumière du soleil, un reflet, un truc dans tes yeux.
 
@@ -154,7 +154,6 @@ Aucune tient.
     # SPEAKER: stella
     Elle baisse les yeux sur ses mains.
     STELLA : Je sais pas.
-    Un temps.
     STELLA : Vraiment. Je sais pas ce que c'est.
     -> stella_explique
 
@@ -167,17 +166,13 @@ Elle s'assoit aussi. Pas près de toi. Deux mètres, dos à la rambarde. Elle re
 
 STELLA : Ça a commencé il y a trois jours.
 
-Un temps.
-
 STELLA : J'essayais de faire léviter ma télécommande. J'avais vu un truc sur internet, un tour de passe-passe, je voulais comprendre comment c'était fait.
-
-Elle marque une pause.
 
 STELLA : La lampe a explosé.
 
 # SPRITE: stella-surprise
 
-STELLA : Enfin — j'ai pas su si c'était moi ou si c'était la lampe qui avait décidé de mourir ce soir-là.
+STELLA : Enfin. J'ai pas su si c'était moi ou si c'était la lampe qui avait décidé de mourir ce soir-là.
 
 STELLA : Mais le lendemain j'ai recommencé avec un stylo. Et le stylo a traversé le mur.
 
@@ -207,7 +202,7 @@ Un silence s'installe.
 
 Stella a arrêté de parler.
 
-Elle regarde un point derrière toi. Son expression change. Pas de la peur. Quelque chose qui ressemble à de la reconnaissance. Comme si elle s'était attendue à ça.
+Elle regarde un point derrière toi. Son expression change. Pas de la peur. Presque de la reconnaissance. Comme si elle s'était attendue à ça.
 
 # ENTER: lunae-neutre
 # SPRITE: stella-neutre lunae-neutre
@@ -216,7 +211,7 @@ Lunae est là.
 
 Elle est petite et lumineuse. Suspendue dans l'air du soir comme si la gravité avait décidé de faire une exception pour elle.
 
-Elle vous regarde tous les deux — Stella d'abord, longuement.
+Elle vous regarde tous les deux. Stella d'abord, longuement.
 
 Puis elle se tourne vers toi.
 
@@ -225,8 +220,6 @@ Son regard dure une seconde de trop.
 # SPEAKER: lunae
 
 LUNAE : ...Ah.
-
-Un temps.
 
 LUNAE : C'est donc toi.
 
@@ -313,7 +306,7 @@ Elle s'arrête. Secoue légèrement la tête.
 
 STELLA : Enfin.
 
-Elle te regarde une seconde — pas longtemps.
+Elle te regarde une seconde. Pas longtemps.
 
 STELLA : Tu vas pas le dire à personne ?
 
@@ -371,7 +364,7 @@ STELLA : T'as dormi ?
 
 Elle dit ça comme si la réponse l'intéressait vraiment.
 
-STELLA : Moi non. J'ai essayé un truc — attends.
+STELLA : Moi non. J'ai essayé un truc. Attends.
 
 Elle regarde autour d'elle. Couloir plein. Elle baisse la voix.
 
@@ -379,9 +372,7 @@ Elle regarde autour d'elle. Couloir plein. Elle baisse la voix.
 
 STELLA : J'ai déplacé mon bureau. De trente centimètres. Sans le toucher.
 
-Un temps.
-
-STELLA : J'ai passé deux heures à remettre les trucs qui étaient dessus parce que tout était tombé. Mais — j'ai déplacé le bureau.
+STELLA : J'ai passé deux heures à remettre les trucs qui étaient dessus parce que tout était tombé. Mais. J'ai déplacé le bureau.
 
 Elle te regarde. Elle attend quelque chose. Pas de la stupéfaction. Plutôt une confirmation que ça compte autant qu'elle pense que ça compte.
 
@@ -400,8 +391,7 @@ Elle te regarde. Elle attend quelque chose. Pas de la stupéfaction. Plutôt une
     # SPEAKER: stella
     Elle cligne des yeux.
     STELLA : ...Oui ?
-    Un temps.
-    STELLA : C'était pas le but au départ mais — ouais.
+    STELLA : C'était pas le but au départ. Mais ouais.
     Elle a l'air de trouver ça raisonnable.
     -> scene2_cours
 
@@ -596,7 +586,7 @@ STELLA : Hé. Tu peux me dire ton nom ?
 
 Rien. Puis :
 
-STELLA : Je m'appelle Stella. Je suis deux rangs derrière toi en cours de socio. Je sais pas si t'as déjà fait attention à moi mais — moi j'ai fait attention à toi.
+STELLA : Je m'appelle Stella. Je suis deux rangs derrière toi en cours de socio. Je sais pas si t'as déjà fait attention à moi mais. Moi j'ai fait attention à toi.
 
 # SPEAKER:
 
@@ -635,7 +625,7 @@ STELLA : ...Je savais pas du tout ce que je faisais.
 
 Elle se relève lentement. Elle regarde sa main.
 
-STELLA : L'arme elle a — ça s'est fait tout seul. J'ai juste écouté et elle a...
+STELLA : L'arme elle a... ça s'est fait tout seul. J'ai juste écouté et elle a...
 
 Elle cherche ses mots.
 
@@ -665,7 +655,7 @@ Proprement. Instantanément.
 
 # MOOD: dissociation
 
-Les gens autour regardent dans la direction d'où venait le bruit — et ne voient rien d'anormal à regarder.
+Les gens autour regardent dans la direction d'où venait le bruit. Ne voient rien d'anormal à regarder.
 
 Haruto cligne des yeux.
 
@@ -684,9 +674,7 @@ Quelque chose qui était dans ses yeux ne l'est plus.
 # SPRITE: stella-neutre
 # SPEAKER: stella
 
-STELLA : C'est réglé — enfin. Il a l'air... il va bien.
-
-Un temps.
+STELLA : C'est réglé. Enfin. Il a l'air... il va bien.
 
 STELLA : Je pense qu'il va bien.
 
@@ -705,7 +693,7 @@ La cafétéria a repris son bruit normal.
 
 Vous êtes encore debout, tous les deux, au milieu des plateaux et des conversations. Personne ne vous regarde. Ou personne ne *veut* regarder.
 
-Stella range le Glock — il disparaît. Comme il est apparu. Elle baisse les yeux sur sa main vide.
+Stella range le Glock. Il disparaît. Comme il est apparu. Elle baisse les yeux sur sa main vide.
 
 # SPRITE: stella-genee
 # SPEAKER: stella
@@ -714,7 +702,7 @@ STELLA : J'ai besoin de... deux minutes. Enfin plus que deux minutes. Jsp.
 
 Elle ramasse son sac. Elle s'arrête.
 
-STELLA : Merci. Enfin — t'as rien fait vraiment. Mais. Ouais.
+STELLA : Merci. Enfin. T'as rien fait vraiment. Mais. Ouais.
 
 Elle repart sans attendre ta réponse.
 
@@ -800,9 +788,7 @@ Elle veut dire : après ce matin. Après la cafétéria.
 
 STELLA : J'ai réfléchi à ce que t'as fait. Aller vers lui comme ça. Sans savoir ce qui allait se passer.
 
-Un temps.
-
-STELLA : C'était con. Mais — ouais. C'était bien.
+STELLA : C'était con. Mais ouais. C'était bien.
 
 Elle ferme son casier.
 
@@ -834,13 +820,11 @@ Vous mangez dehors. Des trucs du konbini assis sur un muret.
 
 Elle parle peu. Toi aussi. Ce n'est pas gênant.
 
-À un moment elle regarde ses mains — les mêmes mains, la même lumière qui dormait dedans ce matin.
+À un moment elle regarde ses mains. Les mêmes mains. La même lumière qui dormait dedans ce matin.
 
 # SPEAKER: stella
 
 STELLA : Je comprends pas encore ce que je fais.
-
-Un temps.
 
 STELLA : Mais j'aime bien que tu sois là quand je le fais.
 
@@ -881,8 +865,6 @@ Elle s'appuie contre les casiers. Elle te regarde.
 # SPEAKER: stella
 
 STELLA : T'as rien dit quand j'ai tiré. T'as pas bougé. C'était... je sais pas. Ça m'a aidée.
-
-Un temps.
 
 STELLA : Peut-être que j'ai besoin de quelqu'un qui bouge pas.
 
@@ -932,11 +914,9 @@ STELLA : ...Qu'est-ce que tu veux dire.
 
 # SPEAKER:
 
-Elle a l'air genuinement déstabilisée. Comme si personne lui avait dit ça avant.
+Elle a l'air vraiment déstabilisée. Comme si personne lui avait dit ça avant.
 
-STELLA : Je veux juste — jsp. Quelqu'un qui reste.
-
-Un temps.
+STELLA : Je veux juste. Jsp. Quelqu'un qui reste.
 
 STELLA : C'est pas une demande bizarre.
 
@@ -988,9 +968,7 @@ Elle marche les bras le long du corps. Elle regarde ses mains.
 
 # SPEAKER: stella
 
-STELLA : Genre — elles font des trucs. Tu les regardes faire. Mais c'est pas toi.
-
-Un temps.
+STELLA : Genre, elles font des trucs. Tu les regardes faire. Mais c'est pas toi.
 
 STELLA : Avant c'était métaphorique.
 
@@ -1014,7 +992,7 @@ Le garçon contre le mur a la vingtaine, cartable à l'épaule, les épaules rem
 
 En face de lui, une fille. Elle parle pas fort. Elle n'a pas besoin.
 
-VOIX : — t'as même pas su quoi dire. Comme d'habitude. Bébé Cadum.
+VOIX : ...T'as même pas su quoi dire. Comme d'habitude. Bébé Cadum.
 
 Le garçon ne répond pas.
 
@@ -1048,7 +1026,7 @@ Pas vers la fille. Vers le téléphone.
 
 Il voit qu'on filme.
 
-Un temps. Puis quelque chose se passe dans son visage. Pas de l'effondrement. L'inverse.
+Puis quelque chose se passe dans son visage. Pas de l'effondrement. L'inverse.
 
 
 Ça vient de lui.
@@ -1075,7 +1053,7 @@ Elle prend la même posture que lui quand il se redresse enfin contre le mur.
 
 Il se redresse.
 
-Les épaules qui étaient remontées depuis le début — elles descendent.
+Les épaules qui étaient remontées depuis le début. Elles descendent.
 
 
 Il regarde la fille.
@@ -1099,7 +1077,7 @@ Non.
 
 # SPEAKER: stella
 
-STELLA : Lui — il est dedans. Il le sait.
+STELLA : Lui. Il est dedans. Il le sait.
 
 La manifestation pulse une fois, fort. Un éclat de lumière rouge sombre.
 
@@ -1125,7 +1103,7 @@ STELLA : Ok.
 
 Elle dit ça pour elle-même. Pas pour toi.
 
-STELLA : Ok. Je — ok.
+STELLA : Ok. Je... ok.
 
 # SPEAKER:
 
@@ -1174,7 +1152,7 @@ Cette fois elle le regarde à peine. Elle le saisit.
 
 # CG:
 
-Les téléphones des témoins qui filmaient — leurs écrans sont devenus noirs. Pas éteints. Juste noirs.
+Les téléphones des témoins qui filmaient. Leurs écrans sont devenus noirs. Pas éteints. Juste noirs.
 
 
 Une fille dans la rue murmure *c'est quoi ce cosplay encore*.
@@ -1219,7 +1197,7 @@ Il est dedans. Il le sait.
 
 Stella comprend.
 
-Elle baisse le Glock. Elle s'avance vers lui — pas vers la manifestation. Vers lui.
+Elle baisse le Glock. Elle s'avance vers lui. Pas vers la manifestation. Vers lui.
 
 # SPRITE: stella-neutre
 # SPEAKER: stella
@@ -1228,18 +1206,16 @@ STELLA : T'as entendu ce qu'elle t'a dit.
 
 Le garçon ne répond pas.
 
-STELLA : Moi j'ai entendu. Et — c'était cruel. C'était vraiment cruel.
+STELLA : Moi j'ai entendu. Et. C'était cruel. C'était vraiment cruel.
 
 # SPEAKER:
 
-La manifestation pulse. Stella ferme les yeux une seconde — elle absorbe quelque chose. On voit que ça coûte.
+La manifestation pulse. Stella ferme les yeux une seconde. Elle absorbe quelque chose. On voit que ça coûte.
 
 # SPRITE: stella-vide
 # SPEAKER: stella
 
 STELLA : Mais là t'es en train de te noyer dedans. Et si tu te noies dedans ça va pas juste toucher elle.
-
-Un temps.
 
 STELLA : Regarde autour de toi.
 
@@ -1255,7 +1231,7 @@ Puis quelque chose dans ses épaules lâche. Différemment que la rage. Quelque 
 
 La manifestation hésite. Elle pulse, irrégulière, comme quelque chose qui cherche encore à résister.
 
-Stella lève le Glock — pas vers lui. Vers ce qui reste autour de lui.
+Stella lève le Glock. Pas vers lui. Vers ce qui reste autour de lui.
 
 Cette fois c'est différent. La lumière sort lentement, presque à contrecœur, comme si l'arme aussi sentait que c'est plus compliqué qu'avant. Puis elle cède.
 
@@ -1270,7 +1246,7 @@ Pas un effondrement. Juste ses jambes qui décident d'arrêter. Il regarde ses m
 # SPRITE: stella-genee
 # SPEAKER: stella
 
-STELLA : (souffle court) C'était — elle résistait. Elle voulait pas partir.
+STELLA : (souffle court) C'était... elle résistait. Elle voulait pas partir.
 
 Elle regarde sa main qui tremble légèrement.
 
@@ -1317,9 +1293,7 @@ Impossible de dire si c'est bien ou pas.
 
 STELLA : Il est parti.
 
-Un temps.
-
-STELLA : C'est — ouais. C'est réglé.
+STELLA : C'est... ouais. C'est réglé.
 
 Elle dit ça comme si elle essayait de savoir si elle y croit.
 
@@ -1354,7 +1328,7 @@ Tu la regardes.
 
 # SPEAKER: stella
 
-STELLA : Je sais pas pourquoi j'ai dit ça. Je suis pas — non, j'ai faim en fait. C'est bizarre.
+STELLA : Je sais pas pourquoi j'ai dit ça. Je suis pas... non, j'ai faim en fait. C'est bizarre.
 
 # SPEAKER:
 
@@ -1467,8 +1441,6 @@ Elle regarde devant elle.
 
 STELLA : Pas les pouvoirs en soi. Ce que ça fait quand ça marche. Quand il a regardé autour de lui et qu'il a réalisé.
 
-Un temps.
-
 STELLA : C'est peut-être nul de dire ça.
 
 # SPEAKER:
@@ -1516,8 +1488,6 @@ Elle te lâche dès que tu es debout. Mais pas tout de suite.
 
 STELLA : Ouais. Moi non plus.
 
-Un temps.
-
 STELLA : Mais t'es là quand même.
 
 
@@ -1546,7 +1516,7 @@ Puis il disparaît.
 # SPRITE: stella-surprise
 # SPEAKER: stella
 
-STELLA : ...C'était pas — j'ai pas fait ça volontairement.
+STELLA : ...C'était pas. J'ai pas fait ça volontairement.
 
 # SPEAKER:
 
@@ -1615,8 +1585,6 @@ Ce n'est pas une question.
 
 STELLA : Le toit. La cafétéria. Ce soir. T'es toujours là.
 
-Un temps.
-
 STELLA : Pourquoi ?
 
 # STOP_FF
@@ -1633,8 +1601,6 @@ STELLA : Pourquoi ?
 # SPEAKER: stella
 
 STELLA : ...Ouais. Moi non plus je sais pas pourquoi je te cherche.
-
-Un temps.
 
 STELLA : C'est peut-être suffisant.
 
@@ -1773,7 +1739,7 @@ Tu repars.
 # MOOD: calm
 # BG: rue-nuit
 
-Derrière toi, sur le toit — tu ne regardes pas si elle est encore là.
+Derrière toi, sur le toit. Tu ne regardes pas si elle est encore là.
 
 [ Fin de l'Acte 1 ]
 
