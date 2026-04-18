@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSaveStore } from "@/lib/saveStore";
 import ChoiceItem from "@/components/game/ChoiceItem";
 import SaveLoadMenu from "./SaveLoadMenu";
+import MenuParticles from "./MenuParticles";
 import styles from "@/styles/vn.module.css";
 
 // ─── Title letter-by-letter reveal + star pop (from BootScreen@96b782f) ───
@@ -158,15 +159,16 @@ export default function MainMenu() {
       )}
 
       <div className={styles.metaScreenGlow} />
+      <MenuParticles />
       <div className={styles.metaGrain} />
 
       {/* Content */}
       <div className="relative z-20 flex h-full w-full flex-col items-center justify-center px-6">
-        {/* Title — letter-by-letter reveal. Star pops at its turn
-            (index 7, delay 0.42s), then continuous rotation via
-            CSS animation-delay on .titleStar. */}
+        {/* Title — letter-by-letter reveal + breathing loop after
+            entrance (CSS animation-delay 2s). Star at index 7 pops
+            at 0.42s with particles, double-layer halo spins reverse. */}
         <h1
-          className={`${styles.titleText} mb-3 text-center`}
+          className={`${styles.titleText} ${reducedMotion ? "" : styles.titleBreathing} mb-3 text-center`}
           style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", lineHeight: 1 }}
         >
           {LETTERS.map((l) => {
@@ -175,7 +177,7 @@ export default function MainMenu() {
                 <motion.span
                   key={l.index}
                   className={styles.titleStar}
-                  style={{ fontSize: "0.55em", position: "relative" }}
+                  style={{ fontSize: "0.55em" }}
                   initial={{ opacity: 0, scale: 0.3 }}
                   animate={
                     reducedMotion
@@ -189,9 +191,18 @@ export default function MainMenu() {
                     ease: "easeOut",
                   }}
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
-                  </svg>
+                  {/* Halo: reverse rotation 15s, scaled 1.4, blurred */}
+                  <span className={styles.titleStarHalo} aria-hidden>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
+                    </svg>
+                  </span>
+                  {/* Main star: forward rotation 8s */}
+                  <span className={styles.titleStarMain} aria-hidden>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z" />
+                    </svg>
+                  </span>
                   <StarParticles reducedMotion={reducedMotion} />
                 </motion.span>
               );
@@ -233,31 +244,56 @@ export default function MainMenu() {
           })}
         </h1>
 
-        <motion.p
-          className={`${styles.tagline} text-center`}
-          style={{ fontSize: "clamp(0.85rem, 2vw, 1.05rem)", marginBottom: "3.5rem" }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: reducedMotion ? 0.3 : 0.9,
-            delay: reducedMotion ? 0 : TAGLINE_DELAY_S,
-          }}
-        >
-          Tu n&apos;es pas le h&eacute;ros. Tu es celui qui d&eacute;cide si elle le devient.
-        </motion.p>
+        {/* Tagline split into two lines with a rose separator between. */}
+        <div className={styles.taglineBlock}>
+          <motion.p
+            className={`${styles.taglineLine} ${styles.taglineLineBright}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reducedMotion ? 0.3 : 0.7,
+              delay: reducedMotion ? 0 : TAGLINE_DELAY_S,
+            }}
+          >
+            Tu n&apos;es pas le h&eacute;ros.
+          </motion.p>
+          <motion.span
+            className={styles.taglineDivider}
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 0.9, scaleX: 1 }}
+            transition={{
+              duration: reducedMotion ? 0.2 : 0.5,
+              delay: reducedMotion ? 0 : TAGLINE_DELAY_S + 0.15,
+            }}
+            aria-hidden
+          />
+          <motion.p
+            className={`${styles.taglineLine} ${styles.taglineLineMuted}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reducedMotion ? 0.3 : 0.7,
+              delay: reducedMotion ? 0 : TAGLINE_DELAY_S + 0.3,
+            }}
+          >
+            Tu es celui qui d&eacute;cide si elle le devient.
+          </motion.p>
+        </div>
 
-        {/* Menu always rendered → layout reserved from mount, no jump
-            when items reveal. The stagger fires via per-item CSS
-            animationDelay seeded with baseDelayMs = MENU_DELAY_MS. */}
+        {/* Menu offset to the left of center (~30vw from left edge),
+            items left-aligned. Creates a diagonal axis title-center /
+            menu-left that breaks perfect symmetry. */}
         <ul
           className="flex flex-col"
           style={{
             listStyle: "none",
             padding: 0,
             margin: 0,
-            width: "min(400px, 90vw)",
-            gap: "0.35rem",
+            width: "min(360px, 90vw)",
+            gap: "0.25rem",
             display: "flex",
+            alignSelf: "stretch",
+            marginLeft: "clamp(1rem, 30vw, 30vw)",
           }}
         >
           {MENU_ENTRIES.map((entry, i) => (
@@ -268,6 +304,8 @@ export default function MainMenu() {
               number={i}
               onChoose={handleChoose}
               showNumber={false}
+              leftAlign
+              hoverSpark
               disabled={entry.key === "continue" && !autosaveExists}
               baseDelayMs={reducedMotion ? 0 : MENU_DELAY_MS}
             />
