@@ -116,10 +116,16 @@
 }
 
 /* ─── DialogueBox ──────────────────────────────── */
-.box {
+/* Wrapper hosts the pill + controls (unclipped). The actual clipped
+   box is a child, so the clip-path only applies to the dark panel. */
+.boxWrapper {
   position: relative;
   max-width: 68ch;
   margin: 0 auto;
+}
+
+.box {
+  position: relative;
   padding: 2rem 2.5rem;
   background: rgba(10, 6, 18, 0.82);
   backdrop-filter: blur(16px);

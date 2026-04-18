@@ -131,7 +131,7 @@ export default function DialogueBox({
         handleClickInner();
       }}
     >
-      <div className={boxClass}>
+      <div className={styles.boxWrapper}>
         {speaker && (
           <div className={styles.pill}>{speaker}</div>
         )}
@@ -145,13 +145,15 @@ export default function DialogueBox({
           </div>
         )}
 
-        <p
-          key={pulseKey}
-          className={`m-0 ${textClass} ${pulseKey > 0 ? styles.chromaticPulse : ""}`}
-        >
-          {displayedText}
-          {!isComplete && <span className={styles.caret}>|</span>}
-        </p>
+        <div className={boxClass}>
+          <p
+            key={pulseKey}
+            className={`m-0 ${textClass} ${pulseKey > 0 ? styles.chromaticPulse : ""}`}
+          >
+            {displayedText}
+            {!isComplete && <span className={styles.caret}>|</span>}
+          </p>
+        </div>
       </div>
     </div>
   );
