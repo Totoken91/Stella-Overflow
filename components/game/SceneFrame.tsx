@@ -33,6 +33,7 @@ export default function SceneFrame({
   const frameClass = [
     styles.frame,
     intimate ? styles.frameIntimate : "",
+    tension ? styles.frameTension : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -41,9 +42,7 @@ export default function SceneFrame({
     <div className={frameClass}>
       {children}
 
-      <div
-        className={`${styles.vignette} ${tension ? styles.vignetteTension : ""}`}
-      />
+      {/* Vignette is rendered as .frame::after (stays between BG and sprites) */}
       <div
         className={`${styles.grain} ${tension ? styles.grainTension : ""}`}
       />

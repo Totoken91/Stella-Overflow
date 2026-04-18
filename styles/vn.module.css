@@ -17,35 +17,38 @@
   --vn-letterbox-h: 10vh;
 }
 
-/* Vignette: radial darkening of the corners.
-   Sits ABOVE the BG but BELOW sprites/UI via z-index=5. */
-.vignette {
+/* Vignette — rendered as SceneFrame::after.
+   z-index 12 puts it ABOVE the BG (z:10) and BELOW sprites (z:20)
+   so faces never get darkened by the corner fall-off. */
+.frame::after {
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 5;
+  z-index: 12;
   background: radial-gradient(
     ellipse at center,
-    transparent 55%,
-    rgba(10, 6, 18, 0.4) 100%
+    transparent 40%,
+    rgba(10, 6, 18, 0.5) 100%
   );
-  transition: opacity 400ms ease-out;
+  transition: background 400ms ease-out;
 }
-.vignetteTension {
+.frameTension::after {
   background: radial-gradient(
     ellipse at center,
-    transparent 50%,
-    rgba(10, 6, 18, 0.55) 100%
+    transparent 35%,
+    rgba(10, 6, 18, 0.6) 100%
   );
 }
 
 /* Grain: SVG fractalNoise tiled + background-position shift (GPU-only).
-   mix-blend-mode overlay reads the underlying colors. */
+   position: fixed + inset: 0 keeps it viewport-sized with no edge reveal.
+   z-index 15 → above BG (z:10), below sprites (z:20). */
 .grain {
-  position: absolute;
-  inset: -50%;
+  position: fixed;
+  inset: 0;
   pointer-events: none;
-  z-index: 6;
+  z-index: 15;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 240px 240px;
   background-repeat: repeat;
@@ -71,13 +74,13 @@
   100% { background-position: 0 0; }
 }
 
-/* Scanlines: permanent in dissociation mode. Fine horizontal lines
-   via repeating linear gradient. Very subtle (1.5% opacity bars). */
+/* Scanlines: permanent in dissociation mode. z-index 35 so they
+   read over sprites + dialogue but stay under HUD + letterbox. */
 .scanlines {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 7;
+  z-index: 35;
   background: repeating-linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0px,
@@ -116,25 +119,31 @@
 }
 
 /* ─── DialogueBox ──────────────────────────────── */
-/* Wrapper hosts the pill + controls (unclipped). The actual clipped
-   box is a child, so the clip-path only applies to the dark panel. */
+/* Wrapper hosts pill + controls (unclipped) AND the glow shadow,
+   so the shadow isn't cropped by the clip-path of the panel. */
 .boxWrapper {
   position: relative;
   max-width: 68ch;
   margin: 0 auto;
+  box-shadow: 0 8px 24px -4px rgba(255, 61, 127, 0.4);
+  transition: box-shadow 300ms ease-out;
+}
+.boxWrapperDisturbed {
+  box-shadow: 0 8px 24px -4px rgba(123, 45, 255, 0.55);
 }
 
 .box {
   position: relative;
   padding: 2rem 2.5rem;
-  background: rgba(10, 6, 18, 0.82);
+  min-height: 6rem;
+  background: rgba(10, 6, 18, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  /* Left rose rail via inset box-shadow (respects clip-path) */
-  box-shadow:
-    inset 2px 0 0 #ff3d7f,
-    0 8px 24px -8px rgba(255, 61, 127, 0.3);
-  /* Only the TOP-LEFT corner is diagonally cut — asymmetry is intentional */
+  color: var(--vn-cream, #f4ede4);
+  font-family: var(--font-serif-body), Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  /* Only the TOP-LEFT corner is cut — single asymmetry is intentional */
   clip-path: polygon(
     16px 0,
     100% 0,
@@ -142,45 +151,29 @@
     0 100%,
     0 16px
   );
-  color: var(--vn-cream, #f4ede4);
-  font-family: var(--font-serif-body), Georgia, serif;
-  font-size: 1.15rem;
-  line-height: 1.7;
 }
 
-/* Bottom rose glow — a pseudo-element hugging the bottom edge */
-.box::after {
+/* Left rose rail — ::before starts BELOW the 16px cut corner so it
+   never collides with the diagonal and no triangular void appears. */
+.box::before {
   content: "";
   position: absolute;
   left: 0;
-  right: 0;
-  bottom: -8px;
-  height: 8px;
+  top: 16px;
+  bottom: 0;
+  width: 2px;
+  background: #ff3d7f;
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 61, 127, 0.3),
-    rgba(255, 61, 127, 0)
-  );
-  filter: blur(8px);
-  opacity: 1;
-  transition: background 300ms ease-out;
-}
-.boxDisturbed::after {
-  background: linear-gradient(
-    to bottom,
-    rgba(123, 45, 255, 0.5),
-    rgba(123, 45, 255, 0)
-  );
+  z-index: 1;
 }
 
-/* Speaker pill — anchors to left, aligned with the vertical rail.
-   Floats above the box top edge by -12px. z-index 3 to sit on top
-   of the dark box below. */
+/* Speaker pill — anchored left of the vertical rail, clearly to the
+   right of the diagonal cut (~10px clearance between the cut and
+   the pill). top: -14px → the pill visibly bites into the box edge. */
 .pill {
   position: absolute;
-  left: 24px;
-  top: -12px;
+  left: 2.5rem;
+  top: -14px;
   z-index: 3;
   padding: 0.4rem 1.2rem;
   background: #0a0612;

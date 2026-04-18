@@ -105,9 +105,9 @@ export default function DialogueBox({
     };
   }, [skipRef, handleClickInner]);
 
-  const boxClass = [
-    styles.box,
-    dissociation ? styles.boxDisturbed : "",
+  const wrapperClass = [
+    styles.boxWrapper,
+    dissociation ? styles.boxWrapperDisturbed : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -133,7 +133,7 @@ export default function DialogueBox({
         handleClickInner();
       }}
     >
-      <div className={styles.boxWrapper}>
+      <div className={wrapperClass}>
         {speaker && (
           <div className={styles.pill}>{speaker}</div>
         )}
@@ -147,7 +147,7 @@ export default function DialogueBox({
           </div>
         )}
 
-        <div className={boxClass}>
+        <div className={styles.box}>
           <p
             key={pulseKey}
             className={`m-0 ${textClass} ${pulseKey > 0 ? styles.chromaticPulse : ""}`}
