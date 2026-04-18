@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "@/lib/gameState";
+import { smartPunct } from "@/lib/typography";
 import styles from "@/styles/vn.module.css";
 
 interface DialogueBoxProps {
@@ -45,7 +46,8 @@ export default function DialogueBox({
   const sceneMode = useGameStore((s) => s.sceneMode);
   const disturbanceTrigger = useGameStore((s) => s.disturbanceTrigger);
 
-  const { speaker, content } = parseDialogue(text);
+  const { speaker, content: rawContent } = parseDialogue(text);
+  const content = smartPunct(rawContent);
   const dissociation = sceneMode === "dissociation";
 
   // One-shot 300ms pulse whenever the disturbance counter bumps.

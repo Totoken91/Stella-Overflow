@@ -8,6 +8,7 @@ import SpriteWindow from "@/components/game/SpriteWindow";
 import DialogueBox from "@/components/game/DialogueBox";
 import ChoiceList from "@/components/game/ChoiceList";
 import SceneFrame from "@/components/game/SceneFrame";
+import HUD from "@/components/game/HUD";
 
 export default function VnDemoPage() {
   const [initialized, setInitialized] = useState(false);
@@ -76,6 +77,11 @@ export default function VnDemoPage() {
       <SceneFrame>
         <Background />
         <SpriteWindow />
+
+        <HUD
+          onOpenMenu={() => alert("Menu (demo)")}
+          autosaveTick={0}
+        />
 
         {initialized && storyLoaded && !ended && text && (
           <DialogueBox

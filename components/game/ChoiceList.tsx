@@ -1,5 +1,8 @@
 "use client";
 
+import ChoiceItem from "./ChoiceItem";
+import styles from "@/styles/vn.module.css";
+
 interface Choice {
   text: string;
   index: number;
@@ -7,38 +10,26 @@ interface Choice {
 
 interface ChoiceListProps {
   choices: Choice[];
-  onChoice: (index: number) => void;
+  /** Kept for backward compatibility with /game page.tsx */
+  onChoice?: (index: number) => void;
+  onChoose?: (index: number) => void;
 }
 
-export default function ChoiceList({ choices, onChoice }: ChoiceListProps) {
+export default function ChoiceList({ choices, onChoice, onChoose }: ChoiceListProps) {
   if (choices.length === 0) return null;
+  const handle = onChoose ?? onChoice ?? (() => {});
 
   return (
-    <div className="absolute bottom-56 left-0 right-0 z-40 flex justify-center">
-      <div className="flex flex-col items-center gap-2 px-4">
-        {choices.map((choice) => (
-          <button
-            key={choice.index}
-            onClick={() => onChoice(choice.index)}
-            className="cursor-pointer overflow-hidden rounded-2xl text-center transition-all hover:shadow-md"
-            style={{
-              background: "rgba(255, 255, 255, 0.7)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 143, 171, 0.2)",
-              borderLeft: "4px solid",
-              borderImage:
-                "linear-gradient(to bottom, var(--pink-deep), var(--teal)) 1",
-              padding: "0.75rem 2.5rem",
-              fontFamily: "var(--font-playfair)",
-              fontSize: "0.95rem",
-              color: "var(--foreground)",
-            }}
-          >
-            {choice.text}
-          </button>
-        ))}
-      </div>
-    </div>
+    <ul className={styles.choiceList} role="menu">
+      {choices.map((c, i) => (
+        <ChoiceItem
+          key={c.index}
+          text={c.text}
+          index={c.index}
+          number={i}
+          onChoose={handle}
+        />
+      ))}
+    </ul>
   );
 }

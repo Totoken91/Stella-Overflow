@@ -248,6 +248,221 @@
     0.6px 0 0 rgba(123, 45, 255, 0.55);
 }
 
+/* ─── ChoiceList ───────────────────────────────── */
+.choiceList {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 56ch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.choice {
+  all: unset;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5rem 1fr 2.5rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  color: var(--vn-cream, #f4ede4);
+  font-family: var(--font-serif-body), Georgia, serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  transition: transform 200ms ease-out, color 200ms ease-out;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: choiceIn 380ms ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes choiceIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.choice:focus-visible {
+  outline: 1px solid #ff3d7f;
+  outline-offset: 4px;
+}
+
+.choiceHover {
+  color: #ff3d7f;
+  transform: translateX(4px);
+}
+
+.choiceIndicator {
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  color: #ff3d7f;
+  font-size: 0.9rem;
+  text-align: center;
+  animation: choiceIndicatorPulse 2.4s ease-in-out infinite;
+  transition: transform 200ms ease-out;
+}
+.choiceHover .choiceIndicator {
+  transform: translateX(2px) scale(1.1);
+}
+
+@keyframes choiceIndicatorPulse {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 0 transparent; }
+  50%      { opacity: 1; text-shadow: 0 0 8px rgba(255, 61, 127, 0.6); }
+}
+
+.choiceText {
+  position: relative;
+  text-align: center;
+}
+/* Underline expanding from center on hover */
+.choiceText::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transform: translateX(-50%);
+  transition: width 220ms ease-out;
+}
+.choiceHover .choiceText::after {
+  width: 70%;
+}
+
+.choiceNumber {
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-align: right;
+  opacity: 0.55;
+  transition: opacity 200ms ease-out, color 200ms ease-out;
+}
+.choiceHover .choiceNumber {
+  opacity: 0.9;
+}
+
+/* Faint CRT scanline on hover — only on the hovered row */
+.choice::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(255, 61, 127, 0.04) 3px,
+    rgba(255, 61, 127, 0.04) 4px
+  );
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+.choiceHover::before {
+  opacity: 1;
+}
+
+/* Mobile: tighter spacing, full-width text */
+@media (max-width: 640px) {
+  .choiceList {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  .choice {
+    grid-template-columns: 1.25rem 1fr 2rem;
+    gap: 0.6rem;
+    padding: 0.6rem 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* ─── HUD ──────────────────────────────────────── */
+.hud {
+  position: absolute;
+  top: calc(var(--vn-letterbox-h, 0px) + 0.75rem);
+  right: 1rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(10, 6, 18, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 61, 127, 0.2);
+  border-radius: 999px;
+}
+
+.hudBtn {
+  all: unset;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: var(--vn-cream, #f4ede4);
+  border-radius: 50%;
+  transition: transform 200ms ease-out, color 200ms ease-out,
+              background 200ms ease-out;
+}
+.hudBtn:hover:not(:disabled) {
+  color: #ff3d7f;
+  transform: scale(1.05);
+  background: rgba(255, 61, 127, 0.08);
+}
+.hudBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.hudBtn:focus-visible {
+  outline: 1px solid #ff3d7f;
+  outline-offset: 2px;
+}
+.hudBtnActive {
+  color: #ff3d7f;
+  background: rgba(255, 61, 127, 0.12);
+}
+
+.hudLabel {
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0 0.75rem;
+  white-space: nowrap;
+}
+
+/* Autosave dot — pulses every ~30s; visual cue only */
+.autosaveDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 0.4rem;
+  border-radius: 50%;
+  background: rgba(255, 61, 127, 0.25);
+  animation: autosavePulse 30s ease-in-out infinite;
+}
+.autosaveDotActive {
+  background: #ff3d7f;
+  box-shadow: 0 0 8px rgba(255, 61, 127, 0.8);
+  animation: autosavePulseActive 1.2s ease-out;
+}
+@keyframes autosavePulse {
+  0%, 92%, 100% { background: rgba(255, 61, 127, 0.25); box-shadow: 0 0 0 transparent; }
+  95%           { background: #ff3d7f; box-shadow: 0 0 10px rgba(255, 61, 127, 0.9); }
+}
+@keyframes autosavePulseActive {
+  0%   { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
 /* ─── prefers-reduced-motion: kill animations ─── */
 @media (prefers-reduced-motion: reduce) {
   .grain { animation: none; }
@@ -255,4 +470,7 @@
   .chromaticPulse { animation: none; }
   .letterboxTop,
   .letterboxBottom { transition: none; }
+  .choice { animation: none; opacity: 1; transform: none; }
+  .choiceIndicator { animation: none; }
+  .autosaveDot { animation: none; }
 }
