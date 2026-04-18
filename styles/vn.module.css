@@ -372,9 +372,11 @@
   opacity: 1;
 }
 
-/* Menu variant: no right-side number, 2-column grid */
+/* Menu variant: no right-side number. Third column is a phantom of
+   the same width as the chevron so the text column stays visually
+   centered on the container axis. */
 .choiceNoNumber {
-  grid-template-columns: 1.5rem 1fr;
+  grid-template-columns: 1.5rem 1fr 1.5rem;
 }
 
 /* Left-align variant (menu mode): text starts at the chevron, underline
@@ -421,7 +423,7 @@
     font-size: 1rem;
   }
   .choiceNoNumber {
-    grid-template-columns: 1.25rem 1fr;
+    grid-template-columns: 1.25rem 1fr 1.25rem;
   }
 }
 
