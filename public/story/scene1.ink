@@ -347,6 +347,7 @@ Mais tu as envie de le savoir.
 === scene2 ===
 
 # SCENE: scene2
+# TRANSITION: fade-black
 # BG: couloir-univ
 # MOOD: calm
 
@@ -418,6 +419,7 @@ De temps en temps elle regarde ses mains.
 // LA MANIFESTATION
 // ─────────────────────────────────────────
 
+# TRANSITION: fade-black
 # BG: cafeteria-univ
 # MOOD: calm
 
@@ -761,6 +763,7 @@ Tu ne sais pas si elle a disparu ou si tu as détourné les yeux une fraction de
 // PASS 6 — DATING SCENE
 // ─────────────────────────────────────────
 
+# TRANSITION: fade-black
 # BG: couloir-univ
 # MOOD: calm
 # SPEAKER:
@@ -1058,6 +1061,7 @@ Quelque chose qui s'accumulait depuis des mois sur un garçon qui ne savait plus
 
 Là c'est de la rage. Et elle sait exactement où elle va.
 
+# TRANSITION: fade-crimson
 # BG: rue-manifestation
 # MOOD: dissociation
 
@@ -1714,6 +1718,7 @@ Elle repart avant que tu puisses y mettre un nom.
 // CLIFFHANGER — CLÔTURE ACTE 1
 // ─────────────────────────────────────────
 
+# TRANSITION: fade-black
 # MOOD: calm
 # BG: rue-nuit
 # SPEAKER:
