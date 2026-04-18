@@ -41,6 +41,8 @@ export default function DialogueBox({
 
   const generationRef = useRef(0);
   const lastClickRef = useRef(0);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const warnedRef = useRef<string>("");
 
   const emphasis = useGameStore((s) => s.emphasis);
   const sceneMode = useGameStore((s) => s.sceneMode);
@@ -105,6 +107,23 @@ export default function DialogueBox({
     };
   }, [skipRef, handleClickInner]);
 
+  // Overflow detection: once typing is complete, check whether the
+  // content would exceed the fixed box height. If so, emit a one-shot
+  // warning so the writer knows to split the passage in the .ink.
+  useEffect(() => {
+    if (!isComplete) return;
+    const el = boxRef.current;
+    if (!el) return;
+    if (warnedRef.current === content) return;
+    if (el.scrollHeight > el.clientHeight + 2) {
+      warnedRef.current = content;
+      const preview = content.length > 80 ? content.slice(0, 80) + "…" : content;
+      console.warn(
+        `[DialogueBox] Passage trop long pour la boîte fixe, split-le dans le .ink: "${preview}"`
+      );
+    }
+  }, [isComplete, content]);
+
   const wrapperClass = [
     styles.boxWrapper,
     dissociation ? styles.boxWrapperDisturbed : "",
@@ -147,7 +166,7 @@ export default function DialogueBox({
           </div>
         )}
 
-        <div className={styles.box}>
+        <div className={styles.box} ref={boxRef}>
           <p
             key={pulseKey}
             className={`m-0 ${textClass} ${pulseKey > 0 ? styles.chromaticPulse : ""}`}

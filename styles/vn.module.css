@@ -135,7 +135,12 @@
 .box {
   position: relative;
   padding: 2rem 2.5rem;
-  min-height: 6rem;
+  /* Fixed height: box never moves between passages. Passages that
+     overflow trigger a console.warn in DialogueBox so the writer
+     splits them in the .ink instead of letting the box grow. */
+  height: 180px;
+  max-height: 180px;
+  overflow: hidden;
   background: rgba(10, 6, 18, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -151,6 +156,15 @@
     0 100%,
     0 16px
   );
+}
+
+@media (max-width: 640px) {
+  .box {
+    height: 160px;
+    max-height: 160px;
+    padding: 1.5rem 1.75rem;
+    font-size: 1.05rem;
+  }
 }
 
 /* Left rose rail — ::before starts BELOW the 16px cut corner so it
