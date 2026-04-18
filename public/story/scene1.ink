@@ -463,7 +463,6 @@ Quelque chose flotte autour de lui. Pas de la fumée. Pas de la lumière. Une de
 Mais ça prend de la place.
 
 # MOOD: tension
-# STOP_FF
 
 Les étudiants les plus proches ont l'air mal sans savoir pourquoi. Une fille se frotte les bras. Un garçon regarde dans sa direction puis détourne les yeux immédiatement.
 
@@ -622,7 +621,6 @@ Elle ne regarde pas le Glock. Dans sa main, l'arme émet quelque chose. Pas un s
 La densité se contracte encore. Disparaît.
 
 # MOOD: calm
-# STOP_FF
 
 Haruto s'arrête de parler.
 
@@ -658,7 +656,6 @@ Elle se retourne vers la manifestation. Elle lève le bras.
 
 Elle tire.
 
-# STOP_FF
 
 Claquement sec. Lumière lavande en ligne droite. La densité disparaît.
 
@@ -674,7 +671,6 @@ Il pose le highlighter. Il regarde ses mains. Il range ses feuilles dans son sac
 
 Il se lève. Il part.
 
-# STOP_FF
 
 Il a l'air bien.
 
@@ -726,7 +722,6 @@ Elle repart sans attendre ta réponse.
 
 # EXIT: stella
 # MOOD: dissociation
-# STOP_FF
 # SPEAKER:
 
 Tu te retournes.
@@ -848,7 +843,6 @@ STELLA : Mais j'aime bien que tu sois là quand je le fais.
 
 Elle dit ça en regardant ailleurs. Vite. Comme si elle avait pas dit ça.
 
-# STOP_FF
 
 -> fin_scene2
 
@@ -889,7 +883,6 @@ Un temps.
 
 STELLA : Peut-être que j'ai besoin de quelqu'un qui bouge pas.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -920,7 +913,6 @@ Elle regarde ses mains.
 
 STELLA : J'aime bien ça. Je pense.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1012,7 +1004,6 @@ Une voix. Pas fort, mais le genre de ton qui coupe l'air. Quelqu'un qui parle à
 Vous tournez au coin de rue.
 
 # BG: rue-incident
-# STOP_FF
 
 Ils sont trois. Enfin, deux qui regardent et un qui se fait détruire.
 
@@ -1056,7 +1047,6 @@ Il voit qu'on filme.
 
 Un temps. Puis quelque chose se passe dans son visage. Pas de l'effondrement. L'inverse.
 
-# STOP_FF
 
 Ça vient de lui.
 
@@ -1083,7 +1073,6 @@ Il se redresse.
 
 Les épaules qui étaient remontées depuis le début — elles descendent.
 
-# STOP_FF
 
 Il regarde la fille.
 
@@ -1183,7 +1172,6 @@ Cette fois elle le regarde à peine. Elle le saisit.
 
 Les téléphones des témoins qui filmaient — leurs écrans sont devenus noirs. Pas éteints. Juste noirs.
 
-# STOP_FF
 
 Une fille dans la rue murmure *c'est quoi ce cosplay encore*.
 
@@ -1202,7 +1190,6 @@ STELLA : Je te vois.
 // ─────────────────────────────────────────
 
 # MOOD: tension
-# STOP_FF
 # SPEAKER:
 
 Le garçon ne répond pas. Mais il ne détourne pas les yeux non plus.
@@ -1271,7 +1258,6 @@ Cette fois c'est différent. La lumière sort lentement, presque à contrecœur,
 La manifestation se défait, par fragments.
 
 # MOOD: calm
-# STOP_FF
 
 Le garçon s'assoit par terre.
 
@@ -1301,7 +1287,6 @@ Elle lève le Glock. Elle vise la manifestation.
 
 Elle tire.
 
-# STOP_FF
 
 L'impact est différent de la cafétéria. La rage résiste une fraction de seconde. La lumière lavande et le rouge sombre se heurtent. Puis ça cède.
 
@@ -1317,7 +1302,6 @@ Il se relève. Il ramasse son cartable.
 
 Il repart. Seul. Pas avec elle. Juste ailleurs.
 
-# STOP_FF
 
 Il marchait différemment qu'avant. Plus droit. Ou peut-être juste : plus rien à porter.
 
@@ -1377,7 +1361,6 @@ Tu vas dire quelque chose quand tu la vois changer d'expression.
 // ─────────────────────────────────────────
 
 # MOOD: dissociation
-# STOP_FF
 
 # ENTER: lunae
 # SPRITE: lunae-neutre
@@ -1513,7 +1496,6 @@ STELLA : Ok. Bien.
 
 Elle se lève. Elle tend la main. Pas pour que tu la prennes. Pour te tirer debout.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1534,7 +1516,6 @@ Un temps.
 
 STELLA : Mais t'es là quand même.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1571,7 +1552,6 @@ Elle regarde sa main. Vide.
 
 STELLA : Je l'ai même pas senti venir.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1601,7 +1581,6 @@ Tu te retournes.
 
 STELLA : Merci d'être venu sur le toit ce soir-là.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1655,7 +1634,6 @@ Un temps.
 
 STELLA : C'est peut-être suffisant.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1676,7 +1654,6 @@ Elle le dit trop vite. Comme si elle attendait qu'on lui dise ça.
 
 STELLA : Ouais, probablement.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1709,7 +1686,6 @@ Deux secondes. Puis disparaît.
 
 STELLA : ...Je sais pas ce que ça veut dire.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1721,7 +1697,6 @@ Une phrase courte. Le genre de chose qu'on dit en partant.
 
 STELLA : Elle sera là si t'as besoin.
 
-# STOP_FF
 
 # SPEAKER:
 
@@ -1765,7 +1740,6 @@ C'est comme essayer de regarder en vision périphérique : dès que tu tournes l
 Mais c'était là.
 
 # MOOD: tension
-# STOP_FF
 
 Tu passes devant le bâtiment du campus.
 
