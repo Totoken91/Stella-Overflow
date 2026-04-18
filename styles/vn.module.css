@@ -120,10 +120,12 @@
 
 /* ─── DialogueBox ──────────────────────────────── */
 /* Wrapper hosts pill + controls (unclipped) AND the glow shadow,
-   so the shadow isn't cropped by the clip-path of the panel. */
+   so the shadow isn't cropped by the clip-path of the panel.
+   Width echoes the 8vh letterbox: 8vw margins on each side. */
 .boxWrapper {
   position: relative;
-  max-width: 68ch;
+  width: calc(100% - 16vw);
+  max-width: 1200px;
   margin: 0 auto;
   box-shadow: 0 8px 24px -4px rgba(255, 61, 127, 0.4);
   transition: box-shadow 300ms ease-out;
@@ -138,8 +140,8 @@
   /* Fixed height: box never moves between passages. Passages that
      overflow trigger a console.warn in DialogueBox so the writer
      splits them in the .ink instead of letting the box grow. */
-  height: 180px;
-  max-height: 180px;
+  height: 120px;
+  max-height: 120px;
   overflow: hidden;
   background: rgba(10, 6, 18, 0.75);
   backdrop-filter: blur(16px);
@@ -158,12 +160,24 @@
   );
 }
 
-@media (max-width: 640px) {
+/* Text is capped to a comfortable reading width. On very wide boxes,
+   the right-side space is silence, not filled with text wrapping. */
+.box p {
+  max-width: 72ch;
+}
+
+@media (max-width: 768px) {
+  .boxWrapper {
+    width: calc(100% - 2rem);
+  }
   .box {
-    height: 160px;
-    max-height: 160px;
-    padding: 1.5rem 1.75rem;
+    height: 100px;
+    max-height: 100px;
+    padding: 1.25rem 1.5rem;
     font-size: 1.05rem;
+  }
+  .box p {
+    max-width: none;
   }
 }
 
