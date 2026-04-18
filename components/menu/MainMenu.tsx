@@ -11,7 +11,8 @@ import styles from "@/styles/vn.module.css";
 // ─── Title letter-by-letter reveal + star pop (from BootScreen@96b782f) ───
 const TITLE_PARTS = [
   { text: "Stella ", type: "word" as const },
-  { text: "star", type: "star" as const },
+  // Single placeholder char — the renderer swaps it for the SVG star.
+  { text: "*", type: "star" as const },
   { text: " Overflow", type: "word" as const },
 ];
 const LETTER_STAGGER = 0.06;
