@@ -70,10 +70,18 @@ function HumanSprite({
   const scaleXChanged = prevScaleXRef.current !== scaleX;
   prevScaleXRef.current = scaleX;
 
+  // Multi-sprite scenes (two+ humans on screen) need layout + lateral
+  // exit so sprites redistribute cleanly when one enters/leaves.
+  // Solo scenes (Stella alone 99% of Act 1) skip all of that — otherwise
+  // a new humans array ref on every ink tick triggers a phantom layout
+  // animation that slides Stella sideways for no reason.
+  const isMulti = spriteCount > 1;
+
   return (
     <motion.div
       ref={scope}
       key={name}
+      layout={isMulti ? "position" : false}
       initial={{ y: 80, opacity: 0, scale: 0.8 }}
       animate={{
         y: 0,
@@ -82,12 +90,14 @@ function HumanSprite({
         filter:
           isActive || spriteCount === 1 ? "saturate(1)" : "saturate(0.5)",
       }}
-      exit={{ opacity: 0, y: 40 }}
+      exit={isMulti ? { x: 120, opacity: 0 } : { opacity: 0, y: 40 }}
       transition={{
         y: { type: "spring", stiffness: 180, damping: 16, delay: 0.05 },
         scale: { type: "spring", stiffness: 180, damping: 16, delay: 0.05 },
         opacity: { duration: 0.5, ease: "easeOut" },
+        x: { duration: 0.3, ease: "easeIn" },
         filter: { duration: 0.3 },
+        layout: { type: "spring", stiffness: 120, damping: 20 },
       }}
     >
       <motion.div
