@@ -18,6 +18,7 @@ VAR score = 0
 # SCENE: scene1
 # BG: couloir-univ
 # MOOD: calm
+# MUSIC: theme-stella
 
 La journée tire à sa fin.
 
@@ -75,6 +76,7 @@ Toi tu y vas parfois. Quand t'as besoin d'air.
 
 # BG: toit-univ
 # MOOD: calm
+# MUSIC: ambient-toit
 
 Tu pousses la porte.
 
@@ -343,6 +345,7 @@ Mais tu as envie de le savoir.
 # TRANSITION: fade-black
 # BG: couloir-univ
 # MOOD: calm
+# MUSIC: theme-stella
 
 Tu as mal dormi.
 
@@ -435,6 +438,7 @@ Il fixe ses notes depuis combien de temps ?
 STELLA : Il a pas bougé depuis qu'on est arrivés.
 
 # MOOD: tension
+# MUSIC: event-manifestation-s2
 
 C'est vrai. Il n'a pas mangé. Il n'a pas regardé son téléphone. Il n'a pas levé la tête quand quelqu'un a fait tomber un plateau à côté.
 
@@ -694,6 +698,7 @@ Elle le dit comme si ça la rassurait. Ça devrait pas la rassurer.
 
 # MOOD: calm
 # BG: cafeteria-univ
+# MUSIC: theme-stella
 # SPRITE: stella-neutre
 # SPEAKER:
 
@@ -955,6 +960,7 @@ Mais Lunae, elle, avait l'air de savoir.
 # SCENE: scene3
 # BG: rue-soir
 # MOOD: calm
+# MUSIC: theme-stella
 # SPEAKER:
 
 Vous marchez.
@@ -1054,6 +1060,7 @@ Là c'est de la rage. Et elle sait exactement où elle va.
 # TRANSITION: fade-crimson
 # BG: rue-manifestation
 # MOOD: dissociation
+# MUSIC: event-manifestation-s2
 
 La température monte.
 
@@ -1325,6 +1332,7 @@ Elle range le Glock sans regarder sa main.
 
 # MOOD: calm
 # BG: rue-soir
+# MUSIC: theme-stella
 # SPRITE: stella-neutre
 # SPEAKER:
 
@@ -1703,6 +1711,7 @@ Tu restes sous le lampadaire. Il fait pas froid. Tu as froid quand même.
 # TRANSITION: fade-black
 # MOOD: calm
 # BG: rue-nuit
+# MUSIC:
 # SPEAKER:
 
 Tu rentres seul.

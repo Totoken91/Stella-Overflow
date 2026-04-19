@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useSaveStore } from "@/lib/saveStore";
 import ChoiceItem from "@/components/game/ChoiceItem";
+import MusicPlayer from "@/components/game/MusicPlayer";
 import SaveLoadMenu from "./SaveLoadMenu";
 import MenuParticles from "./MenuParticles";
 import styles from "@/styles/vn.module.css";
@@ -148,6 +149,7 @@ export default function MainMenu() {
       animate={exiting ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
+      <MusicPlayer track={exiting ? null : "theme-title"} />
       {/* Optional Stella silhouette BG */}
       {BG_IMAGE && (
         <img

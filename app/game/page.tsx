@@ -14,6 +14,7 @@ import AutosaveToast from "@/components/game/AutosaveToast";
 import EndScreen from "@/components/game/EndScreen";
 import SceneFrame from "@/components/game/SceneFrame";
 import HUD from "@/components/game/HUD";
+import MusicPlayer from "@/components/game/MusicPlayer";
 import InGameMenu from "@/components/menu/InGameMenu";
 import SaveLoadMenu from "@/components/menu/SaveLoadMenu";
 import ConfirmDialog from "@/components/menu/ConfirmDialog";
@@ -61,6 +62,7 @@ export default function GamePage() {
 
   const currentCG = useGameStore((s) => s.currentCG);
   const currentBg = useGameStore((s) => s.currentBg);
+  const currentMusic = useGameStore((s) => s.currentMusic);
   const currentScene = useGameStore((s) => s.currentScene);
   const sceneMode = useGameStore((s) => s.sceneMode);
   const [sceneTransition, setSceneTransition] = useState(false);
@@ -369,6 +371,20 @@ export default function GamePage() {
           opacity: sceneTransition ? 1 : 0,
           transition: "opacity 1.5s ease-in-out",
         }}
+      />
+
+      {/* Music player runs across the whole /game lifecycle.
+          Track is driven by the store's currentMusic (updated by ink's
+          # MUSIC: tags). On story end, switches to the closing theme —
+          game-over for Weapon Ending, act-end otherwise. */}
+      <MusicPlayer
+        track={
+          storyEnded
+            ? sceneMode === "dissociation"
+              ? "theme-game-over"
+              : "theme-act-end"
+            : currentMusic
+        }
       />
 
       {initialized && storyLoaded && (
