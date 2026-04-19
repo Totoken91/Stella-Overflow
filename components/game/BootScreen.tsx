@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import MusicPlayer from "@/components/game/MusicPlayer";
 import styles from "@/styles/vn.module.css";
 
 export type LoadingContext =
@@ -76,7 +75,9 @@ export default function BootScreen({
           exit={{ opacity: 0 }}
           transition={{ duration: FADE_OUT_DURATION }}
         >
-          <MusicPlayer track="theme-boot" volume={0.45} fadeMs={300} />
+          {/* No music: the main menu's theme-title carries its own
+              fade into this screen. The fade is handled on MainMenu's
+              MusicPlayer unmount (see components/game/MusicPlayer.tsx). */}
           <div className={styles.metaScreenGlow} />
           <div className={styles.metaGrain} />
 

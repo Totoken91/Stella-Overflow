@@ -77,20 +77,39 @@ export default function MusicPlayer({
     }
   }, [track, volume, fadeMs]);
 
-  // On unmount: stop everything. Prevents music from bleeding across
-  // route changes when a MusicPlayer instance goes away.
+  // On unmount: fade out whatever is playing, THEN stop+unload.
+  // The Howl survives the component tear-down long enough to bridge
+  // route changes (e.g. main menu → boot → /game) with a smooth fade
+  // instead of a hard cut.
   useEffect(() => {
     const howls = howlsRef.current;
+    const fade = fadeMs;
     return () => {
       for (const key of Object.keys(howls)) {
+        const h = howls[key];
         try {
-          howls[key].stop();
-          howls[key].unload();
+          if (h.playing()) {
+            const v = h.volume();
+            h.fade(typeof v === "number" ? v : 0, 0, fade);
+            setTimeout(() => {
+              try {
+                h.stop();
+                h.unload();
+              } catch {
+                /* noop */
+              }
+            }, fade + 100);
+          } else {
+            h.stop();
+            h.unload();
+          }
         } catch {
           /* noop */
         }
       }
     };
+    // fadeMs read via closure; this effect intentionally only runs once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

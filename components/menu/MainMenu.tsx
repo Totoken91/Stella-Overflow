@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useSaveStore } from "@/lib/saveStore";
 import ChoiceItem from "@/components/game/ChoiceItem";
 import MusicPlayer from "@/components/game/MusicPlayer";
 import SaveLoadMenu from "./SaveLoadMenu";
 import MenuParticles from "./MenuParticles";
+import PreMenu from "./PreMenu";
 import styles from "@/styles/vn.module.css";
 
 // ─── Title letter-by-letter reveal + star pop (from BootScreen@96b782f) ───
@@ -105,6 +106,9 @@ export default function MainMenu() {
   const [exiting, setExiting] = useState(false);
   const [loadMenuOpen, setLoadMenuOpen] = useState(false);
   const [autosaveExists, setAutosaveExists] = useState(false);
+  // Gate the whole menu behind a click-to-start overlay so the browser
+  // treats the music play() as user-initiated (autoplay policy).
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
 
   useEffect(() => { loadSlots(); }, [loadSlots]);
   useEffect(() => { setAutosaveExists(hasAutosave()); }, [hasAutosave]);
@@ -149,7 +153,15 @@ export default function MainMenu() {
       animate={exiting ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <MusicPlayer track={exiting ? null : "theme-title"} />
+      {/* Pre-menu: first user click unlocks audio and reveals the menu. */}
+      <AnimatePresence>
+        {!audioUnlocked && <PreMenu onStart={() => setAudioUnlocked(true)} />}
+      </AnimatePresence>
+
+      {/* Music only mounts after the unlock click. MusicPlayer's unmount
+          fade (800ms) then carries the track smoothly through the
+          /game boot screen before game music takes over. */}
+      {audioUnlocked && <MusicPlayer track="theme-title" fadeMs={1200} />}
       {/* Optional Stella silhouette BG */}
       {BG_IMAGE && (
         <img
