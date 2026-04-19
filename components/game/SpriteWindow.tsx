@@ -118,7 +118,7 @@ function SpriteCharacter({
         <img
           src={spriteSrc}
           alt={name}
-          className="max-h-[70vh] w-auto object-contain"
+          className="h-[130vh] w-auto object-contain"
           style={{ animation: "spriteIdle 4s ease-in-out infinite" }}
           onError={(e) => {
             (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
@@ -136,7 +136,10 @@ export default function SpriteWindow() {
   const currentSpeaker = useGameStore((s) => s.currentSpeaker);
 
   return (
-    <div className="absolute bottom-44 left-0 right-0 z-20 flex items-end justify-center gap-8">
+    <div
+      className="absolute left-0 right-0 z-20 flex items-end justify-center gap-8"
+      style={{ bottom: "-40vh" }}
+    >
       <AnimatePresence>
         {visibleSprites.map((name, index) => (
           <SpriteCharacter
