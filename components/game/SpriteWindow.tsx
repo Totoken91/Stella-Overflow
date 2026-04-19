@@ -4,8 +4,40 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import { useGameStore } from "@/lib/gameState";
 
-// ─── Individual character sprite ───
-function SpriteCharacter({
+/**
+ * 3-tier fallback chain driven purely by <img>.onError so the initial
+ * render never hits the placeholder: attempt the exact expression,
+ * then the character's neutre, then placeholder.
+ */
+function useSpriteSrc(name: string, expression: string) {
+  const [stage, setStage] = useState<0 | 1 | 2>(0);
+
+  useEffect(() => {
+    // New expression → reset the cascade to "try exact first"
+    setStage(0);
+  }, [name, expression]);
+
+  const src =
+    stage === 0
+      ? `/sprites/${name}-${expression}.png`
+      : stage === 1
+      ? `/sprites/${name}-neutre.png`
+      : `/sprites/${name}-placeholder.png`;
+
+  const onError = () => {
+    setStage((s) => {
+      // Skip neutre stage if that's what just failed (or if expression was already neutre)
+      if (s === 0) return expression === "neutre" ? 2 : 1;
+      if (s === 1) return 2;
+      return 2;
+    });
+  };
+
+  return { src, onError };
+}
+
+// ─── Standard human sprite (full-body, anchored bottom, VN framing) ───
+function HumanSprite({
   name,
   expression,
   isActive,
@@ -20,48 +52,8 @@ function SpriteCharacter({
 }) {
   const [scope, animate] = useAnimate();
   const prevExpressionRef = useRef(expression);
-  const spriteKey = `${name}-${expression}`;
-  const [spriteSrc, setSpriteSrc] = useState(`/sprites/${name}-placeholder.png`);
+  const { src, onError } = useSpriteSrc(name, expression);
 
-  // Resolve sprite src with a 3-tier fallback chain:
-  //   1. Exact expression  (e.g. stella-surprise.png)
-  //   2. Character's neutre (e.g. stella-neutre.png) — covers missing
-  //      expressions while still showing the real art
-  //   3. Placeholder silhouette — last resort if even neutre isn't there
-  useEffect(() => {
-    let cancelled = false;
-
-    const tryLoad = (src: string) =>
-      new Promise<boolean>((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(img.naturalWidth > 1);
-        img.onerror = () => resolve(false);
-        img.src = src;
-      });
-
-    (async () => {
-      const exact = `/sprites/${spriteKey}.png`;
-      const neutre = `/sprites/${name}-neutre.png`;
-      const placeholder = `/sprites/${name}-placeholder.png`;
-
-      if (await tryLoad(exact)) {
-        if (!cancelled) setSpriteSrc(exact);
-        return;
-      }
-      // Don't re-test neutre if the exact WAS neutre
-      if (expression !== "neutre" && (await tryLoad(neutre))) {
-        if (!cancelled) setSpriteSrc(neutre);
-        return;
-      }
-      if (!cancelled) setSpriteSrc(placeholder);
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [spriteKey, name, expression]);
-
-  // Bounce on expression change
   useEffect(() => {
     if (prevExpressionRef.current !== expression) {
       prevExpressionRef.current = expression;
@@ -73,11 +65,8 @@ function SpriteCharacter({
     }
   }, [expression, animate, scope]);
 
-  // Flip: left sprite (index 0 of 2) faces right, others face left
   const scaleX = spriteCount === 2 && positionIndex === 0 ? -1 : 1;
   const prevScaleXRef = useRef(scaleX);
-
-  // Only animate scaleX when it actually changes value
   const scaleXChanged = prevScaleXRef.current !== scaleX;
   prevScaleXRef.current = scaleX;
 
@@ -92,9 +81,7 @@ function SpriteCharacter({
         opacity: isActive || spriteCount === 1 ? 1 : 0.6,
         scale: isActive || spriteCount === 1 ? 1 : 0.92,
         filter:
-          isActive || spriteCount === 1
-            ? "saturate(1)"
-            : "saturate(0.5)",
+          isActive || spriteCount === 1 ? "saturate(1)" : "saturate(0.5)",
       }}
       exit={{ x: 120, opacity: 0 }}
       transition={{
@@ -106,7 +93,6 @@ function SpriteCharacter({
         layout: { type: "spring", stiffness: 120, damping: 20 },
       }}
     >
-      {/* Flip wrapper — animated only when scaleX value changes */}
       <motion.div
         animate={{ scaleX }}
         transition={
@@ -116,15 +102,44 @@ function SpriteCharacter({
         }
       >
         <img
-          src={spriteSrc}
+          src={src}
           alt={name}
           className="h-[130vh] w-auto object-contain"
           style={{ animation: "spriteIdle 4s ease-in-out infinite" }}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = `/sprites/${name}-placeholder.png`;
-          }}
+          onError={onError}
         />
       </motion.div>
+    </motion.div>
+  );
+}
+
+// ─── Lunae: small floating magical rabbit ───
+function LunaeSprite({ expression }: { expression: string }) {
+  const { src, onError } = useSpriteSrc("lunae", expression);
+
+  return (
+    <motion.div
+      className="pointer-events-none absolute z-20"
+      style={{ top: "18vh", right: "14vw" }}
+      initial={{ opacity: 0, scale: 0.6, y: -20 }}
+      animate={{ opacity: 1, scale: 1, y: [0, -12, 0] }}
+      exit={{ opacity: 0, scale: 0.6, y: -30 }}
+      transition={{
+        opacity: { duration: 0.6, ease: "easeOut" },
+        scale: { type: "spring", stiffness: 180, damping: 16 },
+        y: {
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      }}
+    >
+      <img
+        src={src}
+        alt="lunae"
+        className="h-[32vh] w-auto object-contain drop-shadow-[0_0_30px_rgba(123,45,255,0.35)]"
+        onError={onError}
+      />
     </motion.div>
   );
 }
@@ -135,23 +150,37 @@ export default function SpriteWindow() {
   const currentExpression = useGameStore((s) => s.currentExpression);
   const currentSpeaker = useGameStore((s) => s.currentSpeaker);
 
+  const humans = visibleSprites.filter((n) => n !== "lunae");
+  const lunaeVisible = visibleSprites.includes("lunae");
+
   return (
-    <div
-      className="absolute left-0 right-0 z-20 flex items-end justify-center gap-8"
-      style={{ bottom: "-40vh" }}
-    >
+    <>
+      <div
+        className="absolute left-0 right-0 z-20 flex items-end justify-center gap-8"
+        style={{ bottom: "-40vh" }}
+      >
+        <AnimatePresence>
+          {humans.map((name, index) => (
+            <HumanSprite
+              key={name}
+              name={name}
+              expression={currentExpression[name] || "neutre"}
+              isActive={currentSpeaker === name}
+              spriteCount={humans.length}
+              positionIndex={index}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
+
       <AnimatePresence>
-        {visibleSprites.map((name, index) => (
-          <SpriteCharacter
-            key={name}
-            name={name}
-            expression={currentExpression[name] || "neutre"}
-            isActive={currentSpeaker === name}
-            spriteCount={visibleSprites.length}
-            positionIndex={index}
+        {lunaeVisible && (
+          <LunaeSprite
+            key="lunae"
+            expression={currentExpression["lunae"] || "neutre"}
           />
-        ))}
+        )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
