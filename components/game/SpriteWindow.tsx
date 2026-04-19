@@ -74,7 +74,6 @@ function HumanSprite({
     <motion.div
       ref={scope}
       key={name}
-      layout="position"
       initial={{ y: 80, opacity: 0, scale: 0.8 }}
       animate={{
         y: 0,
@@ -83,14 +82,12 @@ function HumanSprite({
         filter:
           isActive || spriteCount === 1 ? "saturate(1)" : "saturate(0.5)",
       }}
-      exit={{ x: 120, opacity: 0 }}
+      exit={{ opacity: 0, y: 40 }}
       transition={{
         y: { type: "spring", stiffness: 180, damping: 16, delay: 0.05 },
         scale: { type: "spring", stiffness: 180, damping: 16, delay: 0.05 },
-        opacity: { duration: 0.6, ease: "easeOut", delay: 0.05 },
-        x: { duration: 0.3, ease: "easeIn" },
+        opacity: { duration: 0.5, ease: "easeOut" },
         filter: { duration: 0.3 },
-        layout: { type: "spring", stiffness: 120, damping: 20 },
       }}
     >
       <motion.div
@@ -137,7 +134,7 @@ function LunaeSprite({ expression }: { expression: string }) {
       <img
         src={src}
         alt="lunae"
-        className="h-[32vh] w-auto object-contain drop-shadow-[0_0_30px_rgba(123,45,255,0.35)]"
+        className="h-[55vh] w-auto object-contain drop-shadow-[0_0_36px_rgba(123,45,255,0.4)]"
         onError={onError}
       />
     </motion.div>

@@ -6,7 +6,7 @@ import { Howl } from "howler";
 interface MusicPlayerProps {
   /** Name of the track without extension (e.g. "theme-stella"). null = silence. */
   track: string | null;
-  /** Target playback volume 0..1. Default 0.55. */
+  /** Target playback volume 0..1. Default 0.37. */
   volume?: number;
   /** Crossfade duration in ms. Default 800. */
   fadeMs?: number;
@@ -25,7 +25,7 @@ interface MusicPlayerProps {
  */
 export default function MusicPlayer({
   track,
-  volume = 0.55,
+  volume = 0.37,
   fadeMs = 800,
 }: MusicPlayerProps) {
   // Persist one howl per track across renders. Keyed by track name.
