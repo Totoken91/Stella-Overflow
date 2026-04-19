@@ -25,8 +25,7 @@ export default function PreMenu({ onStart }: PreMenuProps) {
     // user gesture automatically, but calling this explicitly is safe
     // and makes the path deterministic.
     try {
-      // @ts-expect-error Howler's context is not typed publicly
-      const ctx: AudioContext | undefined = Howler.ctx;
+      const ctx = Howler.ctx;
       if (ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
     } catch {
       /* noop */
