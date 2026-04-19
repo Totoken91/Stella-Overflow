@@ -23,21 +23,43 @@ function SpriteCharacter({
   const spriteKey = `${name}-${expression}`;
   const [spriteSrc, setSpriteSrc] = useState(`/sprites/${name}-placeholder.png`);
 
-  // Try to upgrade to exact expression image
+  // Resolve sprite src with a 3-tier fallback chain:
+  //   1. Exact expression  (e.g. stella-surprise.png)
+  //   2. Character's neutre (e.g. stella-neutre.png) — covers missing
+  //      expressions while still showing the real art
+  //   3. Placeholder silhouette — last resort if even neutre isn't there
   useEffect(() => {
-    const exact = new Image();
-    exact.onload = () => {
-      if (exact.naturalWidth > 1) {
-        setSpriteSrc(`/sprites/${spriteKey}.png`);
-      } else {
-        setSpriteSrc(`/sprites/${name}-placeholder.png`);
+    let cancelled = false;
+
+    const tryLoad = (src: string) =>
+      new Promise<boolean>((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img.naturalWidth > 1);
+        img.onerror = () => resolve(false);
+        img.src = src;
+      });
+
+    (async () => {
+      const exact = `/sprites/${spriteKey}.png`;
+      const neutre = `/sprites/${name}-neutre.png`;
+      const placeholder = `/sprites/${name}-placeholder.png`;
+
+      if (await tryLoad(exact)) {
+        if (!cancelled) setSpriteSrc(exact);
+        return;
       }
+      // Don't re-test neutre if the exact WAS neutre
+      if (expression !== "neutre" && (await tryLoad(neutre))) {
+        if (!cancelled) setSpriteSrc(neutre);
+        return;
+      }
+      if (!cancelled) setSpriteSrc(placeholder);
+    })();
+
+    return () => {
+      cancelled = true;
     };
-    exact.onerror = () => {
-      setSpriteSrc(`/sprites/${name}-placeholder.png`);
-    };
-    exact.src = `/sprites/${spriteKey}.png`;
-  }, [spriteKey, name]);
+  }, [spriteKey, name, expression]);
 
   // Bounce on expression change
   useEffect(() => {
